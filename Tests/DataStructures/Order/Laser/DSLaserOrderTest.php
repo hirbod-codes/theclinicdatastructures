@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\DataStructures\Order;
+namespace Tests\DataStructures\Order\Laser;
 
 use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Order\DSLaserOrder;
 use TheClinicDataStructures\DataStructures\Order\DSPackages;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
@@ -61,7 +61,10 @@ class DSLaserOrderTest extends TestCase
         );
 
         try {
+            /** @var DSUser|\Mockery\MockInterface $user */
+            $user = Mockery::mock(DSUser::class);
             $user->shouldReceive('getGender')->andReturn("Female");
+            $user->shouldReceive('getId')->andReturn(56);
 
             $this->runTheAssertions(
                 $id,
@@ -75,10 +78,15 @@ class DSLaserOrderTest extends TestCase
                 $updatedAt
             );
         } catch (OrderExceptions $th) {
+            /** @var DSUser|\Mockery\MockInterface $user */
+            $user = Mockery::mock(DSUser::class);
             $user->shouldReceive('getGender')->andReturn($gender);
+            $user->shouldReceive('getId')->andReturn(56);
         }
 
         try {
+            /** @var DSParts|\Mockery\MockInterface $parts */
+            $parts = Mockery::mock(DSParts::class);
             $parts->shouldReceive('getGender')->andReturn("Female");
 
             $this->runTheAssertions(
@@ -93,10 +101,14 @@ class DSLaserOrderTest extends TestCase
                 $updatedAt
             );
         } catch (OrderExceptions $th) {
+            /** @var DSParts|\Mockery\MockInterface $parts */
+            $parts = Mockery::mock(DSParts::class);
             $parts->shouldReceive('getGender')->andReturn($gender);
         }
 
         try {
+            /** @var DSPackages|\Mockery\MockInterface $packages */
+            $packages = Mockery::mock(DSPackages::class);
             $packages->shouldReceive('getGender')->andReturn("Female");
 
             $this->runTheAssertions(
@@ -111,6 +123,8 @@ class DSLaserOrderTest extends TestCase
                 $updatedAt
             );
         } catch (OrderExceptions $th) {
+            /** @var DSPackages|\Mockery\MockInterface $packages */
+            $packages = Mockery::mock(DSPackages::class);
             $packages->shouldReceive('getGender')->andReturn($gender);
         }
     }
