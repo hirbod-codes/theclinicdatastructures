@@ -9,7 +9,7 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeExc
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidUserException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSOrders implements \ArrayAccess, \Iterator, \Countable
+abstract class DSOrders implements \ArrayAccess, \Iterator, \Countable
 {
     use TraitKeyPositioner;
 
