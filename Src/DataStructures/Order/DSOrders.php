@@ -17,15 +17,10 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
 
     protected array $orders;
 
-    protected string $orderType = DSOrder::class;
-
-    protected bool $mixedOrders;
-
     protected int $position;
 
-    public function __construct(DSUser|null $user = null, bool $mixedOrders = false)
+    public function __construct(DSUser|null $user = null)
     {
-        $this->mixedOrders = $mixedOrders;
         $this->user = $user;
         $this->position = 0;
     }
@@ -57,11 +52,8 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
             throw new InvalidOffsetTypeException("This data structure only accepts integer and null as an offset type.", 500);
         }
 
-        if (!($value instanceof $this->orderType)) {
-            throw new InvalidValueTypeException("This data structure only accepts the type: " . $this->orderType . " as an array member.", 500);
-        }
+        $this->checkOrderType($value);
 
-        /** @var object $value */
         if (isset($this->user) && !is_null($this->user) && $this->user->getId() !== $value->getUser()->getId()) {
             throw new InvalidUserException("The members of this data structure must belong to the same specified user. Mismatched member id: " . $value->getId(), 500);
         }
@@ -70,6 +62,19 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
             $this->orders[] = $value;
         } elseif (gettype($offset) === "integer") {
             $this->orders[$offset] = $value;
+        }
+    }
+
+    /**
+     * @param \TheClinicDataStructures\DataStructures\Order\DSOrder $order
+     * @return void
+     * 
+     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException
+     */
+    protected function checkOrderType(DSOrder $order): void
+    {
+        if (!($order instanceof DSOrder)) {
+            throw new InvalidValueTypeException("This data structure only accepts the type: " . DSOrder::class . " as an array member.", 500);
         }
     }
 
