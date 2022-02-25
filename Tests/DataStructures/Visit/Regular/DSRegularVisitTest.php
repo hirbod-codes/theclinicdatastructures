@@ -6,11 +6,11 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder;
 use TheClinicDataStructures\DataStructures\User\DSUser;
-use TheClinicDataStructures\DataStructures\Visit\DSVisit;
+use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisit;
 
-class DSVisitTest extends TestCase
+class DSRegularVisitTest extends TestCase
 {
     private Generator $faker;
 
@@ -28,8 +28,8 @@ class DSVisitTest extends TestCase
         $user = Mockery::mock(DSUser::class);
         $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 
-        /** @var \TheClinicDataStructures\DataStructures\Order\DSOrder|\Mockery\MockInterface $order */
-        $order = Mockery::mock(DSOrder::class);
+        /** @var \TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder|\Mockery\MockInterface $order */
+        $order = Mockery::mock(DSRegularOrder::class);
         $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 
         $visitTimestamp = (new \DateTime())->modify("+1 week")->getTimestamp();
@@ -39,7 +39,7 @@ class DSVisitTest extends TestCase
         $createdAt = new \DateTime();
         $updatedAt = new \DateTime();
 
-        $dsVisit = new DSVisit(
+        $dsVisit = new DSRegularVisit(
             $id,
             $user,
             $order,
