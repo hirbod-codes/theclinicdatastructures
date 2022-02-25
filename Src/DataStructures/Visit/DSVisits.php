@@ -86,9 +86,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        if (!($value instanceof DSVisit)) {
-            throw new InvalidValueTypeException("The new member must be an object of class: " . DSVisit::class, 500);
-        }
+        $this->validateVisitType($value);
 
         if (!is_null($offset) && !is_int($offset)) {
             throw new InvalidOffsetTypeException("This data structure only accepts integer as an offset type.", 500);
@@ -129,6 +127,19 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
             $this->visits[$offset] = $value;
 
             ksort($this->visits, SORT_NUMERIC);
+        }
+    }
+
+    /**
+     * @param \TheClinicDataStructures\DataStructures\Visit\DSVisit $visit
+     * @return void
+     * 
+     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeException
+     */
+    protected function validateVisitType(DSVisit $visit): void
+    {
+        if (!($visit instanceof DSVisit)) {
+            throw new InvalidValueTypeException("The new member must be an object of class: " . DSVisit::class, 500);
         }
     }
 
