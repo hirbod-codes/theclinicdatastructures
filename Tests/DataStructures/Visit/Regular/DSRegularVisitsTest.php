@@ -6,11 +6,11 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Visit\DSVisit;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisit;
+use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Visit\VisitExceptions;
 
-class DSVisitsTest extends TestCase
+class DSRegularVisitsTest extends TestCase
 {
     private Generator $faker;
 
@@ -56,19 +56,19 @@ class DSVisitsTest extends TestCase
         /** @var array $visits */
         $visits = $this->makeVisits($pointer, $sort, $visitCount);
 
-        $dsVisits = new DSVisits($sort);
+        $dsVisits = new DSRegularVisits($sort);
         foreach ($visits as $visit) {
             $dsVisits[] = $visit;
         }
 
         $this->assertEquals(count($visits), count($dsVisits));
 
-        $dsVisits = new DSVisits($sort);
+        $dsVisits = new DSRegularVisits($sort);
 
         $counter = 0;
         foreach ($dsVisits as $key => $visit) {
-            if (!($visit instanceof DSVisit)) {
-                throw new \RuntimeException("visits must be of type: " . DSVisit::class . ".", 500);
+            if (!($visit instanceof DSRegularVisit)) {
+                throw new \RuntimeException("visits must be of type: " . DSRegularVisit::class . ".", 500);
             }
 
             $dsVisits[] = $visit;
@@ -85,7 +85,7 @@ class DSVisitsTest extends TestCase
         /** @var array $visits */
         $visits = $this->makeVisits($pointer, $sort, $visitCount);
 
-        $dsVisits = new DSVisits($sort);
+        $dsVisits = new DSRegularVisits($sort);
         foreach ($visits as $visit) {
             $dsVisits[] = $visit;
         }
@@ -116,7 +116,7 @@ class DSVisitsTest extends TestCase
         /** @var array $visits */
         $visits = $this->makeVisits($pointer, $sort, $visitCount);
 
-        $dsVisits = new DSVisits($sort);
+        $dsVisits = new DSRegularVisits($sort);
         for ($i = 0; $i < $visitCount; $i++) {
             $dsVisits[$i] = $visits[$i];
         }
@@ -141,9 +141,9 @@ class DSVisitsTest extends TestCase
         }
     }
 
-    private function testASCIntegerOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function testASCIntegerOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
-        /** @var array|DSVisits $dsVisits */
+        /** @var array|DSRegularVisits $dsVisits */
         $dsVisits[$dsVisits->findLastPosition() + 1] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("+30 minutes")->getTimestamp(), 1800);
 
         $dsVisits[0] = $this->makeCustomVisit($dsVisits[0]->getVisitTimestamp() + 10, 1800);
@@ -166,9 +166,9 @@ class DSVisitsTest extends TestCase
         }
     }
 
-    private function testDESCIntegerOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function testDESCIntegerOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
-        /** @var array|DSVisits $dsVisits */
+        /** @var array|DSRegularVisits $dsVisits */
         $dsVisits[$dsVisits->findLastPosition() + 1] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("-30 minutes")->getTimestamp(), 1800);
 
         $dsVisits[0] = $this->makeCustomVisit($dsVisits[0]->getVisitTimestamp() - 600, 1800);
@@ -191,7 +191,7 @@ class DSVisitsTest extends TestCase
         }
     }
 
-    private function TestNaturalIntegerOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function TestNaturalIntegerOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
         $key = $this->faker->numberBetween(0, count($dsVisits) - 2);
 
@@ -205,7 +205,7 @@ class DSVisitsTest extends TestCase
         }
     }
 
-    private function TestASCNullOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function TestASCNullOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
         try {
             $dsVisits[] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("-30 minutes")->getTimestamp(), 1800);
@@ -224,7 +224,7 @@ class DSVisitsTest extends TestCase
         $dsVisits[] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("+30 minute")->getTimestamp(), 1800);
     }
 
-    private function TestDESCNullOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function TestDESCNullOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
         try {
             $dsVisits[] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("+30 minutes")->getTimestamp(), 1800);
@@ -243,7 +243,7 @@ class DSVisitsTest extends TestCase
         $dsVisits[] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("-30 minute")->getTimestamp(), 1800);
     }
 
-    private function TestNaturalNullOffset(\DateTime $pointer, DSVisits $dsVisits): void
+    private function TestNaturalNullOffset(\DateTime $pointer, DSRegularVisits $dsVisits): void
     {
         try {
             $dsVisits[] = $this->makeCustomVisit((new \DateTime())->setTimestamp($pointer->getTimestamp())->modify("+1 minute")->getTimestamp(), 1800);
@@ -289,10 +289,10 @@ class DSVisitsTest extends TestCase
         return $visits;
     }
 
-    private function makeCustomVisit(int $visitTimestamp, int $consumingTime): DSVisit
+    private function makeCustomVisit(int $visitTimestamp, int $consumingTime): DSRegularVisit
     {
-        /** @var DSVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSVisit::class);
+        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
+        $visit = Mockery::mock(DSRegularVisit::class);
 
         $visit->shouldReceive("getVisitTimestamp")->andReturn($visitTimestamp);
         $visit->shouldReceive("getConsumingTime")->andReturn($consumingTime);
@@ -300,10 +300,10 @@ class DSVisitsTest extends TestCase
         return $visit;
     }
 
-    private function makeRandomVisit(\DateTime &$pointer, int $callsCount): DSVisit
+    private function makeRandomVisit(\DateTime &$pointer, int $callsCount): DSRegularVisit
     {
-        /** @var DSVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSVisit::class);
+        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
+        $visit = Mockery::mock(DSRegularVisit::class);
 
         if (($callsCount + 1) % 2 === 0) {
             $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
@@ -316,20 +316,20 @@ class DSVisitsTest extends TestCase
         return $visit;
     }
 
-    private function makeAscendingVisit(\DateTime &$pointer): DSVisit
+    private function makeAscendingVisit(\DateTime &$pointer): DSRegularVisit
     {
-        /** @var DSVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSVisit::class);
+        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
+        $visit = Mockery::mock(DSRegularVisit::class);
         $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+2 hours")->getTimestamp());
         $visit->shouldReceive("getConsumingTime")->andReturn(1800);
 
         return $visit;
     }
 
-    private function makeDescendingVisit(\DateTime &$pointer): DSVisit
+    private function makeDescendingVisit(\DateTime &$pointer): DSRegularVisit
     {
-        /** @var DSVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSVisit::class);
+        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
+        $visit = Mockery::mock(DSRegularVisit::class);
         $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-150 minutes")->getTimestamp());
         $visit->shouldReceive("getConsumingTime")->andReturn(1800);
 
