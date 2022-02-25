@@ -1,19 +1,19 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidGenderException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidValueTypeException;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 class DSPackages implements \Countable, \ArrayAccess, \Iterator
 {
     use TraitKeyPositioner;
 
     /**
-     * @var \TheClinicDataStructure\DataStructures\Order\DSPackage[]
+     * @var \TheClinicDataStructures\DataStructures\Order\DSPackage[]
      */
     private array $packages;
 
@@ -112,7 +112,7 @@ class DSPackages implements \Countable, \ArrayAccess, \Iterator
 
     /**
      * @param string $gender
-     * @param \TheClinicDataStructure\DataStructures\Order\DSPackage[] $packages
+     * @param \TheClinicDataStructures\DataStructures\Order\DSPackage[] $packages
      */
     public function __construct(string $gender)
     {

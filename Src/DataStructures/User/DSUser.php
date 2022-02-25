@@ -1,11 +1,11 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\User;
+namespace TheClinicDataStructures\DataStructures\User;
 
-use TheClinicDataStructure\DataStructures\Order\DSOrders;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
-use TheClinicDataStructure\DataStructures\User\IUserRule;
-use TheClinicDataStructure\DataStructures\User\ICheckAuthentication;
+use TheClinicDataStructures\DataStructures\Order\DSOrders;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\User\IUserRule;
+use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 
 class DSUser
 {

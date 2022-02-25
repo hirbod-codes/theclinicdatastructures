@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures\Visit;
+namespace TheClinicDataStructures\Exceptions\DataStructures\Visit;
 
 class TimeSequenceViolationException extends VisitExceptions
 {

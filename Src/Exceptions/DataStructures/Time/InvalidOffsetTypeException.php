@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures\Time;
+namespace TheClinicDataStructures\Exceptions\DataStructures\Time;
 
-use TheClinicDataStructure\Exceptions\DataStructures\Time\TimeExceptions;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeExceptions;
 
 class InvalidOffsetTypeException extends TimeExceptions
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructure\DataStructures\Time\DSWeekDaysPeriods;
+use TheClinicDataStructures\DataStructures\Time\DSWeekDaysPeriods;
 
 class DSWorkSchedule extends DSWeekDaysPeriods
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\DataStructures\Order\DSOrder;
-use TheClinicDataStructure\DataStructures\Order\DSParts;
-use TheClinicDataStructure\DataStructures\Order\DSPackages;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\DataStructures\Order\DSPackages;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 
 class DSLaserOrder extends DSOrder
 {

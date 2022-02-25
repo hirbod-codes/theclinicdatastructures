@@ -5,8 +5,8 @@ namespace Tests\DataStructures\Time;
 use Faker\Factory;
 use Faker\Generator;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Time\DSDateTimePeriod;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\TimeSequenceViolationException;
+use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
 class DSDateTimePeriodTest extends TestCase
 {

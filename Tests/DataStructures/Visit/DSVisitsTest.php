@@ -1,14 +1,14 @@
 <?php
 
-namespace TheClinicDataStructure\Tests\DataStructures\Visit;
+namespace TheClinicDataStructures\Tests\DataStructures\Visit;
 
 use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Visit\DSVisit;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
-use TheClinicDataStructure\Exceptions\DataStructures\Visit\VisitExceptions;
+use TheClinicDataStructures\DataStructures\Visit\DSVisit;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\VisitExceptions;
 
 class DSVisitsTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\User;
+namespace TheClinicDataStructures\DataStructures\User;
 
 interface ICheckAuthentication
 {

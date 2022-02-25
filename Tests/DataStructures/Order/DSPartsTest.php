@@ -6,9 +6,9 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSPart;
-use TheClinicDataStructure\DataStructures\Order\DSParts;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\OrderExceptions;
+use TheClinicDataStructures\DataStructures\Order\DSPart;
+use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
 class DSPartsTest extends TestCase
 {
@@ -28,7 +28,7 @@ class DSPartsTest extends TestCase
 
         $this->runTheAssertions($gender, $parts);
 
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSPart|\Mockery\MockInterface $part */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSPart|\Mockery\MockInterface $part */
         $part = Mockery::mock(DSPart::class);
         $part->shouldReceive("getGender")->andReturn("Female");
         $parts[3] = $part;
@@ -43,7 +43,7 @@ class DSPartsTest extends TestCase
     {
         $parts = [];
         for ($i = 0; $i < $partCount; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\Order\DSPart|\Mockery\MockInterface $part */
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSPart|\Mockery\MockInterface $part */
             $part = Mockery::mock(DSPart::class);
             $part->shouldReceive("getGender")->andReturn($gender);
 
@@ -74,7 +74,7 @@ class DSPartsTest extends TestCase
         unset($dsParts[4]);
 
         $counter = 0;
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSPart $part */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSPart $part */
         foreach ($dsParts as $part) {
             $this->assertInstanceOf(DSPart::class, $part);
 

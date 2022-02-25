@@ -1,20 +1,20 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructure\DataStructures\Time\DSDownTime;
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\InvalidValueTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\TimeSequenceViolationException;
+use TheClinicDataStructures\DataStructures\Time\DSDownTime;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
 class DSDownTimes implements \ArrayAccess, \Iterator, \Countable
 {
     use TraitKeyPositioner;
 
     /**
-     * @var \TheClinicDataStructure\DataStructures\Time\DSDownTime[]
+     * @var \TheClinicDataStructures\DataStructures\Time\DSDownTime[]
      */
     private array $dsDownTimes;
 

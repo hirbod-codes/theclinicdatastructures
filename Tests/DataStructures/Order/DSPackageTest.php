@@ -6,9 +6,9 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSPackage;
-use TheClinicDataStructure\DataStructures\Order\DSParts;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\OrderExceptions;
+use TheClinicDataStructures\DataStructures\Order\DSPackage;
+use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
 class DSPackageTest extends TestCase
 {
@@ -31,7 +31,7 @@ class DSPackageTest extends TestCase
         $createdAt = new \DateTime($faker->time("Y-m-d H:i:s"));
         $updatedAt = new \DateTime($faker->time("Y-m-d H:i:s"));
 
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
         $parts = Mockery::mock(DSParts::class);
         $parts->shouldReceive("getGender")->andReturn($gender);
 
@@ -45,7 +45,7 @@ class DSPackageTest extends TestCase
             $updatedAt
         );
 
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
         $parts = Mockery::mock(DSParts::class);
         $parts->shouldReceive("getGender")->andReturn("Female");
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures\Order;
+namespace TheClinicDataStructures\Exceptions\DataStructures\Order;
 
 class OrderExceptions extends \RuntimeException
 {

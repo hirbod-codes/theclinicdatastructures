@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructure\Exceptions\DataStructures\Time\TimeSequenceViolationException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
 class DSDateTimePeriod
 {

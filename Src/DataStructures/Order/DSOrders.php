@@ -1,13 +1,13 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidUserException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidValueTypeException;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidUserException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 class DSOrders implements \ArrayAccess, \Iterator, \Countable
 {

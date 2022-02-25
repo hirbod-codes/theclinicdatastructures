@@ -1,11 +1,11 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Visit;
+namespace TheClinicDataStructures\DataStructures\Visit;
 
-use TheClinicDataStructure\DataStructures\Time\DSDateTimePeriod;
-use TheClinicDataStructure\DataStructures\Order\DSOrder;
-use TheClinicDataStructure\DataStructures\Time\DSWeekDaysPeriods;
-use TheClinicDataStructure\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Time\DSWeekDaysPeriods;
+use TheClinicDataStructures\DataStructures\User\DSUser;
 
 class DSVisit
 {

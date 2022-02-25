@@ -6,9 +6,9 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSOrder;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
 class DSOrderTest extends TestCase
 {

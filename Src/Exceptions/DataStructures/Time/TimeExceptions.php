@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures\Time;
+namespace TheClinicDataStructures\Exceptions\DataStructures\Time;
 
 class TimeExceptions extends \RuntimeException
 {

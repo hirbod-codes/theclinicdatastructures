@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures\Order;
+namespace TheClinicDataStructures\Exceptions\DataStructures\Order;
 
-use TheClinicDataStructure\Exceptions\DataStructures\Order\OrderExceptions;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
 class InvalidUserException extends OrderExceptions
 {

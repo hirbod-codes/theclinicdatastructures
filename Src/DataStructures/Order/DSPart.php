@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
 class DSPart
 {

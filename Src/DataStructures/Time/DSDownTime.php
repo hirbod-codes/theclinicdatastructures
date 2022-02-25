@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructure\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 
 class DSDownTime extends DSDateTimePeriod
 {

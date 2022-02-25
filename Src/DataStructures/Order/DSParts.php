@@ -1,12 +1,12 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidGenderException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidValueTypeException;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 class DSParts implements \Countable, \ArrayAccess, \Iterator
 {
@@ -15,7 +15,7 @@ class DSParts implements \Countable, \ArrayAccess, \Iterator
     private string $gender;
 
     /**
-     * @var \TheClinicDataStructure\DataStructures\Order\DSPart[]
+     * @var \TheClinicDataStructures\DataStructures\Order\DSPart[]
      */
     private array $parts;
 
@@ -114,7 +114,7 @@ class DSParts implements \Countable, \ArrayAccess, \Iterator
      * Constructs a new instance.
      *
      * @param string $gender
-     * @param \TheClinicDataStructure\DataStructures\Order\DSPart[] $parts
+     * @param \TheClinicDataStructures\DataStructures\Order\DSPart[] $parts
      */
     public function __construct(string $gender)
     {

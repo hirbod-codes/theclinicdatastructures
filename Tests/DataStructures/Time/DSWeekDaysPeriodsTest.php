@@ -6,8 +6,8 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Time\DSTimePeriods;
-use TheClinicDataStructure\DataStructures\Time\DSWeekDaysPeriods;
+use TheClinicDataStructures\DataStructures\Time\DSTimePeriods;
+use TheClinicDataStructures\DataStructures\Time\DSWeekDaysPeriods;
 
 class DSWeekDaysPeriodsTest extends TestCase
 {

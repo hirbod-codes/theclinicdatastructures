@@ -6,8 +6,8 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Time\DSDownTime;
-use TheClinicDataStructure\DataStructures\Time\DSDownTimes;
+use TheClinicDataStructures\DataStructures\Time\DSDownTime;
+use TheClinicDataStructures\DataStructures\Time\DSDownTimes;
 
 class DSDownTimesTest extends TestCase
 {
@@ -88,7 +88,7 @@ class DSDownTimesTest extends TestCase
         $downTimes = [];
 
         for ($i = 1; $i <= $downTimesCount; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\Time\DSDownTime|\Mockery\MockInterface $dsDownTime */
+            /** @var \TheClinicDataStructures\DataStructures\Time\DSDownTime|\Mockery\MockInterface $dsDownTime */
             $dsDownTime = Mockery::mock(DSDownTime::class);
             $dsDownTime->shouldReceive("getStart")->andReturn((new \DateTime(($i * 2) . ":00:00")));
             $dsDownTime->shouldReceive("getStartTimestamp")->andReturn((new \DateTime(($i * 2) . ":00:00"))->getTimestamp());
@@ -103,7 +103,7 @@ class DSDownTimesTest extends TestCase
 
     private function makeCustomDownTimes(string $start, string $end): DSDownTime
     {
-        /** @var \TheClinicDataStructure\DataStructures\Time\DSDownTime|\Mockery\MockInterface $dsDownTime */
+        /** @var \TheClinicDataStructures\DataStructures\Time\DSDownTime|\Mockery\MockInterface $dsDownTime */
         $dsDownTime = Mockery::mock(DSDownTime::class);
         $dsDownTime->shouldReceive("getStart")->andReturn((new \DateTime($start)));
         $dsDownTime->shouldReceive("getStartTimestamp")->andReturn((new \DateTime($start))->getTimestamp());

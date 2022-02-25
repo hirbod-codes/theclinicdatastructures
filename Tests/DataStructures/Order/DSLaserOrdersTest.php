@@ -6,10 +6,10 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSLaserOrder;
-use TheClinicDataStructure\DataStructures\Order\DSLaserOrders;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\OrderExceptions;
+use TheClinicDataStructures\DataStructures\Order\DSLaserOrder;
+use TheClinicDataStructures\DataStructures\Order\DSLaserOrders;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
 class DSLaserOrdersTest extends TestCase
 {
@@ -34,10 +34,10 @@ class DSLaserOrdersTest extends TestCase
         $orders = new DSLaserOrders();
 
         for ($i = 0; $i < $ordersCount; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+            /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
             $user = Mockery::mock(DSUser::class);
             $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-            /** @var \TheClinicDataStructure\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
             $order = Mockery::mock(DSLaserOrder::class);
             $order->shouldReceive("getUser")->andReturn($user);
 
@@ -60,7 +60,7 @@ class DSLaserOrdersTest extends TestCase
 
     private function testWithOneUser(int $ordersCount): void
     {
-        /** @var \TheClinicDataStructure\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
         $user = Mockery::mock(DSUser::class);
         $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 
@@ -68,7 +68,7 @@ class DSLaserOrdersTest extends TestCase
         $orders = new DSLaserOrders($user);
 
         for ($i = 0; $i < $ordersCount; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
             $order = Mockery::mock(DSLaserOrder::class);
             $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
             $order->shouldReceive("getUser")->andReturn($user);
@@ -90,11 +90,11 @@ class DSLaserOrdersTest extends TestCase
         $this->assertEquals($ordersCount, $counter);
 
         try {
-            /** @var \TheClinicDataStructure\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+            /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
             $user = Mockery::mock(DSUser::class);
             $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 
-            /** @var \TheClinicDataStructure\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSLaserOrder|\Mockery\MockInterface $order */
             $order = Mockery::mock(DSLaserOrder::class);
             $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
             $order->shouldReceive("getUser")->andReturn($user);

@@ -7,8 +7,8 @@ use Faker\Generator;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Time\DSTimePeriod;
-use TheClinicDataStructure\DataStructures\Time\DSTimePeriods;
+use TheClinicDataStructures\DataStructures\Time\DSTimePeriod;
+use TheClinicDataStructures\DataStructures\Time\DSTimePeriods;
 
 class DSTimePeriodsTest extends TestCase
 {
@@ -86,7 +86,7 @@ class DSTimePeriodsTest extends TestCase
         $timePeriods = [];
 
         for ($i = 1; $i <= $timePeriodsCount; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\Time\DSTimePeriod|\Mockery\MockInterface $timePeriod */
+            /** @var \TheClinicDataStructures\DataStructures\Time\DSTimePeriod|\Mockery\MockInterface $timePeriod */
             $timePeriod = Mockery::mock(DSTimePeriod::class);
             $timePeriod->shouldReceive("getStartTimestamp")->andReturn((new \DateTime(($i * 2) . ":00:00"))->getTimestamp());
             $timePeriod->shouldReceive("getStart")->andReturn(($i * 2) . ":00:00");
@@ -101,7 +101,7 @@ class DSTimePeriodsTest extends TestCase
 
     private function makeCustomTimePeriod(string $start, string $end): DSTimePeriod|MockInterface
     {
-        /** @var \TheClinicDataStructure\DataStructures\Time\DSTimePeriod|\Mockery\MockInterface $timePeriod */
+        /** @var \TheClinicDataStructures\DataStructures\Time\DSTimePeriod|\Mockery\MockInterface $timePeriod */
         $timePeriod = Mockery::mock(DSTimePeriod::class);
         $timePeriod->shouldReceive("getStartTimestamp")->andReturn((new \DateTime($start))->getTimestamp());
         $timePeriod->shouldReceive("getStart")->andReturn($start);

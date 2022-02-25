@@ -1,9 +1,9 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\Order\DSParts;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 
 class DSPackage
 {

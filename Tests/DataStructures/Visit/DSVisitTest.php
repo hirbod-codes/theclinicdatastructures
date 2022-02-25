@@ -1,14 +1,14 @@
 <?php
 
-namespace TheClinicDataStructure\Tests\DataStructures\Visit;
+namespace TheClinicDataStructures\Tests\DataStructures\Visit;
 
 use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSOrder;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\DataStructures\Visit\DSVisit;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Visit\DSVisit;
 
 class DSVisitTest extends TestCase
 {
@@ -24,11 +24,11 @@ class DSVisitTest extends TestCase
     {
         $id = $this->faker->numberBetween(1, 1000);
 
-        /** @var \TheClinicDataStructure\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
         $user = Mockery::mock(DSUser::class);
         $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSOrder|\Mockery\MockInterface $order */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSOrder|\Mockery\MockInterface $order */
         $order = Mockery::mock(DSOrder::class);
         $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
 

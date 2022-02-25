@@ -1,15 +1,15 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Visit;
+namespace TheClinicDataStructures\DataStructures\Visit;
 
-use TheClinicDataStructure\DataStructures\Order\DSOrder;
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Visit\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Visit\InvalidValueException;
-use TheClinicDataStructure\Exceptions\DataStructures\Visit\InvalidValueTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Visit\TimeSequenceViolationException;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueException;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\TimeSequenceViolationException;
 
 class DSVisits implements \ArrayAccess, \Iterator, \Countable
 {
@@ -20,7 +20,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
     public DSOrder|null $order;
 
     /**
-     * @var \TheClinicDataStructure\DataStructures\Visit\DSVisit[]
+     * @var \TheClinicDataStructures\DataStructures\Visit\DSVisit[]
      */
     private array $visits;
 

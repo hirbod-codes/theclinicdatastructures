@@ -1,9 +1,9 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
 class DSOrder
 {

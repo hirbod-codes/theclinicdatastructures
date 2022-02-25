@@ -5,7 +5,7 @@ namespace Tests\DataStructures\Order;
 use Faker\Factory;
 use Faker\Generator;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSPart;
+use TheClinicDataStructures\DataStructures\Order\DSPart;
 
 class DSPartTest extends TestCase
 {

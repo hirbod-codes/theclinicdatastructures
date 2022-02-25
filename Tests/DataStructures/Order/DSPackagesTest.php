@@ -6,9 +6,9 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSPackage;
-use TheClinicDataStructure\DataStructures\Order\DSPackages;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\DataStructures\Order\DSPackage;
+use TheClinicDataStructures\DataStructures\Order\DSPackages;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 
 class DSPackagesTest extends TestCase
 {
@@ -28,7 +28,7 @@ class DSPackagesTest extends TestCase
 
         $this->runTheAssertions($gender, $packages);
 
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSPackage|\Mockery\MockInterface $package */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSPackage|\Mockery\MockInterface $package */
         $package = Mockery::mock(DSPackage::class);
         $package->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
         $package->shouldReceive("getGender")->andReturn("Female");
@@ -45,7 +45,7 @@ class DSPackagesTest extends TestCase
         $packages = [];
 
         for ($i = 0; $i < $count; $i++) {
-            /** @var \TheClinicDataStructure\DataStructures\Order\DSPackage|\Mockery\MockInterface $package */
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSPackage|\Mockery\MockInterface $package */
             $package = Mockery::mock(DSPackage::class);
             $package->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
             $package->shouldReceive("getGender")->andReturn($gender);
@@ -74,7 +74,7 @@ class DSPackagesTest extends TestCase
         unset($dsPackages[4]);
 
         $counter = 0;
-        /** @var \TheClinicDataStructure\DataStructures\Order\DSPackage $package */
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSPackage $package */
         foreach ($dsPackages as $package) {
             $this->assertInstanceOf(DSPackage::class, $package);
 

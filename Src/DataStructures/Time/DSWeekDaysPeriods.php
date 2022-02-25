@@ -1,11 +1,11 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructure\DataStructures\Traits\TraitKeyPositioner;
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
-use TheClinicDataStructure\Exceptions\DataStructures\Time\InvalidValueTypeException;
+use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
 
 class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 {

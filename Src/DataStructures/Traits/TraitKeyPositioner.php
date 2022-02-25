@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Traits;
+namespace TheClinicDataStructures\DataStructures\Traits;
 
-use TheClinicDataStructure\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 
 trait TraitKeyPositioner
 {

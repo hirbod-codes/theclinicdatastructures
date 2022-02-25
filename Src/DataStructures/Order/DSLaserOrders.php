@@ -1,8 +1,8 @@
 <?php
 
-namespace TheClinicDataStructure\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructure\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\User\DSUser;
 
 class DSLaserOrders extends DSOrders implements \ArrayAccess, \Iterator, \Countable
 {

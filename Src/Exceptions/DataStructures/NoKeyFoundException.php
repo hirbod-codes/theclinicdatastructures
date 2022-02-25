@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructure\Exceptions\DataStructures;
+namespace TheClinicDataStructures\Exceptions\DataStructures;
 
 class NoKeyFoundException extends \RuntimeException
 {

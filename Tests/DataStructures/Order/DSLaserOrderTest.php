@@ -6,12 +6,12 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructure\DataStructures\Order\DSLaserOrder;
-use TheClinicDataStructure\DataStructures\Order\DSPackages;
-use TheClinicDataStructure\DataStructures\Order\DSParts;
-use TheClinicDataStructure\DataStructures\User\DSUser;
-use TheClinicDataStructure\DataStructures\Visit\DSVisits;
-use TheClinicDataStructure\Exceptions\DataStructures\Order\OrderExceptions;
+use TheClinicDataStructures\DataStructures\Order\DSLaserOrder;
+use TheClinicDataStructures\DataStructures\Order\DSPackages;
+use TheClinicDataStructures\DataStructures\Order\DSParts;
+use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
 class DSLaserOrderTest extends TestCase
 {
