@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructures\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order\Laser;
 
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Order\DSOrder;
