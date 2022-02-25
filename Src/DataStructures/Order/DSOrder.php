@@ -15,7 +15,7 @@ abstract class DSOrder
 
     protected int $neededTime;
 
-    public DSVisits|null $visits;
+    protected DSVisits|null $visits;
 
     protected \DateTime $createdAt;
 
