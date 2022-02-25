@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructures\Tests\DataStructures\Visit;
+namespace TheClinicDataStructures\Tests\DataStructures\Visit\Regular;
 
 use Faker\Factory;
 use Faker\Generator;
