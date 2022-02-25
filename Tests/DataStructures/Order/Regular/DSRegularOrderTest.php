@@ -5,13 +5,16 @@ namespace Tests\DataStructures\Order;
 use Faker\Factory;
 use Faker\Generator;
 use Mockery;
+use Tests\DataStructures\Order\Traits\TraitDSOrdersTests;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
-class DSOrderTest extends TestCase
+class DSRegularOrderTest extends TestCase
 {
+    use TraitDSOrdersTests;
+
     private Generator $faker;
 
     protected function setUp(): void
@@ -22,7 +25,7 @@ class DSOrderTest extends TestCase
 
     public function testDataStructure(): void
     {
-        /** @var DSUser|\Mockery\MockInterface $user */
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
         $user = Mockery::mock(DSUser::class);
         $user->shouldReceive('getId')->andReturn(56);
 
@@ -54,7 +57,7 @@ class DSOrderTest extends TestCase
         \DateTime $createdAt,
         \DateTime $updatedAt
     ): void {
-        $dsOrder = new DSOrder(
+        $dsOrder = new DSRegularOrder(
             $id,
             $user,
             $visits = null,
