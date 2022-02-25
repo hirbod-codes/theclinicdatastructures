@@ -156,7 +156,7 @@ class DSLaserOrderTest extends TestCase
         $this->assertEquals($dsOrder->getUser()->getId(), $user->getId());
         $this->assertEquals($dsOrder->getParts(), $parts);
         $this->assertEquals($dsOrder->getPackages(), $packages);
-        $this->assertEquals($dsOrder->visits, $visits);
+        $this->assertEquals($dsOrder->getVisits(), $visits);
         $this->assertEquals($dsOrder->getPrice(), $price);
         $this->assertEquals($dsOrder->getNeededTime(), $time);
         $this->assertEquals($dsOrder->getCreatedAt()->getTimestamp(), $createdAt->getTimestamp());
