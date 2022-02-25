@@ -7,7 +7,9 @@ use TheClinicDataStructures\DataStructures\Order\DSOrder;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
 use TheClinicDataStructures\DataStructures\Order\DSPackages;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\Visit\Laser\DSLaserVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 class DSLaserOrder extends DSOrder
 {
@@ -38,6 +40,17 @@ class DSLaserOrder extends DSOrder
 
         $this->setParts($parts);
         $this->setPackages($packages);
+    }
+
+    protected function validateVisitsType(DSVisits|null $visits): void
+    {
+        if ($visits === null) {
+            return;
+        }
+
+        if (!($visits instanceof DSLaserVisits)) {
+            throw new InvalidValueTypeException("This data structure only accepts the type: " . DSLaserVisits::class . " as it's associated visits.", 500);
+        }
     }
 
     public function getParts(): DSParts
