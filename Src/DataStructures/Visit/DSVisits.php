@@ -40,6 +40,10 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
 
     public function __construct(string $sort = "sort", DSUser|null $user = null, DSOrder|null $order = null)
     {
+        if ($order !== null) {
+            $this->validateOrderType($order);
+        }
+        
         $this->user = $user;
         $this->order = $order;
 
@@ -62,6 +66,19 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
         }
 
         $this->sort = $sort;
+    }
+
+    /**
+     * @param \TheClinicDataStructures\DataStructures\Order\DSOrder $order
+     * @return void
+     * 
+     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeException
+     */
+    protected function validateOrderType(DSOrder $order): void
+    {
+        if (!($order instanceof DSOrder)) {
+            throw new InvalidValueTypeException("The order must be an object of class: " . DSOrder::class, 500);
+        }
     }
 
     // -------------------- \ArrayAccess
