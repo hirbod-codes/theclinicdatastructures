@@ -1,19 +1,23 @@
 <?php
 
-namespace TheClinicDataStructures\DataStructures\Order;
+namespace TheClinicDataStructures\DataStructures\Order\Laser;
 
-use TheClinicDataStructures\DataStructures\User\DSUser;
+use TheClinicDataStructures\DataStructures\Order\DSOrder;
+use TheClinicDataStructures\DataStructures\Order\DSOrders;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSLaserOrders extends DSOrders implements \ArrayAccess, \Iterator, \Countable
+class DSLaserOrders extends DSOrders
 {
-    public function __construct(DSUser|null $user = null, bool $mixedOrders = false)
+    /**
+     * @param \TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder $order
+     * @return void
+     * 
+     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException
+     */
+    protected function checkOrderType(DSOrder $order): void
     {
-        parent::__construct($user, $mixedOrders);
-
-        if ($mixedOrders) {
-            $this->orderType = DSOrder::class;
-        } else {
-            $this->orderType = DSLaserOrder::class;
+        if (!($order instanceof DSLaserOrder)) {
+            throw new InvalidValueTypeException("This data structure only accepts the type: " . DSLaserOrder::class . " as an array member.", 500);
         }
     }
 }
