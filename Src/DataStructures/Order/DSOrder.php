@@ -4,6 +4,7 @@ namespace TheClinicDataStructures\DataStructures\Order;
 
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 abstract class DSOrder
 {
@@ -32,11 +33,36 @@ abstract class DSOrder
     ) {
         $this->id = $id;
         $this->user = $user;
+
+        $this->validateVisitsType($visits);
+
         $this->visits = $visits;
         $this->price = $price;
         $this->neededTime = $neededTime;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+    }
+
+    protected function validateVisitsType(DSVisits|null $visits): void
+    {
+        if ($visits === null) {
+            return;
+        }
+
+        if (!($visits instanceof DSVisits)) {
+            throw new InvalidValueTypeException("This data structure only accepts the type: " . DSVisits::class . " as it's associated visits.", 500);
+        }
+    }
+
+    public function getVisits(): DSVisits|null
+    {
+        return $this->visits;
+    }
+
+    public function setVisits(DSVisits|null $visits): void
+    {
+        $this->validateVisitsType($visits);
+        $this->visits = $visits;
     }
 
     public function getId(): int
