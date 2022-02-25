@@ -5,7 +5,7 @@ namespace TheClinicDataStructures\DataStructures\Order;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
-class DSOrder
+abstract class DSOrder
 {
     protected int $id;
 
