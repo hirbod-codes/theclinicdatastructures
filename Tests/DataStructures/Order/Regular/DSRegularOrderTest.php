@@ -69,7 +69,7 @@ class DSRegularOrderTest extends TestCase
 
         $this->assertEquals($dsOrder->getId(), $id);
         $this->assertEquals($dsOrder->getUser()->getId(), $user->getId());
-        $this->assertEquals($dsOrder->visits, $visits);
+        $this->assertEquals($dsOrder->getVisits(), $visits);
         $this->assertEquals($dsOrder->getPrice(), $price);
         $this->assertEquals($dsOrder->getNeededTime(), $time);
         $this->assertEquals($dsOrder->getCreatedAt()->getTimestamp(), $createdAt->getTimestamp());
