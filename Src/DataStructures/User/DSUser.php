@@ -7,7 +7,7 @@ use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\DataStructures\User\IUserRule;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 
-class DSUser
+abstract class DSUser
 {
     private ICheckAuthentication $iCheckAuthentication;
 
