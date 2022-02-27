@@ -78,7 +78,7 @@ abstract class DSUser
      */
     public function getPrivileges(): array
     {
-        return json_decode(file_get_contents(__DIR__) . "/Privileges/privileges.json", true);
+        return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/privileges.json"), true);
     }
 
     // id

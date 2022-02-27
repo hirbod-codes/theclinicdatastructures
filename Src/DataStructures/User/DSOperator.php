@@ -13,7 +13,7 @@ class DSOperator extends DSUser
 
     public function getUserPrivileges(): array
     {
-        return json_decode(file_get_contents(__DIR__ . "/Privileges/operatorPrivileges.json"), true);
+        return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/operatorPrivileges.json"), true);
     }
 
     public function getPrivilege(string $privilege): mixed
@@ -22,7 +22,7 @@ class DSOperator extends DSUser
             throw new NoPrivilegeFoundException();
         }
 
-        $privileges = json_decode(file_get_contents(__DIR__ . "/Privileges/operatorPrivileges.json"), true);
+        $privileges = json_decode(file_get_contents(self::PRIVILEGES_PATH . "/operatorPrivileges.json"), true);
 
         foreach ($privileges as $p => $pVal) {
             if ($p === $privilege) {
@@ -35,7 +35,7 @@ class DSOperator extends DSUser
 
     public function setPrivilege(string $privilege, mixed $value): void
     {
-        $privileges = json_decode(file_get_contents(__DIR__ . "/Privileges/operatorPrivileges.json"), true);
+        $privileges = json_decode(file_get_contents(self::PRIVILEGES_PATH . "/operatorPrivileges.json"), true);
 
         if (!isset($privileges[$privilege])) {
             throw new NoPrivilegeFoundException();
@@ -43,7 +43,7 @@ class DSOperator extends DSUser
 
         $privileges[$privilege] = $value;
 
-        if (file_put_contents(__DIR__ . "/operatorPrivileges.json", $privileges) === false) {
+        if (file_put_contents(self::PRIVILEGES_PATH . "/operatorPrivileges.json", json_encode($privileges)) === false) {
             throw new \LogicException("Failed to set the privilege!", 500);
         }
     }
