@@ -127,7 +127,7 @@ class DSAdminTest extends TestCase
     {
         $dsAdmin = $this->instanciate();
 
-        $privilege = "accountsRead";
+        $privilege = "selfAccountRead";
 
         $result = $dsAdmin->privilegeExists($privilege);
         $this->assertTrue($result);
@@ -140,7 +140,7 @@ class DSAdminTest extends TestCase
 
     public function testGetPrivilege(): void
     {
-        $privilege = "accountsRead";
+        $privilege = "selfAccountRead";
 
         $dsAdmin = $this->instanciate();
 
@@ -152,7 +152,7 @@ class DSAdminTest extends TestCase
     public function testSetPrivilege(): void
     {
         try {
-            $privilege = "accountsRead";
+            $privilege = "selfAccountRead";
 
             $dsAdmin = $this->instanciate();
 
