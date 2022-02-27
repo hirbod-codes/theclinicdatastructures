@@ -9,5 +9,5 @@ interface ICheckAuthentication
      *
      * @return boolean
      */
-    public function isAuthenticated(): bool;
+    public function isAuthenticated(DSUser $user): bool;
 }
