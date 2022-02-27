@@ -61,6 +61,24 @@ abstract class DSUser
         return $this->iCheckAuthentication->isAuthenticated($this);
     }
 
+    abstract public function getRuleName(): string;
+
+    abstract public function getUserPrivileges(): array;
+
+    abstract public function privilegeExists(string $privilege): bool;
+
+    abstract public function getPrivilege(string $privilege): mixed;
+
+    abstract public function setPrivilege(string $privilege, mixed $value): void;
+
+    /**
+     * @return array [ "privilege_name" => privilege_value, ... ]
+     */
+    public function getPrivileges(): array
+    {
+        return json_decode(file_get_contents(__DIR__) . "/Privileges/privileges.json", true);
+    }
+
     // id
     public function getId(): int
     {
