@@ -1,0 +1,21 @@
+[
+    "accountsRead",
+    "selfAccountRead",
+    "accountCreate",
+    "accountDelete",
+    "selfAccountDelete",
+    "accountUpdate",
+    "selfAccountUpdate",
+    "selfLaserOrderCreate",
+    "laserOrderCreate",
+    "selfRegularOrderCreate",
+    "regularOrderCreate",
+    "selfLaserOrderDelete",
+    "laserOrderDelete",
+    "selfRegularOrderDelete",
+    "regularOrderDelete",
+    "selfLaserOrdersRead",
+    "laserOrdersRead",
+    "selfRegularOrdersRead",
+    "regularOrdersRead"
+]
