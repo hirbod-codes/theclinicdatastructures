@@ -11,9 +11,9 @@ class DSVisit
 {
     private int $id;
 
-    public DSUser|null $user;
+    private DSUser $user;
 
-    public DSOrder|null $order;
+    private DSOrder $order;
 
     private int $visitTimestamp;
 
@@ -29,8 +29,8 @@ class DSVisit
 
     public function __construct(
         int $id,
-        DSUser|null $user = null,
-        DSOrder|null $order = null,
+        DSUser $user,
+        DSOrder $order,
         int $visitTimestamp,
         int $consumingTime,
         DSWeekDaysPeriods|null $weekDaysPeriods = null,
@@ -47,6 +47,16 @@ class DSVisit
         $this->dateTimePeriod = $dateTimePeriod;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+    }
+
+    public function setUser(DSUser $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function setOrder(DSOrder $order): void
+    {
+        $this->order = $order;
     }
 
     public function setId(int $val): void
@@ -72,6 +82,16 @@ class DSVisit
     public function setUpdatedAt(\DateTime $val): void
     {
         $this->updatedAt = $val;
+    }
+
+    public function getUser(): DSUser
+    {
+        return $this->user;
+    }
+
+    public function getOrder(): DSOrder
+    {
+        return $this->order;
     }
 
     public function getId(): int
