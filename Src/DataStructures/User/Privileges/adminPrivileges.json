@@ -1,0 +1,21 @@
+{
+    "accountsRead": true,
+    "selfAccountRead": true,
+    "accountCreate": true,
+    "accountDelete": true,
+    "selfAccountDelete": true,
+    "accountUpdate": true,
+    "selfAccountUpdate": true,
+    "selfLaserOrderCreate": true,
+    "laserOrderCreate": true,
+    "selfRegularOrderCreate": true,
+    "regularOrderCreate": true,
+    "selfLaserOrderDelete": true,
+    "laserOrderDelete": true,
+    "selfRegularOrderDelete": true,
+    "regularOrderDelete": true,
+    "selfLaserOrdersRead": true,
+    "laserOrdersRead": true,
+    "selfRegularOrdersRead": true,
+    "regularOrdersRead": true
+}
