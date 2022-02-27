@@ -58,7 +58,7 @@ abstract class DSUser
 
     public function isAuthenticated(): bool
     {
-        return $this->iCheckAuthentication->isAuthenticated();
+        return $this->iCheckAuthentication->isAuthenticated($this);
     }
 
     // id
