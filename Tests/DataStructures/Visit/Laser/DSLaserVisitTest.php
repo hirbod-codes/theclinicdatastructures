@@ -52,8 +52,8 @@ class DSLaserVisitTest extends TestCase
         );
 
         $this->assertEquals($dsVisit->getId(), $id);
-        $this->assertEquals($dsVisit->user->getId(), $user->getId());
-        $this->assertEquals($dsVisit->order->getId(), $order->getId());
+        $this->assertEquals($dsVisit->getUser()->getId(), $user->getId());
+        $this->assertEquals($dsVisit->getOrder()->getId(), $order->getId());
 
         $this->assertEquals($dsVisit->getVisitTimestamp(), $visitTimestamp);
         $this->assertEquals($dsVisit->getConsumingTime(), $consumingTime);
