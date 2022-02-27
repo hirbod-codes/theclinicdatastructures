@@ -8,6 +8,8 @@ use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 
 abstract class DSUser
 {
+    const PRIVILEGES_PATH = __DIR__ . "/Privileges";
+
     private ICheckAuthentication $iCheckAuthentication;
 
     private int $id;
