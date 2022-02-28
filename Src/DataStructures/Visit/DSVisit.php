@@ -27,6 +27,17 @@ class DSVisit
 
     private \DateTime $updatedAt;
 
+    /**
+     * @param integer $id
+     * @param DSUser $user
+     * @param DSOrder $order
+     * @param integer $visitTimestamp
+     * @param integer $consumingTime
+     * @param DSWeekDaysPeriods|null|null $weekDaysPeriods must not have a value other than null at present of $dateTimePeriod.
+     * @param DSDateTimePeriod|null|null $dateTimePeriod must not have a value other than null at present of $weekDaysPeriods.
+     * @param \DateTime $createdAt
+     * @param \DateTime $updatedAt
+     */
     public function __construct(
         int $id,
         DSUser $user,
@@ -38,6 +49,10 @@ class DSVisit
         \DateTime $createdAt,
         \DateTime $updatedAt
     ) {
+        if (!is_null($weekDaysPeriods) && !is_null($dateTimePeriod)) {
+            throw new \LogicException("\$weekDaysPeriods and \$dateTimePeriod can't have a value beside null at the same time.", 500);
+        }
+
         $this->id = $id;
         $this->user = $user;
         $this->order = $order;
