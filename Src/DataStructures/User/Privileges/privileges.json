@@ -17,5 +17,13 @@
     "selfLaserOrdersRead",
     "laserOrdersRead",
     "selfRegularOrdersRead",
-    "regularOrdersRead"
+    "regularOrdersRead",
+    "selfLaserVisitDelete",
+    "laserVisitDelete",
+    "selfRegularVisitDelete",
+    "regularVisitDelete",
+    "selfRegularVisitCreate",
+    "regularVisitCreate",
+    "selfLaserVisitCreate",
+    "laserVisitCreate"
 ]
