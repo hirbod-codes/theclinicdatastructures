@@ -20,8 +20,6 @@ abstract class DSUser
 
     private string $username;
 
-    private string $password;
-
     private string $gender;
 
     public DSVisits|null $visits;
@@ -38,7 +36,6 @@ abstract class DSUser
         string $firstname,
         string $lastname,
         string $username,
-        string $password,
         string $gender,
         DSVisits|null $visits = null,
         DSOrders|null $orders = null,
@@ -50,7 +47,6 @@ abstract class DSUser
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->username = $username;
-        $this->password = $password;
         $this->gender = $gender;
         $this->visits = $visits;
         $this->orders = $orders;
@@ -123,17 +119,6 @@ abstract class DSUser
     public function setUsername(string $var): void
     {
         $this->username = $var;
-    }
-
-    // password
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
     }
 
     // gender
