@@ -27,8 +27,6 @@ class DSDoctorTest extends TestCase
 
     private string $username;
 
-    private string $password;
-
     private string $gender;
 
     private null|DSVisits $visits;
@@ -52,7 +50,6 @@ class DSDoctorTest extends TestCase
         $this->firstname = $this->faker->firstName();
         $this->lastname = $this->faker->lastName();
         $this->username = $this->faker->userName();
-        $this->password = $this->faker->password(8);
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->visits = null;
         $this->orders = null;
@@ -68,7 +65,6 @@ class DSDoctorTest extends TestCase
             $this->firstname,
             $this->lastname,
             $this->username,
-            $this->password,
             $this->gender,
             $this->visits,
             $this->orders,
@@ -87,7 +83,6 @@ class DSDoctorTest extends TestCase
         $this->assertEquals($this->firstname, $dsDoctor->getFirstname());
         $this->assertEquals($this->lastname, $dsDoctor->getLastname());
         $this->assertEquals($this->username, $dsDoctor->getUsername());
-        $this->assertEquals($this->password, $dsDoctor->getPassword());
         $this->assertEquals($this->gender, $dsDoctor->getGender());
         $this->assertEquals($this->visits, $dsDoctor->visits);
         $this->assertEquals($this->orders, $dsDoctor->orders);

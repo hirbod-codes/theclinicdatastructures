@@ -27,8 +27,6 @@ class DSSecretaryTest extends TestCase
 
     private string $username;
 
-    private string $password;
-
     private string $gender;
 
     private null|DSVisits $visits;
@@ -52,7 +50,6 @@ class DSSecretaryTest extends TestCase
         $this->firstname = $this->faker->firstName();
         $this->lastname = $this->faker->lastName();
         $this->username = $this->faker->userName();
-        $this->password = $this->faker->password(8);
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->visits = null;
         $this->orders = null;
@@ -68,7 +65,6 @@ class DSSecretaryTest extends TestCase
             $this->firstname,
             $this->lastname,
             $this->username,
-            $this->password,
             $this->gender,
             $this->visits,
             $this->orders,
@@ -87,7 +83,6 @@ class DSSecretaryTest extends TestCase
         $this->assertEquals($this->firstname, $dsSecretary->getFirstname());
         $this->assertEquals($this->lastname, $dsSecretary->getLastname());
         $this->assertEquals($this->username, $dsSecretary->getUsername());
-        $this->assertEquals($this->password, $dsSecretary->getPassword());
         $this->assertEquals($this->gender, $dsSecretary->getGender());
         $this->assertEquals($this->visits, $dsSecretary->visits);
         $this->assertEquals($this->orders, $dsSecretary->orders);

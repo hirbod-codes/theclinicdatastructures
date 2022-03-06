@@ -27,8 +27,6 @@ class DSOperatorTest extends TestCase
 
     private string $username;
 
-    private string $password;
-
     private string $gender;
 
     private null|DSVisits $visits;
@@ -52,7 +50,6 @@ class DSOperatorTest extends TestCase
         $this->firstname = $this->faker->firstName();
         $this->lastname = $this->faker->lastName();
         $this->username = $this->faker->userName();
-        $this->password = $this->faker->password(8);
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->visits = null;
         $this->orders = null;
@@ -68,7 +65,6 @@ class DSOperatorTest extends TestCase
             $this->firstname,
             $this->lastname,
             $this->username,
-            $this->password,
             $this->gender,
             $this->visits,
             $this->orders,
@@ -87,7 +83,6 @@ class DSOperatorTest extends TestCase
         $this->assertEquals($this->firstname, $dsOperator->getFirstname());
         $this->assertEquals($this->lastname, $dsOperator->getLastname());
         $this->assertEquals($this->username, $dsOperator->getUsername());
-        $this->assertEquals($this->password, $dsOperator->getPassword());
         $this->assertEquals($this->gender, $dsOperator->getGender());
         $this->assertEquals($this->visits, $dsOperator->visits);
         $this->assertEquals($this->orders, $dsOperator->orders);
