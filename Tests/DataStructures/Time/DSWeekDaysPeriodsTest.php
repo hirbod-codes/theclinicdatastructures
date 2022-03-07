@@ -19,6 +19,31 @@ class DSWeekDaysPeriodsTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $dsWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
+        for ($i = 0; $i < 7; $i++) {
+            /** @var \Mockery\MockInterface $dsWeekDaysPeriod */
+            $dsWeekDaysPeriod = Mockery::mock(DSTimePeriods::class);
+            $dsWeekDaysPeriod->shouldReceive('toArray')->andReturn(['dsWeekDaysPeriod']);
+
+            $dsWeekDaysPeriods[$i] = $dsWeekDaysPeriod;
+        }
+
+        $dsWeekDaysPeriodsArray = $dsWeekDaysPeriods->toArray();
+
+        $this->assertIsArray($dsWeekDaysPeriodsArray);
+        $this->assertCount(7, $dsWeekDaysPeriodsArray);
+
+        foreach ($dsWeekDaysPeriodsArray as $key => $value) {
+            $this->assertNotFalse(array_search($key, array_keys($dsWeekDaysPeriodsArray)));
+
+            $this->assertIsArray($value);
+            $this->assertCount(1, $value);
+            $this->assertEquals('dsWeekDaysPeriod', $value[0]);
+        }
+    }
+
     public function testDataStructure(): void
     {
         $this->testArrayAccess();

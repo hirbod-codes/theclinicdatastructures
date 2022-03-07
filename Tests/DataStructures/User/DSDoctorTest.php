@@ -37,6 +37,8 @@ class DSDoctorTest extends TestCase
 
     private \DateTime $updatedAt;
 
+    private array $constructArgs;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -61,20 +63,21 @@ class DSDoctorTest extends TestCase
 
     private function instanciate(): DSDoctor
     {
-        return new DSDoctor(
-            $this->iCheckAuthentication,
-            $this->id,
-            $this->firstname,
-            $this->lastname,
-            $this->username,
-            $this->gender,
-            $this->email,
-            $this->phonenumber,
-            $this->visits,
-            $this->orders,
-            $this->createdAt,
-            $this->updatedAt
-        );
+        $this->constructArgs = [
+            'iCheckAuthentication' => $this->iCheckAuthentication,
+            'id' => $this->id,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'username' => $this->username,
+            'gender' => $this->gender,
+            'email' => $this->email,
+            'phonenumber' => $this->phonenumber,
+            'visits' => $this->visits,
+            'orders' => $this->orders,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt
+        ];
+        return new DSDoctor(...array_values($this->constructArgs));
     }
 
     public function test()
@@ -96,6 +99,24 @@ class DSDoctorTest extends TestCase
         $this->assertEquals($this->updatedAt, $dsDoctor->getUpdatedAt());
 
         $this->assertEquals(true, $dsDoctor->isAuthenticated());
+    }
+
+    public function testToArray()
+    {
+        $dsAdminArray = $this->instanciate()->toArray();
+        unset($this->constructArgs['iCheckAuthentication']);
+
+        foreach ($this->constructArgs as $key => $value) {
+            $this->assertNotFalse(array_search($key, array_keys($dsAdminArray)));
+            if (gettype($value) !== "object") {
+                $this->assertEquals($value, $dsAdminArray[$key]);
+            } elseif ($value instanceof \DateTime) {
+                $this->assertEquals($value->format("Y-m-d H:i:s"), $dsAdminArray[$key]);
+            } else {
+                // mock the toArray method of other object properties.
+                $this->assertEquals($value->toArray(), $dsAdminArray[$key]);
+            }
+        }
     }
 
     public function testGetRuleName(): void

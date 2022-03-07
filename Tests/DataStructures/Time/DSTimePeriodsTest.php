@@ -20,6 +20,28 @@ class DSTimePeriodsTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $timePeriods = $this->makeTimePeriods(10);
+
+        $dsTimePeriods = new DSTimePeriods;
+
+        foreach ($timePeriods as $dsTimePeriod) {
+            $dsTimePeriods[] = $dsTimePeriod;
+        }
+
+        $dsTimePeriodsArray = $dsTimePeriods->toArray();
+
+        $this->assertIsArray($dsTimePeriodsArray);
+        $this->assertCount(10, $dsTimePeriodsArray);
+
+        foreach ($dsTimePeriodsArray as $key => $value) {
+            $this->assertIsArray($value);
+            $this->assertCount(1, $value);
+            $this->assertEquals('dsTimePeriod', $value[0]);
+        }
+    }
+
     public function testDataStructure(): void
     {
         $this->testArrayAccess();
@@ -92,6 +114,8 @@ class DSTimePeriodsTest extends TestCase
             $timePeriod->shouldReceive("getStart")->andReturn(($i * 2) . ":00:00");
             $timePeriod->shouldReceive("getEndTimestamp")->andReturn((new \DateTime(($i * 2) . ":30:00"))->getTimestamp());
             $timePeriod->shouldReceive("getEnd")->andReturn(($i * 2) . ":30:00");
+
+            $timePeriod->shouldReceive("toArray")->andReturn(['dsTimePeriod']);
 
             $timePeriods[] = $timePeriod;
         }

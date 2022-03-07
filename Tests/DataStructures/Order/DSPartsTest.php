@@ -20,6 +20,35 @@ class DSPartsTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $gender = "Male";
+
+        $parts = $this->makeParts($gender, 10);
+
+        $dsParts = new DSParts($gender);
+
+        foreach ($parts as $part) {
+            $dsParts[] = $part;
+        }
+        $dsPartsArray = $dsParts->toArray();
+
+        $this->assertIsArray($dsPartsArray);
+        $this->assertCount(2, $dsPartsArray);
+
+        $this->assertNotFalse(array_search('gender', array_keys($dsPartsArray)));
+        $this->assertEquals($gender, $dsPartsArray['gender']);
+
+        $this->assertNotFalse(array_search('parts', array_keys($dsPartsArray)));
+        $this->assertCount(10, $dsPartsArray['parts']);
+
+        foreach ($dsPartsArray['parts'] as $part) {
+            $this->assertIsArray($part);
+            $this->assertCount(1, $part);
+            $this->assertEquals('part', $part[0]);
+        }
+    }
+
     public function testDataStructure(): void
     {
         $gender = "Male";
@@ -46,6 +75,7 @@ class DSPartsTest extends TestCase
             /** @var \TheClinicDataStructures\DataStructures\Order\DSPart|\Mockery\MockInterface $part */
             $part = Mockery::mock(DSPart::class);
             $part->shouldReceive("getGender")->andReturn($gender);
+            $part->shouldReceive("toArray")->andReturn(["part"]);
 
             $parts[] = $part;
         }

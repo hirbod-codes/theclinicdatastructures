@@ -25,6 +25,28 @@ class DSDownTimesTest extends TestCase
         $this->testIterator();
     }
 
+    private function testToArray(): void
+    {
+        $downTimes = $this->makeDownTimes(10);
+
+        $dsDownTimes = new DSDownTimes();
+
+        foreach ($downTimes as $dsDownTime) {
+            $dsDownTimes[] = $dsDownTime;
+        }
+
+        $dsDownTimesArray = $dsDownTimes->toArray();
+
+        $this->assertIsArray($dsDownTimesArray);
+        $this->assertCount(10, $dsDownTimesArray);
+
+        foreach ($dsDownTimesArray as $dsDownTimeArray) {
+            $this->assertIsArray($dsDownTimeArray);
+            $this->assertCount(1, $dsDownTimeArray);
+            $this->assertEquals('dsDownTime', $dsDownTimeArray[0]);
+        }
+    }
+
     private function testArrayAccess(): void
     {
         $downTimes = $this->makeDownTimes(10);
@@ -95,6 +117,8 @@ class DSDownTimesTest extends TestCase
             $dsDownTime->shouldReceive("getEnd")->andReturn((new \DateTime(($i * 2) . ":00:00"))->modify("+30 minute"));
             $dsDownTime->shouldReceive("getEndTimestamp")->andReturn((new \DateTime(($i * 2) . ":00:00"))->modify("+30 minute")->getTimestamp());
 
+            $dsDownTime->shouldReceive("toArray")->andReturn(['dsDownTime']);
+
             $downTimes[] = $dsDownTime;
         }
 
@@ -109,6 +133,8 @@ class DSDownTimesTest extends TestCase
         $dsDownTime->shouldReceive("getStartTimestamp")->andReturn((new \DateTime($start))->getTimestamp());
         $dsDownTime->shouldReceive("getEnd")->andReturn((new \DateTime($end)));
         $dsDownTime->shouldReceive("getEndTimestamp")->andReturn((new \DateTime($end))->getTimestamp());
+
+        $dsDownTime->shouldReceive("toArray")->andReturn(['dsDownTime']);
 
         return $dsDownTime;
     }

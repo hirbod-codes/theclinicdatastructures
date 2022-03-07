@@ -18,6 +18,23 @@ class DSTimePeriodTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $start = "11:00:00";
+        $end = "13:00:00";
+        $dsTimePeriod = new DSTimePeriod($start, $end);
+        $dsTimePeriodArray = $dsTimePeriod->toArray();
+
+        $this->assertIsArray($dsTimePeriodArray);
+        $this->assertCount(2, $dsTimePeriodArray);
+
+        $this->assertNotFalse(array_search('start', array_keys($dsTimePeriodArray)));
+        $this->assertEquals($start, $dsTimePeriodArray['start']);
+
+        $this->assertNotFalse(array_search('end', array_keys($dsTimePeriodArray)));
+        $this->assertEquals($end, $dsTimePeriodArray['end']);
+    }
+
     public function testDataStructure(): void
     {
         $dsTimePeriod = new DSTimePeriod("11:00:00", "13:00:00");

@@ -14,7 +14,7 @@ use TheClinicDataStructures\DataStructures\User\DSUser;
 class DSLaserOrdersTest extends TestCase
 {
     use TraitDSOrdersTests;
-    
+
     private Generator $faker;
 
     protected function setUp(): void
@@ -45,5 +45,41 @@ class DSLaserOrdersTest extends TestCase
         $orders = new DSLaserOrders($user);
 
         $this->testDSOrdersWithOneUser($orders, DSLaserOrder::class, $user, $ordersCount);
+    }
+
+    public function testToArray(): void
+    {
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+        $user = Mockery::mock(DSUser::class);
+        $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $user->shouldReceive("toArray")->andReturn(['user']);
+
+        $dsOrders = (new DSLaserOrders($user));
+        for ($i = 0; $i < 10; $i++) {
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSLaserOrders|\Mockery\MockInterface $dsOrder */
+            $dsOrder = Mockery::mock(DSLaserOrder::class);
+            $dsOrder->shouldReceive("getId")->andReturn(25);
+            $dsOrder->shouldReceive("getUser")->andReturn($user);
+            $dsOrder->shouldReceive("toArray")->andReturn(['order']);
+
+            $dsOrders[] = $dsOrder;
+        }
+
+        $dsOrderArray = $dsOrders->toArray();
+        $this->assertIsArray($dsOrderArray);
+        $this->assertCount(2, $dsOrderArray);
+
+        $this->assertNotFalse(array_search('user', array_keys($dsOrderArray)));
+        $this->assertIsArray($dsOrderArray['user']);
+        $this->assertCount(1, $dsOrderArray['user']);
+        $this->assertEquals('user', $dsOrderArray['user'][0]);
+
+        $this->assertNotFalse(array_search('orders', array_keys($dsOrderArray)));
+        $this->assertCount(10, $dsOrderArray['orders']);
+        foreach ($dsOrderArray['orders'] as $order) {
+            $this->assertIsArray($order);
+            $this->assertCount(1, $order);
+            $this->assertEquals('order', $order[0]);
+        }
     }
 }

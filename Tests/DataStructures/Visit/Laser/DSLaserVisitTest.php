@@ -17,48 +17,80 @@ class DSLaserVisitTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->faker = Factory::create();
+
+        $this->id = $this->faker->numberBetween(1, 1000);
+
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+        $this->user = Mockery::mock(DSUser::class);
+        $this->user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $this->user->shouldReceive("toArray")->andReturn(['user']);
+
+        /** @var \TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder|\Mockery\MockInterface $order */
+        $this->order = Mockery::mock(DSLaserOrder::class);
+        $this->order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $this->order->shouldReceive("toArray")->andReturn(['order']);
+
+        $this->visitTimestamp = (new \DateTime())->modify("+1 week")->getTimestamp();
+
+        $this->consumingTime = $this->faker->numberBetween(600, 3600);
+
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function testDataStructure(): void
     {
-        $id = $this->faker->numberBetween(1, 1000);
+        $dsVisit = $this->instantiate();
 
-        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
-        $user = Mockery::mock(DSUser::class);
-        $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $this->assertEquals($dsVisit->getId(), $this->id);
+        $this->assertEquals($dsVisit->getUser()->getId(), $this->user->getId());
+        $this->assertEquals($dsVisit->getOrder()->getId(), $this->order->getId());
 
-        /** @var \TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder|\Mockery\MockInterface $order */
-        $order = Mockery::mock(DSLaserOrder::class);
-        $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $this->assertEquals($dsVisit->getVisitTimestamp(), $this->visitTimestamp);
+        $this->assertEquals($dsVisit->getConsumingTime(), $this->consumingTime);
 
-        $visitTimestamp = (new \DateTime())->modify("+1 week")->getTimestamp();
+        $this->assertEquals($dsVisit->getCreatedAt()->getTimestamp(), $this->createdAt->getTimestamp());
+        $this->assertEquals($dsVisit->getUpdatedAt()->getTimestamp(), $this->updatedAt->getTimestamp());
+    }
 
-        $consumingTime = $this->faker->numberBetween(600, 3600);
+    private function instantiate(): DSLaserVisit
+    {
+        $this->constructArgs = [
+            'id' => $this->id,
+            'user' => $this->user,
+            'order' => $this->order,
+            'visitTimestamp' => $this->visitTimestamp,
+            'consumingTime' => $this->consumingTime,
+            'weekDaysPeriods' => null,
+            'dateTimePeriod' => null,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+        ];
 
-        $createdAt = new \DateTime();
-        $updatedAt = new \DateTime();
+        return new DSLaserVisit(...array_values($this->constructArgs));
+    }
 
-        $dsVisit = new DSLaserVisit(
-            $id,
-            $user,
-            $order,
-            $visitTimestamp,
-            $consumingTime,
-            null,
-            null,
-            $createdAt,
-            $updatedAt,
-        );
+    public function testToArray(): void
+    {
+        $dsVisit = $this->instantiate();
 
-        $this->assertEquals($dsVisit->getId(), $id);
-        $this->assertEquals($dsVisit->getUser()->getId(), $user->getId());
-        $this->assertEquals($dsVisit->getOrder()->getId(), $order->getId());
+        $dsVisitArray = $dsVisit->toArray();
 
-        $this->assertEquals($dsVisit->getVisitTimestamp(), $visitTimestamp);
-        $this->assertEquals($dsVisit->getConsumingTime(), $consumingTime);
+        $this->assertIsArray($dsVisitArray);
+        $this->assertCount(count($this->constructArgs), $dsVisitArray);
 
-        $this->assertEquals($dsVisit->getCreatedAt()->getTimestamp(), $createdAt->getTimestamp());
-        $this->assertEquals($dsVisit->getUpdatedAt()->getTimestamp(), $updatedAt->getTimestamp());
+        foreach ($this->constructArgs as $key => $value) {
+            $this->assertNotFalse(array_search($key, array_keys($dsVisitArray)));
+
+            if (gettype($value) !== "object") {
+                $this->assertEquals($value, $dsVisitArray[$key]);
+            } elseif ($value instanceof \DateTime) {
+                $this->assertEquals($value->format("Y-m-d H:i:s"), $dsVisitArray[$key]);
+            } else {
+                $this->assertEquals($value->toArray(), $dsVisitArray[$key]);
+            }
+        }
     }
 }

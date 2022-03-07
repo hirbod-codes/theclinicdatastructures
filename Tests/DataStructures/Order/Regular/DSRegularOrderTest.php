@@ -5,6 +5,7 @@ namespace Tests\DataStructures\Order;
 use Faker\Factory;
 use Faker\Generator;
 use Mockery;
+use Mockery\MockInterface;
 use Tests\DataStructures\Order\Traits\TraitDSOrdersTests;
 use Tests\TestCase;
 use TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder;
@@ -17,62 +18,89 @@ class DSRegularOrderTest extends TestCase
 
     private Generator $faker;
 
+    private DSUser|MockInterface $user;
+
+    private DSVisits|MockInterface|null $visits;
+
+    private int $price;
+
+    private int $neededTime;
+
+    private \DateTime $createdAt;
+
+    private \DateTime $updatedAt;
+
+    private int $id;
+
+    private array $constructArgs;
+
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->faker = Factory::create();
+
+        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
+        $this->user = Mockery::mock(DSUser::class);
+        $this->user->shouldReceive('getId')->andReturn(56);
+        $this->user->shouldReceive('toArray')->andReturn(['user']);
+
+        $this->price = $this->faker->numberBetween(100, 600000);
+        $this->neededTime = $this->faker->numberBetween(100, 7200);
+
+        $this->visits = null;
+
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+
+        $this->id = $this->faker->numberBetween(0, 100);
     }
 
     public function testDataStructure(): void
     {
-        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
-        $user = Mockery::mock(DSUser::class);
-        $user->shouldReceive('getId')->andReturn(56);
+        $dsOrder = $this->instantiate();
 
-        $price = $this->faker->numberBetween(100, 600000);
-        $time = $this->faker->numberBetween(100, 7200);
-
-        $createdAt = new \DateTime();
-        $updatedAt = new \DateTime();
-
-        $id = $this->faker->numberBetween(0, 100);
-
-        $this->runTheAssertions(
-            $id,
-            $user,
-            null,
-            $price,
-            $time,
-            $createdAt,
-            $updatedAt
-        );
+        $this->assertEquals($dsOrder->getId(), $this->id);
+        $this->assertEquals($dsOrder->getUser()->getId(), $this->user->getId());
+        $this->assertEquals($dsOrder->getVisits(), $this->visits);
+        $this->assertEquals($dsOrder->getPrice(), $this->price);
+        $this->assertEquals($dsOrder->getNeededTime(), $this->neededTime);
+        $this->assertEquals($dsOrder->getCreatedAt()->getTimestamp(), $this->createdAt->getTimestamp());
+        $this->assertEquals($dsOrder->getUpdatedAt()->getTimestamp(), $this->updatedAt->getTimestamp());
     }
 
-    private function runTheAssertions(
-        int $id,
-        DSUser $user,
-        DSVisits|null $visits = null,
-        int $price,
-        int $time,
-        \DateTime $createdAt,
-        \DateTime $updatedAt
-    ): void {
-        $dsOrder = new DSRegularOrder(
-            $id,
-            $user,
-            $visits = null,
-            $price,
-            $time,
-            $createdAt,
-            $updatedAt
-        );
+    public function testToArray(): void
+    {
+        $dsOrderArray = $this->instantiate()->toArray();
 
-        $this->assertEquals($dsOrder->getId(), $id);
-        $this->assertEquals($dsOrder->getUser()->getId(), $user->getId());
-        $this->assertEquals($dsOrder->getVisits(), $visits);
-        $this->assertEquals($dsOrder->getPrice(), $price);
-        $this->assertEquals($dsOrder->getNeededTime(), $time);
-        $this->assertEquals($dsOrder->getCreatedAt()->getTimestamp(), $createdAt->getTimestamp());
-        $this->assertEquals($dsOrder->getUpdatedAt()->getTimestamp(), $updatedAt->getTimestamp());
+        $this->assertIsArray($dsOrderArray);
+        $this->assertCount(count($this->constructArgs), $dsOrderArray);
+
+        foreach ($this->constructArgs as $key => $value) {
+            $this->assertNotFalse(array_search($key, array_keys($dsOrderArray)));
+
+            if (gettype($value) !== "object") {
+                $this->assertEquals($value, $dsOrderArray[$key]);
+            } elseif ($value instanceof \DateTime) {
+                $this->assertEquals($value->format("Y-m-d H:i:s"), $dsOrderArray[$key]);
+            } else {
+                $this->assertEquals($value->toArray(), $dsOrderArray[$key]);
+            }
+        }
+    }
+
+    private function instantiate(): DSRegularOrder
+    {
+        $this->constructArgs = [
+            'id' => $this->id,
+            'user' => $this->user,
+            'visits' => $this->visits,
+            'price' => $this->price,
+            'neededTime' => $this->neededTime,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt
+        ];
+
+        return new DSRegularOrder(...array_values($this->constructArgs));
     }
 }

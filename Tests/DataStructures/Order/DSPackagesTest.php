@@ -20,6 +20,34 @@ class DSPackagesTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $gender = "Male";
+
+        $packages = $this->makePackages($gender, 10);
+
+        $dsPackages = new DSPackages($gender);
+        foreach ($packages as $package) {
+            $dsPackages[] = $package;
+        }
+        $dsPackagesArray = $dsPackages->toArray();
+
+        $this->assertIsArray($dsPackagesArray);
+        $this->assertCount(2, $dsPackagesArray);
+
+        $this->assertNotFalse(array_search('gender', array_keys($dsPackagesArray)));
+        $this->assertEquals($gender, $dsPackagesArray['gender']);
+
+        $this->assertNotFalse(array_search('packages', array_keys($dsPackagesArray)));
+        $this->assertCount(10, $dsPackagesArray['packages']);
+
+        foreach ($dsPackagesArray['packages'] as $package) {
+            $this->assertIsArray($package);
+            $this->assertCount(1, $package);
+            $this->assertEquals('package', $package[0]);
+        }
+    }
+
     public function testDataStructure(): void
     {
         $gender = "Male";
@@ -49,6 +77,7 @@ class DSPackagesTest extends TestCase
             $package = Mockery::mock(DSPackage::class);
             $package->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
             $package->shouldReceive("getGender")->andReturn($gender);
+            $package->shouldReceive("toArray")->andReturn(['package']);
 
             $packages[] = $package;
         }

@@ -20,6 +20,38 @@ class DSRegularVisitsTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    public function testToArray(): void
+    {
+        $pointer = new \DateTime();
+        /** @var array $visits */
+        $visits = $this->makeVisits($pointer, 'ASC', 10);
+
+        $dsVisits = new DSRegularVisits('ASC');
+        foreach ($visits as $visit) {
+            $dsVisits[] = $visit;
+        }
+
+        $dsVisitsArray = $dsVisits->toArray();
+
+        $this->assertIsArray($dsVisitsArray);
+        $this->assertCount(3, $dsVisitsArray);
+
+        $this->assertNotFalse(array_search('user', array_keys($dsVisitsArray)));
+        $this->assertNull($dsVisitsArray['user']);
+
+        $this->assertNotFalse(array_search('order', array_keys($dsVisitsArray)));
+        $this->assertNull($dsVisitsArray['order']);
+
+        $this->assertNotFalse(array_search('visits', array_keys($dsVisitsArray)));
+        $this->assertCount(10, $dsVisitsArray['visits']);
+
+        foreach ($dsVisitsArray['visits'] as $dsVisitArray) {
+            $this->assertIsArray($dsVisitArray);
+            $this->assertCount(1, $dsVisitArray);
+            $this->assertEquals('visit', $dsVisitArray[0]);
+        }
+    }
+
     public function testDataStructure(): void
     {
         $visitCount = 7;
@@ -293,6 +325,7 @@ class DSRegularVisitsTest extends TestCase
     {
         /** @var DSRegularVisit|\Mockery\MockInterface $visit */
         $visit = Mockery::mock(DSRegularVisit::class);
+        $visit->shouldReceive('toArray')->andReturn(['visit']);
 
         $visit->shouldReceive("getVisitTimestamp")->andReturn($visitTimestamp);
         $visit->shouldReceive("getConsumingTime")->andReturn($consumingTime);
@@ -304,6 +337,7 @@ class DSRegularVisitsTest extends TestCase
     {
         /** @var DSRegularVisit|\Mockery\MockInterface $visit */
         $visit = Mockery::mock(DSRegularVisit::class);
+        $visit->shouldReceive('toArray')->andReturn(['visit']);
 
         if (($callsCount + 1) % 2 === 0) {
             $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
@@ -322,6 +356,7 @@ class DSRegularVisitsTest extends TestCase
         $visit = Mockery::mock(DSRegularVisit::class);
         $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+2 hours")->getTimestamp());
         $visit->shouldReceive("getConsumingTime")->andReturn(1800);
+        $visit->shouldReceive('toArray')->andReturn(['visit']);
 
         return $visit;
     }
@@ -332,6 +367,7 @@ class DSRegularVisitsTest extends TestCase
         $visit = Mockery::mock(DSRegularVisit::class);
         $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-150 minutes")->getTimestamp());
         $visit->shouldReceive("getConsumingTime")->andReturn(1800);
+        $visit->shouldReceive('toArray')->andReturn(['visit']);
 
         return $visit;
     }

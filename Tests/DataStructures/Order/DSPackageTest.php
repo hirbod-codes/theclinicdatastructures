@@ -18,76 +18,85 @@ class DSPackageTest extends TestCase
     {
         parent::setUp();
         $this->faker = Factory::create();
+
+        $this->id = $this->faker->numberBetween(1, 100);
+        $this->name = $this->faker->lexify();
+        $this->gender = "Male";
+        $this->price = $this->faker->numberBetween(50000, 600000);
+
+        /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
+        $this->parts = Mockery::mock(DSParts::class);
+        $this->parts->shouldReceive("getGender")->andReturn($this->gender);
+        $this->parts->shouldReceive("toArray")->andReturn(['parts']);
+
+
+        $this->createdAt = new \DateTime($this->faker->time("Y-m-d H:i:s"));
+        $this->updatedAt = new \DateTime($this->faker->time("Y-m-d H:i:s"));
+    }
+
+    public function testToArray(): void
+    {
+        $dsPartArray = $this->instantiate()->toArray();
+
+        $this->assertIsArray($dsPartArray);
+        $this->assertCount(count($this->constructArgs), $dsPartArray);
+
+        foreach ($dsPartArray as $key => $value) {
+            $this->assertNotFalse(array_search($key, array_keys($dsPartArray)));
+
+            if (gettype($value) !== "object") {
+                $this->assertEquals($value, $dsPartArray[$key]);
+            } elseif ($value instanceof \DateTime) {
+                $this->assertEquals($value->format("Y-m-d H:i:s"), $dsPartArray[$key]);
+            } else {
+                // mock the toArray method of other object properties.
+                $this->assertEquals($value->toArray(), $dsPartArray[$key]);
+            }
+        }
     }
 
     public function testDataStructure(): void
     {
-        $faker = $this->faker;
-
-        $id = $faker->numberBetween(1, 100);
-        $name = $faker->lexify();
-        $gender = "Male";
-        $price = $faker->numberBetween(50000, 600000);
-        $createdAt = new \DateTime($faker->time("Y-m-d H:i:s"));
-        $updatedAt = new \DateTime($faker->time("Y-m-d H:i:s"));
+        $this->runTheAssertions();
 
         /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
-        $parts = Mockery::mock(DSParts::class);
-        $parts->shouldReceive("getGender")->andReturn($gender);
-
-        $this->runTheAssertions(
-            $id,
-            $name,
-            $gender,
-            $price,
-            $parts,
-            $createdAt,
-            $updatedAt
-        );
-
-        /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
-        $parts = Mockery::mock(DSParts::class);
-        $parts->shouldReceive("getGender")->andReturn("Female");
+        $this->parts = Mockery::mock(DSParts::class);
+        $this->parts->shouldReceive("getGender")->andReturn("Female");
 
         try {
-            $this->runTheAssertions(
-                $id,
-                $name,
-                $gender,
-                $price,
-                $parts,
-                $createdAt,
-                $updatedAt
-            );
+            $this->runTheAssertions();
         } catch (OrderExceptions $th) {
+            /** @var \TheClinicDataStructures\DataStructures\Order\DSParts|\Mockery\MockInterface $parts */
+            $this->parts = Mockery::mock(DSParts::class);
+            $this->parts->shouldReceive("getGender")->andReturn($this->gender);
         }
     }
 
-    private function runTheAssertions(
-        int $id,
-        string $name,
-        string $gender,
-        int $price,
-        DSParts $parts,
-        \DateTime $createdAt,
-        \DateTime $updatedAt
-    ): void {
-        $dsPart = new DSPackage(
-            $id,
-            $name,
-            $gender,
-            $price,
-            $parts,
-            $createdAt,
-            $updatedAt
-        );
+    private function runTheAssertions(): void
+    {
+        $dsPart = $this->instantiate();
 
-        $this->assertEquals($dsPart->getId(), $id);
-        $this->assertEquals($dsPart->getName(), $name);
-        $this->assertEquals($dsPart->getGender(), $gender);
-        $this->assertEquals($dsPart->getPrice(), $price);
-        $this->assertEquals($dsPart->getParts(), $parts);
-        $this->assertEquals($dsPart->getCreatedAt()->getTimestamp(), $createdAt->getTimestamp());
-        $this->assertEquals($dsPart->getUpdatedAt()->getTimestamp(), $updatedAt->getTimestamp());
+        $this->assertEquals($dsPart->getId(), $this->id);
+        $this->assertEquals($dsPart->getName(), $this->name);
+        $this->assertEquals($dsPart->getGender(), $this->gender);
+        $this->assertEquals($dsPart->getPrice(), $this->price);
+        $this->assertEquals($dsPart->getParts(), $this->parts);
+        $this->assertEquals($dsPart->getCreatedAt()->getTimestamp(), $this->createdAt->getTimestamp());
+        $this->assertEquals($dsPart->getUpdatedAt()->getTimestamp(), $this->updatedAt->getTimestamp());
+    }
+
+    private function instantiate(): DSPackage
+    {
+        $this->constructArgs = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'gender' => $this->gender,
+            'price' => $this->price,
+            'parts' => $this->parts,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt
+        ];
+
+        return new DSPackage(...array_values($this->constructArgs));
     }
 }
