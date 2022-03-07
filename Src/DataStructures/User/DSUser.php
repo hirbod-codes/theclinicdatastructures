@@ -49,17 +49,19 @@ abstract class DSUser
         \DateTime $updatedAt,
     ) {
         $this->iCheckAuthentication = $iCheckAuthentication;
-        $this->id = $id;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->username = $username;
-        $this->gender = $gender;
+        $this->setId($id);
+        $this->setFirstname($firstname);
+        $this->setLastname($lastname);
+        $this->setUsername($username);
+        $this->setGender($gender);
+        $this->setPhonenumber($phonenumber);
         $this->email = $email;
-        $this->phonenumber = $phonenumber;
         $this->visits = $visits;
         $this->orders = $orders;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->setCreatedAt($createdAt);
+        $this->setUpdatedAt($updatedAt);
+    }
+
     public function toArray(): array
     {
         return [
