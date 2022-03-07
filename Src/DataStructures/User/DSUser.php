@@ -22,6 +22,10 @@ abstract class DSUser
 
     private string $gender;
 
+    public string|null $email;
+
+    private string $phonenumber;
+
     public DSVisits|null $visits;
 
     public DSOrders|null $orders;
@@ -37,6 +41,8 @@ abstract class DSUser
         string $lastname,
         string $username,
         string $gender,
+        string|null $email = null,
+        string $phonenumber,
         DSVisits|null $visits = null,
         DSOrders|null $orders = null,
         \DateTime $createdAt,
@@ -48,6 +54,8 @@ abstract class DSUser
         $this->lastname = $lastname;
         $this->username = $username;
         $this->gender = $gender;
+        $this->email = $email;
+        $this->phonenumber = $phonenumber;
         $this->visits = $visits;
         $this->orders = $orders;
         $this->createdAt = $createdAt;
@@ -130,6 +138,17 @@ abstract class DSUser
     public function setGender(string $var): void
     {
         $this->gender = $var;
+    }
+
+    // phonenumber
+    public function getPhonenumber(): string
+    {
+        return $this->phonenumber;
+    }
+
+    public function setPhonenumber(string $phonenumber): void
+    {
+        $this->phonenumber = $phonenumber;
     }
 
     // createdAt
