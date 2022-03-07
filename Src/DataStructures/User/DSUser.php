@@ -60,6 +60,21 @@ abstract class DSUser
         $this->orders = $orders;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'username' => $this->username,
+            'gender' => $this->gender,
+            'email' => $this->email,
+            'phonenumber' => $this->phonenumber,
+            'visits' => $this->visits === null ? null : $this->visits->toArray(),
+            'orders' => $this->orders === null ? null : $this->orders->toArray(),
+            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
+        ];
     }
 
     public function isAuthenticated(): bool

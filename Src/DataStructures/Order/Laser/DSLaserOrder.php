@@ -46,6 +46,21 @@ class DSLaserOrder extends DSOrder
         $this->setPackages($packages);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'user' => $this->user->toArray(),
+            'parts' => $this->parts === null ? null : $this->parts->toArray(),
+            'packages' => $this->packages === null ? null : $this->packages->toArray(),
+            'price' => $this->price,
+            'neededTime' => $this->neededTime,
+            'visits' => $this->visits === null ? null : $this->visits->toArray(),
+            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s"),
+        ];
+    }
+
     protected function validateVisitsType(DSVisits|null $visits): void
     {
         if ($visits === null) {

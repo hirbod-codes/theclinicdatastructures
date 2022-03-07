@@ -43,6 +43,19 @@ abstract class DSOrder
         $this->updatedAt = $updatedAt;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'user' => $this->user->toArray(),
+            'visits' => $this->visits === null ? null : $this->visits->toArray(),
+            'price' => $this->price,
+            'neededTime' => $this->neededTime,
+            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
+        ];
+    }
+
     protected function validateVisitsType(DSVisits|null $visits): void
     {
         if ($visits === null) {

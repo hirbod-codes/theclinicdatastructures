@@ -21,6 +21,16 @@ class DSPackages implements \Countable, \ArrayAccess, \Iterator
 
     private int $position;
 
+    public function toArray(): array
+    {
+        return [
+            'packages' => array_map(function (DSPackage $package) {
+                return $package->toArray();
+            }, $this->packages),
+            'gender' => $this->gender
+        ];
+    }
+
     // ------------------------------------ \Countable
 
     public function count(): int

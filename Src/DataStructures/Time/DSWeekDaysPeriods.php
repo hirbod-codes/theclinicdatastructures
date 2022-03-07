@@ -42,6 +42,19 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
         $this->sortedWeekDays = $this->sortWeekDays($this->startingDay);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'Monday' => isset($this->Monday) ? $this->Monday->toArray() : null,
+            'Tuesday' => isset($this->Tuesday) ? $this->Tuesday->toArray() : null,
+            'Wednesday' => isset($this->Wednesday) ? $this->Wednesday->toArray() : null,
+            'Thursday' => isset($this->Thursday) ? $this->Thursday->toArray() : null,
+            'Friday' => isset($this->Friday) ? $this->Friday->toArray() : null,
+            'Saturday' => isset($this->Saturday) ? $this->Saturday->toArray() : null,
+            'Sunday' => isset($this->Sunday) ? $this->Sunday->toArray() : null,
+        ];
+    }
+
     public function setStartingDay(string $dayOfWeek): void
     {
         $this->startingDay = $dayOfWeek;

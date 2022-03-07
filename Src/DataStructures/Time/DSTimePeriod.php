@@ -22,6 +22,14 @@ class DSTimePeriod
         $this->setEnd($end);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'start' => $this->getStart(),
+            'end' => $this->getEnd(),
+        ];
+    }
+
     public function setStart(string $start): void
     {
         if (isset($this->end) && (new \DateTime($start))->getTimestamp() >= (new \DateTime($this->end))->getTimestamp()) {

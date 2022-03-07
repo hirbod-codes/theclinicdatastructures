@@ -25,6 +25,16 @@ abstract class DSOrders implements \ArrayAccess, \Iterator, \Countable
         $this->position = 0;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'user' => $this->user === null ? null : $this->user->toArray(),
+            'orders' => array_map(function (DSOrder $order) {
+                return $order->toArray();
+            }, $this->orders)
+        ];
+    }
+
     public function isMixedOrders(): bool
     {
         return $this->mixedOrders;

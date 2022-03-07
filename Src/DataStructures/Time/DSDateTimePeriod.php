@@ -16,6 +16,14 @@ class DSDateTimePeriod
         $this->setEnd($end);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'start' => $this->getStart()->format("Y-m-d H:i:s"),
+            'end' => $this->getEnd()->format("Y-m-d H:i:s"),
+        ];
+    }
+
     public function setStart(\DateTime $start): void
     {
         if (isset($this->end) && $start->getTimestamp() >= $this->end->getTimestamp()) {

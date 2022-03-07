@@ -64,6 +64,21 @@ class DSVisit
         $this->updatedAt = $updatedAt;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'user' => $this->user->toArray(),
+            'order' => $this->order->toArray(),
+            'visitTimestamp' => $this->visitTimestamp,
+            'consumingTime' => $this->consumingTime,
+            'weekDaysPeriods' => $this->weekDaysPeriods === null ? null : $this->weekDaysPeriods->toArray(),
+            'dateTimePeriod' => $this->dateTimePeriod === null ? null : $this->dateTimePeriod->toArray(),
+            'createdAt'=>$this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt'=>$this->updatedAt->format("Y-m-d H:i:s")
+        ];
+    }
+
     public function setUser(DSUser $user): void
     {
         $this->user = $user;

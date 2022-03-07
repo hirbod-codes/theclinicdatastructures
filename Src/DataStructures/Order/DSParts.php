@@ -21,6 +21,16 @@ class DSParts implements \Countable, \ArrayAccess, \Iterator
 
     private int $position;
 
+    public function toArray(): array
+    {
+        return [
+            'gender' => $this->gender,
+            'parts' => array_map(function (DSPart $part) {
+                return $part->toArray();
+            }, $this->parts)
+        ];
+    }
+
     // ------------------------------------ \Countable
 
     public function count(): int

@@ -42,6 +42,13 @@ class DSDownTimes implements \ArrayAccess, \Iterator, \Countable
         return $newDSDownTimes;
     }
 
+    public function toArray(): array
+    {
+        return array_map(function (DSDownTime $dsDownTime) {
+            return $dsDownTime->toArray();
+        }, $this->dsDownTimes);
+    }
+
     // ------------------------------------ \ArrayAccess
 
     public function offsetExists(mixed $offset): bool

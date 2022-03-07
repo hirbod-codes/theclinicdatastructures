@@ -43,7 +43,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
         if ($order !== null) {
             $this->validateOrderType($order);
         }
-        
+
         $this->user = $user;
         $this->order = $order;
 
@@ -56,6 +56,17 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
     public function getSort(): string
     {
         return $this->sort;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'user' => $this->user === null ? null : $this->user->toArray(),
+            'order' => $this->order === null ? null : $this->order->toArray(),
+            'visits' => array_map(function (DSVisit $visit) {
+                return $visit->toArray();
+            }, $this->visits)
+        ];
     }
 
     public function setSort(string $sort): void

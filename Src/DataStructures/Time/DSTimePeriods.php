@@ -30,6 +30,13 @@ class DSTimePeriods implements \Countable, \Iterator, \ArrayAccess
         return $dsDTimePeriods;
     }
 
+    public function toArray(): array
+    {
+        return array_map(function (DSTimePeriod $dsTimePeriod) {
+            return $dsTimePeriod->toArray();
+        }, $this->dsTimePeriods);
+    }
+
     // ------------------------------------ \Countable
 
     public function count(): int

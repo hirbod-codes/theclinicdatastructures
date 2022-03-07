@@ -36,6 +36,19 @@ class DSPart
         $this->updatedAt = $updatedAt;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'gender'=>$this->gender,
+            'price'=>$this->price,
+            'neededTime'=>$this->neededTime,
+            'createdAt'=>$this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt'=>$this->updatedAt->format("Y-m-d H:i:s")
+        ];
+    }
+
     public function getId(): int
     {
         return $this->id;
