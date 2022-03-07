@@ -13,15 +13,15 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeExce
 
 class DSLaserOrder extends DSOrder
 {
-    private DSParts $parts;
+    private DSParts|null $parts;
 
-    private DSPackages $packages;
+    private DSPackages|null $packages;
 
     public function __construct(
         int $id,
         DSUser $user,
-        DSParts $parts,
-        DSPackages $packages,
+        DSParts|null $parts = null,
+        DSPackages|null $packages = null,
         ?DSVisits $visits = null,
         int $price,
         int $neededTime,
@@ -37,6 +37,10 @@ class DSLaserOrder extends DSOrder
             $createdAt,
             $updatedAt
         );
+
+        if ($parts === null && $packages === null) {
+            throw new \RuntimeException("Atleast one of the parts or packages must be provided.", 500);
+        }
 
         $this->setParts($parts);
         $this->setPackages($packages);
@@ -58,7 +62,7 @@ class DSLaserOrder extends DSOrder
         return $this->parts;
     }
 
-    public function setParts(DSParts $parts): void
+    public function setParts(DSParts|null $parts): void
     {
         if ((isset($this->packages) && $this->packages->getGender() !== $parts->getGender()) ||
             ($parts->getGender() !== $this->user->getGender())
@@ -74,7 +78,7 @@ class DSLaserOrder extends DSOrder
         return $this->packages;
     }
 
-    public function setPackages(DSPackages $packages): void
+    public function setPackages(DSPackages|null $packages): void
     {
         if ((isset($this->parts) && $packages->getGender() !== $this->parts->getGender()) ||
             ($packages->getGender() !== $this->user->getGender())
