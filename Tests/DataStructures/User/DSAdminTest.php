@@ -51,6 +51,8 @@ class DSAdminTest extends TestCase
         $this->lastname = $this->faker->lastName();
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
+        $this->email = $this->faker->safeEmail();
+        $this->phonenumber = $this->faker->phoneNumber();
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -66,6 +68,8 @@ class DSAdminTest extends TestCase
             $this->lastname,
             $this->username,
             $this->gender,
+            $this->email,
+            $this->phonenumber,
             $this->visits,
             $this->orders,
             $this->createdAt,
@@ -84,6 +88,8 @@ class DSAdminTest extends TestCase
         $this->assertEquals($this->lastname, $dsAdmin->getLastname());
         $this->assertEquals($this->username, $dsAdmin->getUsername());
         $this->assertEquals($this->gender, $dsAdmin->getGender());
+        $this->assertEquals($this->email, $dsAdmin->email);
+        $this->assertEquals($this->phonenumber, $dsAdmin->getPhonenumber());
         $this->assertEquals($this->visits, $dsAdmin->visits);
         $this->assertEquals($this->orders, $dsAdmin->orders);
         $this->assertEquals($this->createdAt, $dsAdmin->getCreatedAt());
