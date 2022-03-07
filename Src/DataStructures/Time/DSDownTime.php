@@ -6,11 +6,34 @@ use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 
 class DSDownTime extends DSDateTimePeriod
 {
-    public string $name;
+    private string $name;
+
+    public function __construct(\DateTime $start, \DateTime $end, string $name)
+    {
+        $this->setStart($start);
+        $this->setEnd($end);
+        $this->name = $name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
     public function cloneIt(): DSDownTime
     {
-        return new DSDownTime((new \DateTime())->setTimestamp($this->start->getTimestamp()), (new \DateTime())->setTimestamp($this->end->getTimestamp()));
+        return new DSDownTime(
+            (new \DateTime())->setTimestamp($this->start->getTimestamp()),
+            (new \DateTime())->setTimestamp($this->end->getTimestamp()),
+            $this->name
+        );
+    }
+
     public function toArray(): array
     {
         return [
