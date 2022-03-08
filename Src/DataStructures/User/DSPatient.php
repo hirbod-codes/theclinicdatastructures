@@ -22,7 +22,7 @@ class DSPatient extends DSUser
             throw new NoPrivilegeFoundException();
         }
 
-        $privileges = json_decode(file_get_contents(self::PRIVILEGES_PATH . "/patientPrivileges.json"), true);
+        $privileges = $this->getUserPrivileges();
 
         foreach ($privileges as $p => $pVal) {
             if ($p === $privilege) {
@@ -35,7 +35,7 @@ class DSPatient extends DSUser
 
     public function setPrivilege(string $privilege, mixed $value): void
     {
-        $privileges = json_decode(file_get_contents(self::PRIVILEGES_PATH . "/patientPrivileges.json"), true);
+        $privileges = $this->getUserPrivileges();
 
         if (!isset($privileges[$privilege])) {
             throw new NoPrivilegeFoundException();
