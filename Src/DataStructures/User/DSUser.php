@@ -97,7 +97,7 @@ abstract class DSUser
     /**
      * @return array [ "privilege_name" => privilege_value, ... ]
      */
-    public function getPrivileges(): array
+    public static function getPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/privileges.json"), true);
     }
