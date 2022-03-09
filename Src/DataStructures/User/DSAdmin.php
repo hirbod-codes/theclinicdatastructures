@@ -11,7 +11,7 @@ class DSAdmin extends DSUser
         return 'admin';
     }
 
-    public function getUserPrivileges(): array
+    public static function getUserPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/adminPrivileges.json"), true);
     }

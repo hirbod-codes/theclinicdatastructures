@@ -11,7 +11,7 @@ class DSSecretary extends DSUser
         return 'secretary';
     }
 
-    public function getUserPrivileges(): array
+    public static function getUserPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/secretaryPrivileges.json"), true);
     }

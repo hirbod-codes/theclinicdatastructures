@@ -11,7 +11,7 @@ class DSDoctor extends DSUser
         return 'doctor';
     }
 
-    public function getUserPrivileges(): array
+    public static function getUserPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/doctorPrivileges.json"), true);
     }

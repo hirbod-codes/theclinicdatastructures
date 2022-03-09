@@ -11,7 +11,7 @@ class DSOperator extends DSUser
         return 'operator';
     }
 
-    public function getUserPrivileges(): array
+    public static function getUserPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/operatorPrivileges.json"), true);
     }

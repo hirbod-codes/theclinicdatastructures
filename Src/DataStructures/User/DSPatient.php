@@ -11,7 +11,7 @@ class DSPatient extends DSUser
         return 'patient';
     }
 
-    public function getUserPrivileges(): array
+    public static function getUserPrivileges(): array
     {
         return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/patientPrivileges.json"), true);
     }

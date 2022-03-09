@@ -86,7 +86,7 @@ abstract class DSUser
 
     abstract public function getRuleName(): string;
 
-    abstract public function getUserPrivileges(): array;
+    abstract static public function getUserPrivileges(): array;
 
     abstract public function privilegeExists(string $privilege): bool;
 
