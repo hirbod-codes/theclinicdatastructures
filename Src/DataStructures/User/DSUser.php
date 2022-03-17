@@ -24,7 +24,11 @@ abstract class DSUser
 
     public string|null $email;
 
+    public \DateTime $emailVerifiedAt;
+
     private string $phonenumber;
+
+    private \DateTime $phonenumberVerifiedAt;
 
     public DSVisits|null $visits;
 
@@ -42,7 +46,9 @@ abstract class DSUser
         string $username,
         string $gender,
         string|null $email = null,
+        \DateTime|null $emailVerifiedAt = null,
         string $phonenumber,
+        \DateTime $phonenumberVerifiedAt,
         DSVisits|null $visits = null,
         DSOrders|null $orders = null,
         \DateTime $createdAt,
@@ -54,8 +60,10 @@ abstract class DSUser
         $this->setLastname($lastname);
         $this->setUsername($username);
         $this->setGender($gender);
-        $this->setPhonenumber($phonenumber);
         $this->email = $email;
+        $this->emailVerifiedAt = $emailVerifiedAt;
+        $this->setPhonenumber($phonenumber);
+        $this->setPhonenumberVerifiedAt($phonenumberVerifiedAt);
         $this->visits = $visits;
         $this->orders = $orders;
         $this->setCreatedAt($createdAt);
@@ -166,6 +174,17 @@ abstract class DSUser
     public function setPhonenumber(string $phonenumber): void
     {
         $this->phonenumber = $phonenumber;
+    }
+
+    // phonenumberVerifiedAt
+    public function getPhonenumberVerifiedAt(): \DateTime
+    {
+        return $this->phonenumberVerifiedAt;
+    }
+
+    public function setPhonenumberVerifiedAt(\DateTime $phonenumberVerifiedAt): void
+    {
+        $this->phonenumberVerifiedAt = $phonenumberVerifiedAt;
     }
 
     // createdAt
