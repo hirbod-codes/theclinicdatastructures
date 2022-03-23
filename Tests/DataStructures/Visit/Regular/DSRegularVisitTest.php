@@ -86,7 +86,7 @@ class DSRegularVisitTest extends TestCase
             'updatedAt' => $this->updatedAt,
         ];
 
-        return new DSRegularVisit(...array_values($this->constructArgs));
+        return new DSRegularVisit(...$this->constructArgs);
     }
 
     public function testToArray(): void

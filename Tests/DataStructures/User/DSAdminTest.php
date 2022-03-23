@@ -54,7 +54,9 @@ class DSAdminTest extends TestCase
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->email = $this->faker->safeEmail();
+        $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
+        $this->phonenumberVerifiedAt = new \DateTime;
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -71,13 +73,15 @@ class DSAdminTest extends TestCase
             'username' => $this->username,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumber' => $this->phonenumber,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
             'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
         ];
-        return new DSAdmin(...array_values($this->constructArgs));
+        return new DSAdmin(...$this->constructArgs);
     }
 
     public function test()
@@ -89,8 +93,10 @@ class DSAdminTest extends TestCase
         $this->assertEquals($this->lastname, $dsAdmin->getLastname());
         $this->assertEquals($this->username, $dsAdmin->getUsername());
         $this->assertEquals($this->gender, $dsAdmin->getGender());
-        $this->assertEquals($this->email, $dsAdmin->email);
+        $this->assertEquals($this->email, $dsAdmin->getEmail());
+        $this->assertEquals($this->emailVerifiedAt, $dsAdmin->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsAdmin->getPhonenumber());
+        $this->assertEquals($this->phonenumberVerifiedAt, $dsAdmin->getPhonenumberVerifiedAt());
         $this->assertEquals($this->visits, $dsAdmin->visits);
         $this->assertEquals($this->orders, $dsAdmin->orders);
         $this->assertEquals($this->createdAt, $dsAdmin->getCreatedAt());

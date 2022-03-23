@@ -54,7 +54,9 @@ class DSPatientTest extends TestCase
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->email = $this->faker->safeEmail();
+        $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
+        $this->phonenumberVerifiedAt = new \DateTime;
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -71,13 +73,15 @@ class DSPatientTest extends TestCase
             'username' => $this->username,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumber' => $this->phonenumber,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
             'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
         ];
-        return new DSPatient(...array_values($this->constructArgs));
+        return new DSPatient(...$this->constructArgs);
     }
 
     public function test()
@@ -91,8 +95,10 @@ class DSPatientTest extends TestCase
         $this->assertEquals($this->lastname, $dsPatient->getLastname());
         $this->assertEquals($this->username, $dsPatient->getUsername());
         $this->assertEquals($this->gender, $dsPatient->getGender());
-        $this->assertEquals($this->email, $dsPatient->email);
+        $this->assertEquals($this->email, $dsPatient->getEmail());
+        $this->assertEquals($this->emailVerifiedAt, $dsPatient->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsPatient->getPhonenumber());
+        $this->assertEquals($this->phonenumberVerifiedAt, $dsPatient->getPhonenumberVerifiedAt());
         $this->assertEquals($this->visits, $dsPatient->visits);
         $this->assertEquals($this->orders, $dsPatient->orders);
         $this->assertEquals($this->createdAt, $dsPatient->getCreatedAt());

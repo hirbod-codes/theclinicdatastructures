@@ -54,7 +54,9 @@ class DSSecretaryTest extends TestCase
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->email = $this->faker->safeEmail();
+        $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
+        $this->phonenumberVerifiedAt = new \DateTime;
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -71,13 +73,15 @@ class DSSecretaryTest extends TestCase
             'username' => $this->username,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumber' => $this->phonenumber,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
             'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
         ];
-        return new DSSecretary(...array_values($this->constructArgs));
+        return new DSSecretary(...$this->constructArgs);
     }
 
     public function test()
@@ -91,8 +95,10 @@ class DSSecretaryTest extends TestCase
         $this->assertEquals($this->lastname, $dsSecretary->getLastname());
         $this->assertEquals($this->username, $dsSecretary->getUsername());
         $this->assertEquals($this->gender, $dsSecretary->getGender());
-        $this->assertEquals($this->email, $dsSecretary->email);
+        $this->assertEquals($this->email, $dsSecretary->getEmail());
+        $this->assertEquals($this->emailVerifiedAt, $dsSecretary->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsSecretary->getPhonenumber());
+        $this->assertEquals($this->phonenumberVerifiedAt, $dsSecretary->getPhonenumberVerifiedAt());
         $this->assertEquals($this->visits, $dsSecretary->visits);
         $this->assertEquals($this->orders, $dsSecretary->orders);
         $this->assertEquals($this->createdAt, $dsSecretary->getCreatedAt());

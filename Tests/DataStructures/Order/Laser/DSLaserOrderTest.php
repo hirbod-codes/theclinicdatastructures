@@ -151,7 +151,7 @@ class DSLaserOrderTest extends TestCase
             'updatedAt' => $this->updatedAt
         ];
 
-        return new DSLaserOrder(...array_values($this->constructArgs));
+        return new DSLaserOrder(...$this->constructArgs);
     }
 
     public function testToArray(): void

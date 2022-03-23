@@ -69,7 +69,7 @@ class DSLaserVisitTest extends TestCase
             'updatedAt' => $this->updatedAt,
         ];
 
-        return new DSLaserVisit(...array_values($this->constructArgs));
+        return new DSLaserVisit(...$this->constructArgs);
     }
 
     public function testToArray(): void

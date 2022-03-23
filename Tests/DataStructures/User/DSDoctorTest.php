@@ -54,7 +54,9 @@ class DSDoctorTest extends TestCase
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->email = $this->faker->safeEmail();
+        $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
+        $this->phonenumberVerifiedAt = new \DateTime;
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -72,12 +74,14 @@ class DSDoctorTest extends TestCase
             'gender' => $this->gender,
             'email' => $this->email,
             'phonenumber' => $this->phonenumber,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
             'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
         ];
-        return new DSDoctor(...array_values($this->constructArgs));
+        return new DSDoctor(...$this->constructArgs);
     }
 
     public function test()
@@ -91,8 +95,10 @@ class DSDoctorTest extends TestCase
         $this->assertEquals($this->lastname, $dsDoctor->getLastname());
         $this->assertEquals($this->username, $dsDoctor->getUsername());
         $this->assertEquals($this->gender, $dsDoctor->getGender());
-        $this->assertEquals($this->email, $dsDoctor->email);
+        $this->assertEquals($this->email, $dsDoctor->getEmail());
+        $this->assertEquals($this->emailVerifiedAt, $dsDoctor->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsDoctor->getPhonenumber());
+        $this->assertEquals($this->phonenumberVerifiedAt, $dsDoctor->getPhonenumberVerifiedAt());
         $this->assertEquals($this->visits, $dsDoctor->visits);
         $this->assertEquals($this->orders, $dsDoctor->orders);
         $this->assertEquals($this->createdAt, $dsDoctor->getCreatedAt());

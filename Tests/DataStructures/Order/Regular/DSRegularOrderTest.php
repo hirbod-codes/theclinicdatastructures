@@ -101,6 +101,6 @@ class DSRegularOrderTest extends TestCase
             'updatedAt' => $this->updatedAt
         ];
 
-        return new DSRegularOrder(...array_values($this->constructArgs));
+        return new DSRegularOrder(...$this->constructArgs);
     }
 }

@@ -54,7 +54,9 @@ class DSOperatorTest extends TestCase
         $this->username = $this->faker->userName();
         $this->gender = $this->faker->randomElement(["Male", "Female"]);
         $this->email = $this->faker->safeEmail();
+        $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
+        $this->phonenumberVerifiedAt = new \DateTime;
         $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
@@ -71,13 +73,15 @@ class DSOperatorTest extends TestCase
             'username' => $this->username,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumber' => $this->phonenumber,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
             'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
         ];
-        return new DSOperator(...array_values($this->constructArgs));
+        return new DSOperator(...$this->constructArgs);
     }
 
     public function test()
@@ -91,8 +95,10 @@ class DSOperatorTest extends TestCase
         $this->assertEquals($this->lastname, $dsOperator->getLastname());
         $this->assertEquals($this->username, $dsOperator->getUsername());
         $this->assertEquals($this->gender, $dsOperator->getGender());
-        $this->assertEquals($this->email, $dsOperator->email);
+        $this->assertEquals($this->email, $dsOperator->getEmail());
+        $this->assertEquals($this->emailVerifiedAt, $dsOperator->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsOperator->getPhonenumber());
+        $this->assertEquals($this->phonenumberVerifiedAt, $dsOperator->getPhonenumberVerifiedAt());
         $this->assertEquals($this->visits, $dsOperator->visits);
         $this->assertEquals($this->orders, $dsOperator->orders);
         $this->assertEquals($this->createdAt, $dsOperator->getCreatedAt());
