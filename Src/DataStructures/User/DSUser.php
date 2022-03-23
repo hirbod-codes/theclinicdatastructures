@@ -24,7 +24,7 @@ abstract class DSUser
 
     public string|null $email;
 
-    public \DateTime $emailVerifiedAt;
+    public \DateTime|null $emailVerifiedAt;
 
     private string $phonenumber;
 
@@ -45,14 +45,14 @@ abstract class DSUser
         string $lastname,
         string $username,
         string $gender,
-        string|null $email = null,
-        \DateTime|null $emailVerifiedAt = null,
         string $phonenumber,
         \DateTime $phonenumberVerifiedAt,
-        DSVisits|null $visits = null,
-        DSOrders|null $orders = null,
         \DateTime $createdAt,
         \DateTime $updatedAt,
+        string|null $email = null,
+        \DateTime|null $emailVerifiedAt = null,
+        DSVisits|null $visits = null,
+        DSOrders|null $orders = null,
     ) {
         $this->iCheckAuthentication = $iCheckAuthentication;
         $this->setId($id);
@@ -79,7 +79,9 @@ abstract class DSUser
             'username' => $this->username,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt->format("Y-m-d H:i:s"),
             'phonenumber' => $this->phonenumber,
+            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt->format("Y-m-d H:i:s"),
             'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'orders' => $this->orders === null ? null : $this->orders->toArray(),
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
@@ -185,6 +187,28 @@ abstract class DSUser
     public function setPhonenumberVerifiedAt(\DateTime $phonenumberVerifiedAt): void
     {
         $this->phonenumberVerifiedAt = $phonenumberVerifiedAt;
+    }
+
+    // Email
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    // EmailVerifiedAt
+    public function getEmailVerifiedAt(): \DateTime
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function setEmailVerifiedAt(\DateTime $emailVerifiedAt): void
+    {
+        $this->emailVerifiedAt = $emailVerifiedAt;
     }
 
     // createdAt

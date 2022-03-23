@@ -25,11 +25,11 @@ abstract class DSOrder
     public function __construct(
         int $id,
         DSUser $user,
-        ?DSVisits $visits = null,
         int $price,
         int $neededTime,
         \DateTime $createdAt,
-        \DateTime $updatedAt
+        \DateTime $updatedAt,
+        ?DSVisits $visits = null
     ) {
         $this->id = $id;
         $this->user = $user;

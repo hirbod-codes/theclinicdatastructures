@@ -20,22 +20,22 @@ class DSLaserOrder extends DSOrder
     public function __construct(
         int $id,
         DSUser $user,
-        DSParts|null $parts = null,
-        DSPackages|null $packages = null,
-        ?DSVisits $visits = null,
         int $price,
         int $neededTime,
         \DateTime $createdAt,
-        \DateTime $updatedAt
+        \DateTime $updatedAt,
+        DSParts|null $parts = null,
+        DSPackages|null $packages = null,
+        ?DSVisits $visits = null,
     ) {
         parent::__construct(
             $id,
             $user,
-            $visits,
             $price,
             $neededTime,
             $createdAt,
-            $updatedAt
+            $updatedAt,
+            $visits,
         );
 
         if ($parts === null && $packages === null) {

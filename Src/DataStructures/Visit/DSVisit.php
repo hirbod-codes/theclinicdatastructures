@@ -33,10 +33,10 @@ class DSVisit
      * @param DSOrder $order
      * @param integer $visitTimestamp
      * @param integer $consumingTime
-     * @param DSWeekDaysPeriods|null|null $weekDaysPeriods must not have a value other than null at present of $dateTimePeriod.
-     * @param DSDateTimePeriod|null|null $dateTimePeriod must not have a value other than null at present of $weekDaysPeriods.
      * @param \DateTime $createdAt
      * @param \DateTime $updatedAt
+     * @param DSWeekDaysPeriods|null|null $weekDaysPeriods must not have a value other than null at present of $dateTimePeriod.
+     * @param DSDateTimePeriod|null|null $dateTimePeriod must not have a value other than null at present of $weekDaysPeriods.
      */
     public function __construct(
         int $id,
@@ -44,10 +44,10 @@ class DSVisit
         DSOrder $order,
         int $visitTimestamp,
         int $consumingTime,
+        \DateTime $createdAt,
+        \DateTime $updatedAt,
         DSWeekDaysPeriods|null $weekDaysPeriods = null,
         DSDateTimePeriod|null $dateTimePeriod = null,
-        \DateTime $createdAt,
-        \DateTime $updatedAt
     ) {
         if (!is_null($weekDaysPeriods) && !is_null($dateTimePeriod)) {
             throw new \LogicException("\$weekDaysPeriods and \$dateTimePeriod can't have a value beside null at the same time.", 500);
