@@ -10,6 +10,8 @@ abstract class DSUser
 {
     const PRIVILEGES_PATH = __DIR__ . "/Privileges";
 
+    public static array $roles = ['admin', 'doctor', 'secretary', 'operator', 'patient'];
+
     private ICheckAuthentication $iCheckAuthentication;
 
     private int $id;
