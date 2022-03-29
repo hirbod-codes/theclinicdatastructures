@@ -13,6 +13,8 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeExce
 
 class DSLaserOrder extends DSOrder
 {
+    private int $priceWithDiscount;
+
     private DSParts|null $parts;
 
     private DSPackages|null $packages;
@@ -20,6 +22,7 @@ class DSLaserOrder extends DSOrder
     public function __construct(
         int $id,
         DSUser $user,
+        int $priceWithDiscount,
         int $price,
         int $neededTime,
         \DateTime $createdAt,
@@ -42,6 +45,7 @@ class DSLaserOrder extends DSOrder
             throw new \RuntimeException("Atleast one of the parts or packages must be provided.", 500);
         }
 
+        $this->setPriceWithDiscount($priceWithDiscount);
         $this->setParts($parts);
         $this->setPackages($packages);
     }
@@ -54,6 +58,7 @@ class DSLaserOrder extends DSOrder
             'parts' => $this->parts === null ? null : $this->parts->toArray(),
             'packages' => $this->packages === null ? null : $this->packages->toArray(),
             'price' => $this->price,
+            'priceWithDiscount' => $this->priceWithDiscount,
             'neededTime' => $this->neededTime,
             'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
@@ -70,6 +75,16 @@ class DSLaserOrder extends DSOrder
         if (!($visits instanceof DSLaserVisits)) {
             throw new InvalidValueTypeException("This data structure only accepts the type: " . DSLaserVisits::class . " as it's associated visits.", 500);
         }
+    }
+
+    public function setPriceWithDiscount(int $value): void
+    {
+        $this->priceWithDiscount = $value;
+    }
+
+    public function getPriceWithDiscount(): int
+    {
+        return $this->priceWithDiscount;
     }
 
     public function getParts(): DSParts
