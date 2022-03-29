@@ -28,6 +28,8 @@ class DSLaserOrderTest extends TestCase
 
     private DSVisits|MockInterface|null $visits;
 
+    private int $priceWithDiscount;
+
     private int $price;
 
     private int $neededTime;
@@ -54,6 +56,7 @@ class DSLaserOrderTest extends TestCase
         $this->visits = null;
 
         $this->price = $this->faker->numberBetween(100, 600000);
+        $this->priceWithDiscount = intval(0.6 * $this->price);
         $this->neededTime = $this->faker->numberBetween(100, 7200);
 
         $this->createdAt = new \DateTime();
@@ -145,6 +148,7 @@ class DSLaserOrderTest extends TestCase
             'parts' => $this->parts,
             'packages' => $this->packages,
             'visits' => $this->visits,
+            'priceWithDiscount' => $this->priceWithDiscount,
             'price' => $this->price,
             'neededTime' => $this->neededTime,
             'createdAt' => $this->createdAt,
