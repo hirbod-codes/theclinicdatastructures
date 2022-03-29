@@ -107,7 +107,7 @@ abstract class DSUser
     abstract public function setPrivilege(string $privilege, mixed $value): void;
 
     /**
-     * @return array [ "privilege_name" => privilege_value, ... ]
+     * @return string[]
      */
     public static function getPrivileges(): array
     {
