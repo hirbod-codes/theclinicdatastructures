@@ -38,7 +38,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
      */
     private string $sort;
 
-    public function __construct(string $sort = "sort", DSUser|null $user = null, DSOrder|null $order = null)
+    public function __construct(string $sort = "ASC", DSUser|null $user = null, DSOrder|null $order = null)
     {
         if ($order !== null) {
             $this->validateOrderType($order);
