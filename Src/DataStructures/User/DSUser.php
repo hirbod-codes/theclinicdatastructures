@@ -3,7 +3,6 @@
 namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 
 abstract class DSUser
@@ -32,8 +31,6 @@ abstract class DSUser
 
     private \DateTime $phonenumberVerifiedAt;
 
-    public DSVisits|null $visits;
-
     public DSOrders|null $orders;
 
     private \DateTime $createdAt;
@@ -53,7 +50,6 @@ abstract class DSUser
         \DateTime $updatedAt,
         string|null $email = null,
         \DateTime|null $emailVerifiedAt = null,
-        DSVisits|null $visits = null,
         DSOrders|null $orders = null,
     ) {
         $this->iCheckAuthentication = $iCheckAuthentication;
@@ -66,7 +62,6 @@ abstract class DSUser
         $this->emailVerifiedAt = $emailVerifiedAt;
         $this->setPhonenumber($phonenumber);
         $this->setPhonenumberVerifiedAt($phonenumberVerifiedAt);
-        $this->visits = $visits;
         $this->orders = $orders;
         $this->setCreatedAt($createdAt);
         $this->setUpdatedAt($updatedAt);
@@ -84,7 +79,6 @@ abstract class DSUser
             'emailVerifiedAt' =>  $this->emailVerifiedAt === null ? null : $this->emailVerifiedAt->format("Y-m-d H:i:s"),
             'phonenumber' => $this->phonenumber,
             'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt->format("Y-m-d H:i:s"),
-            'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'orders' => $this->orders === null ? null : $this->orders->toArray(),
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
