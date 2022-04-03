@@ -19,6 +19,8 @@ class DSLaserOrderTest extends TestCase
 
     private int $id;
 
+    private int $userId;
+
     private string $gender;
 
     private DSParts|MockInterface $parts;
@@ -60,6 +62,7 @@ class DSLaserOrderTest extends TestCase
         $this->updatedAt = new \DateTime();
 
         $this->id = $this->faker->numberBetween(0, 100);
+        $this->userId = $this->faker->numberBetween(0, 100);
     }
 
     private function mockParts(string $gender): DSParts|MockInterface
@@ -108,6 +111,7 @@ class DSLaserOrderTest extends TestCase
         $dsOrder = $this->instantiate();
 
         $this->assertEquals($dsOrder->getId(), $this->id);
+        $this->assertEquals($dsOrder->getUserId(), $this->userId);
         $this->assertEquals($dsOrder->getParts(), $this->parts);
         $this->assertEquals($dsOrder->getGender(), $this->gender);
         $this->assertEquals($dsOrder->getPackages(), $this->packages);
@@ -122,6 +126,7 @@ class DSLaserOrderTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
+            'userId' => $this->userId,
             'parts' => $this->parts,
             'packages' => $this->packages,
             'gender' => $this->gender,

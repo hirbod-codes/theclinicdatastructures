@@ -31,6 +31,8 @@ class DSRegularOrderTest extends TestCase
 
     private int $id;
 
+    private int $userId;
+
     private array $constructArgs;
 
     protected function setUp(): void
@@ -48,6 +50,7 @@ class DSRegularOrderTest extends TestCase
         $this->updatedAt = new \DateTime();
 
         $this->id = $this->faker->numberBetween(0, 100);
+        $this->userId = $this->faker->numberBetween(0, 100);
     }
 
     public function testDataStructure(): void
@@ -55,6 +58,7 @@ class DSRegularOrderTest extends TestCase
         $dsOrder = $this->instantiate();
 
         $this->assertEquals($dsOrder->getId(), $this->id);
+        $this->assertEquals($dsOrder->getUserId(), $this->userId);
         $this->assertEquals($dsOrder->getVisits(), $this->visits);
         $this->assertEquals($dsOrder->getPrice(), $this->price);
         $this->assertEquals($dsOrder->getNeededTime(), $this->neededTime);
@@ -86,6 +90,7 @@ class DSRegularOrderTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
+            'userId' => $this->userId,
             'visits' => $this->visits,
             'price' => $this->price,
             'neededTime' => $this->neededTime,

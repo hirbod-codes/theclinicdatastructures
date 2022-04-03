@@ -41,6 +41,7 @@ class DSRegularOrdersTest extends TestCase
         /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
         $user = Mockery::mock(DSUser::class);
         $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
+        $user->id = $this->faker->numberBetween(1, 1000);
 
         $orders = new DSRegularOrders($user);
 
@@ -59,7 +60,7 @@ class DSRegularOrdersTest extends TestCase
             /** @var \TheClinicDataStructures\DataStructures\Order\DSRegularOrders|\Mockery\MockInterface $dsOrder */
             $dsOrder = Mockery::mock(DSRegularOrder::class);
             $dsOrder->shouldReceive("getId")->andReturn(25);
-            $dsOrder->shouldReceive("getUser")->andReturn($user);
+            $dsOrder->shouldReceive("getUserId")->andReturn($user->getId());
             $dsOrder->shouldReceive("toArray")->andReturn(['order']);
 
             $dsOrders[] = $dsOrder;

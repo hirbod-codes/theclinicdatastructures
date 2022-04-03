@@ -59,7 +59,7 @@ class DSLaserOrdersTest extends TestCase
             /** @var \TheClinicDataStructures\DataStructures\Order\DSLaserOrders|\Mockery\MockInterface $dsOrder */
             $dsOrder = Mockery::mock(DSLaserOrder::class);
             $dsOrder->shouldReceive("getId")->andReturn(25);
-            $dsOrder->shouldReceive("getUser")->andReturn($user);
+            $dsOrder->shouldReceive("getUserId")->andReturn($user->getId());
             $dsOrder->shouldReceive("toArray")->andReturn(['order']);
 
             $dsOrders[] = $dsOrder;

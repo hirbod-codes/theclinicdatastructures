@@ -25,7 +25,7 @@ trait TraitDSOrdersTests
             $user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
             /** @var \TheClinicDataStructures\DataStructures\Order\DSOrder|\Mockery\MockInterface $dsOrder */
             $dsOrder = Mockery::mock($dsOrderFullname);
-            $dsOrder->shouldReceive("getUser")->andReturn($user);
+            $dsOrder->shouldReceive("getUserId")->andReturn($user->getId());
 
             $dsOrders[] = $dsOrder;
         }
@@ -54,7 +54,7 @@ trait TraitDSOrdersTests
         for ($i = 0; $i < $ordersCount; $i++) {
             /** @var \TheClinicDataStructures\DataStructures\Order\DSOrder|\Mockery\MockInterface $order */
             $order = Mockery::mock($dsOrderFullname);
-            $order->shouldReceive("getUser")->andReturn($user);
+            $order->shouldReceive("getUserId")->andReturn($user->getId());
 
             $dsOrders[] = $order;
         }
@@ -80,7 +80,7 @@ trait TraitDSOrdersTests
             /** @var \TheClinicDataStructures\DataStructures\Order\DSOrder|\Mockery\MockInterface $order */
             $order = Mockery::mock(DSOrder::class);
             $order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-            $order->shouldReceive("getUser")->andReturn($user);
+            $order->shouldReceive("getUserId")->andReturn($user->getId());
 
             $dsOrders[] = $order;
 
