@@ -29,8 +29,6 @@ class DSAdminTest extends TestCase
 
     private string $gender;
 
-    private null|DSVisits $visits;
-
     private null|DSOrders $orders;
 
     private \DateTime $createdAt;
@@ -57,7 +55,6 @@ class DSAdminTest extends TestCase
         $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
         $this->phonenumberVerifiedAt = new \DateTime;
-        $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
@@ -76,7 +73,6 @@ class DSAdminTest extends TestCase
             'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumber' => $this->phonenumber,
             'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
@@ -97,7 +93,6 @@ class DSAdminTest extends TestCase
         $this->assertEquals($this->emailVerifiedAt, $dsAdmin->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsAdmin->getPhonenumber());
         $this->assertEquals($this->phonenumberVerifiedAt, $dsAdmin->getPhonenumberVerifiedAt());
-        $this->assertEquals($this->visits, $dsAdmin->visits);
         $this->assertEquals($this->orders, $dsAdmin->orders);
         $this->assertEquals($this->createdAt, $dsAdmin->getCreatedAt());
         $this->assertEquals($this->updatedAt, $dsAdmin->getUpdatedAt());

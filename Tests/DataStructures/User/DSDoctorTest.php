@@ -29,8 +29,6 @@ class DSDoctorTest extends TestCase
 
     private string $gender;
 
-    private null|DSVisits $visits;
-
     private null|DSOrders $orders;
 
     private \DateTime $createdAt;
@@ -57,7 +55,6 @@ class DSDoctorTest extends TestCase
         $this->emailVerifiedAt = new \DateTime;
         $this->phonenumber = $this->faker->phoneNumber();
         $this->phonenumberVerifiedAt = new \DateTime;
-        $this->visits = null;
         $this->orders = null;
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
@@ -76,7 +73,6 @@ class DSDoctorTest extends TestCase
             'phonenumber' => $this->phonenumber,
             'emailVerifiedAt' => $this->emailVerifiedAt,
             'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'visits' => $this->visits,
             'orders' => $this->orders,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt
@@ -99,7 +95,6 @@ class DSDoctorTest extends TestCase
         $this->assertEquals($this->emailVerifiedAt, $dsDoctor->getEmailVerifiedAt());
         $this->assertEquals($this->phonenumber, $dsDoctor->getPhonenumber());
         $this->assertEquals($this->phonenumberVerifiedAt, $dsDoctor->getPhonenumberVerifiedAt());
-        $this->assertEquals($this->visits, $dsDoctor->visits);
         $this->assertEquals($this->orders, $dsDoctor->orders);
         $this->assertEquals($this->createdAt, $dsDoctor->getCreatedAt());
         $this->assertEquals($this->updatedAt, $dsDoctor->getUpdatedAt());
