@@ -15,7 +15,7 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
 
     public DSUser|null $user;
 
-    protected array $orders;
+    protected array $orders = [];
 
     protected int $position;
 
