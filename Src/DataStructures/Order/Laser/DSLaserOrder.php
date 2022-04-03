@@ -2,7 +2,6 @@
 
 namespace TheClinicDataStructures\DataStructures\Order\Laser;
 
-use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Order\DSOrder;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
 use TheClinicDataStructures\DataStructures\Order\DSPackages;
@@ -19,12 +18,14 @@ class DSLaserOrder extends DSOrder
 
     private DSPackages|null $packages;
 
+    private string $gender;
+
     public function __construct(
         int $id,
-        DSUser $user,
         int $priceWithDiscount,
         int $price,
         int $neededTime,
+        string $gender,
         \DateTime $createdAt,
         \DateTime $updatedAt,
         DSParts|null $parts = null,
@@ -33,7 +34,6 @@ class DSLaserOrder extends DSOrder
     ) {
         parent::__construct(
             $id,
-            $user,
             $price,
             $neededTime,
             $createdAt,
@@ -45,6 +45,7 @@ class DSLaserOrder extends DSOrder
             throw new \RuntimeException("Atleast one of the parts or packages must be provided.", 500);
         }
 
+        $this->setGender($gender);
         $this->setPriceWithDiscount($priceWithDiscount);
         $this->setParts($parts);
         $this->setPackages($packages);
@@ -54,13 +55,13 @@ class DSLaserOrder extends DSOrder
     {
         return [
             'id' => $this->id,
-            'user' => $this->user->toArray(),
             'parts' => $this->parts === null ? null : $this->parts->toArray(),
             'packages' => $this->packages === null ? null : $this->packages->toArray(),
             'price' => $this->price,
             'priceWithDiscount' => $this->priceWithDiscount,
             'neededTime' => $this->neededTime,
             'visits' => $this->visits === null ? null : $this->visits->toArray(),
+            'gender' => $this->gender,
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s"),
         ];
@@ -95,7 +96,7 @@ class DSLaserOrder extends DSOrder
     public function setParts(DSParts|null $parts): void
     {
         if ((isset($this->packages) && $this->packages->getGender() !== $parts->getGender()) ||
-            ($parts->getGender() !== $this->user->getGender())
+            ($parts->getGender() !== $this->getGender())
         ) {
             throw new InvalidGenderException("Parts gender doesn't match with this data structures' order or package gender.", 500);
         }
@@ -111,11 +112,21 @@ class DSLaserOrder extends DSOrder
     public function setPackages(DSPackages|null $packages): void
     {
         if ((isset($this->parts) && $packages->getGender() !== $this->parts->getGender()) ||
-            ($packages->getGender() !== $this->user->getGender())
+            ($packages->getGender() !== $this->getGender())
         ) {
             throw new InvalidGenderException("Packages gender doesn't match with this data structures' order or part gender.", 500);
         }
 
         $this->packages = $packages;
+    }
+
+    public function getGender(): string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): void
+    {
+        $this->gender = $gender;
     }
 }
