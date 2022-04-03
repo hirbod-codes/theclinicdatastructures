@@ -6,8 +6,6 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder;
-use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\Laser\DSLaserVisit;
 
 class DSLaserVisitTest extends TestCase
@@ -22,16 +20,6 @@ class DSLaserVisitTest extends TestCase
 
         $this->id = $this->faker->numberBetween(1, 1000);
 
-        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
-        $this->user = Mockery::mock(DSUser::class);
-        $this->user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-        $this->user->shouldReceive("toArray")->andReturn(['user']);
-
-        /** @var \TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder|\Mockery\MockInterface $order */
-        $this->order = Mockery::mock(DSLaserOrder::class);
-        $this->order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-        $this->order->shouldReceive("toArray")->andReturn(['order']);
-
         $this->visitTimestamp = (new \DateTime())->modify("+1 week")->getTimestamp();
 
         $this->consumingTime = $this->faker->numberBetween(600, 3600);
@@ -45,8 +33,6 @@ class DSLaserVisitTest extends TestCase
         $dsVisit = $this->instantiate();
 
         $this->assertEquals($dsVisit->getId(), $this->id);
-        $this->assertEquals($dsVisit->getUser()->getId(), $this->user->getId());
-        $this->assertEquals($dsVisit->getOrder()->getId(), $this->order->getId());
 
         $this->assertEquals($dsVisit->getVisitTimestamp(), $this->visitTimestamp);
         $this->assertEquals($dsVisit->getConsumingTime(), $this->consumingTime);
@@ -59,8 +45,6 @@ class DSLaserVisitTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
-            'user' => $this->user,
-            'order' => $this->order,
             'visitTimestamp' => $this->visitTimestamp,
             'consumingTime' => $this->consumingTime,
             'weekDaysPeriods' => null,
