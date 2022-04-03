@@ -7,8 +7,6 @@ use Faker\Generator;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder;
-use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisit;
 
 class DSRegularVisitTest extends TestCase
@@ -16,10 +14,6 @@ class DSRegularVisitTest extends TestCase
     private Generator $faker;
 
     private int $id;
-
-    private DSUser|MockInterface $user;
-
-    private DSRegularOrder|MockInterface $order;
 
     private int $visitTimestamp;
 
@@ -39,16 +33,6 @@ class DSRegularVisitTest extends TestCase
 
         $this->id = $this->faker->numberBetween(1, 1000);
 
-        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
-        $this->user = Mockery::mock(DSUser::class);
-        $this->user->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-        $this->user->shouldReceive("toArray")->andReturn(['user']);
-
-        /** @var \TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder|\Mockery\MockInterface $order */
-        $this->order = Mockery::mock(DSRegularOrder::class);
-        $this->order->shouldReceive("getId")->andReturn($this->faker->numberBetween(1, 1000));
-        $this->order->shouldReceive("toArray")->andReturn(['order']);
-
         $this->visitTimestamp = (new \DateTime())->modify("+1 week")->getTimestamp();
 
         $this->consumingTime = $this->faker->numberBetween(600, 3600);
@@ -62,8 +46,6 @@ class DSRegularVisitTest extends TestCase
         $dsVisit = $this->instantiate();
 
         $this->assertEquals($dsVisit->getId(), $this->id);
-        $this->assertEquals($dsVisit->getUser()->getId(), $this->user->getId());
-        $this->assertEquals($dsVisit->getOrder()->getId(), $this->order->getId());
 
         $this->assertEquals($dsVisit->getVisitTimestamp(), $this->visitTimestamp);
         $this->assertEquals($dsVisit->getConsumingTime(), $this->consumingTime);
@@ -76,8 +58,6 @@ class DSRegularVisitTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
-            'user' => $this->user,
-            'order' => $this->order,
             'visitTimestamp' => $this->visitTimestamp,
             'consumingTime' => $this->consumingTime,
             'weekDaysPeriods' => null,
