@@ -10,7 +10,6 @@ use Tests\TestCase;
 use TheClinicDataStructures\DataStructures\Order\DSPackages;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
 use TheClinicDataStructures\DataStructures\Order\Laser\DSLaserOrder;
-use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\OrderExceptions;
 
@@ -20,7 +19,7 @@ class DSLaserOrderTest extends TestCase
 
     private int $id;
 
-    private DSUser|MockInterface $user;
+    private string $gender;
 
     private DSParts|MockInterface $parts;
 
@@ -45,9 +44,7 @@ class DSLaserOrderTest extends TestCase
         parent::setUp();
         $this->faker = Factory::create();
 
-        $this->gender = "Male";
-
-        $this->user = $this->mockUser($this->gender);
+        $this->gender = $this->faker->randomElement(["Male", "Female"]);
 
         $this->parts = $this->mockParts($this->gender);
 
@@ -63,17 +60,6 @@ class DSLaserOrderTest extends TestCase
         $this->updatedAt = new \DateTime();
 
         $this->id = $this->faker->numberBetween(0, 100);
-    }
-
-    private function mockUser(string $gender): DSUser|MockInterface
-    {
-        /** @var DSUser|\Mockery\MockInterface $user */
-        $user = Mockery::mock(DSUser::class);
-        $user->shouldReceive('getGender')->andReturn($gender);
-        $user->shouldReceive('getId')->andReturn(56);
-        $user->shouldReceive('toArray')->andReturn(['user']);
-
-        return $user;
     }
 
     private function mockParts(string $gender): DSParts|MockInterface
@@ -101,14 +87,6 @@ class DSLaserOrderTest extends TestCase
         $this->runTheAssertions();
 
         try {
-            $this->user = $this->mockUser("Female");
-
-            $this->runTheAssertions();
-        } catch (OrderExceptions $th) {
-            $this->user = $this->mockUser($this->gender);
-        }
-
-        try {
             $this->parts = $this->mockParts("Female");
 
             $this->runTheAssertions();
@@ -130,8 +108,8 @@ class DSLaserOrderTest extends TestCase
         $dsOrder = $this->instantiate();
 
         $this->assertEquals($dsOrder->getId(), $this->id);
-        $this->assertEquals($dsOrder->getUser()->getId(), $this->user->getId());
         $this->assertEquals($dsOrder->getParts(), $this->parts);
+        $this->assertEquals($dsOrder->getGender(), $this->gender);
         $this->assertEquals($dsOrder->getPackages(), $this->packages);
         $this->assertEquals($dsOrder->getVisits(), $this->visits);
         $this->assertEquals($dsOrder->getPrice(), $this->price);
@@ -144,9 +122,9 @@ class DSLaserOrderTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
-            'user' => $this->user,
             'parts' => $this->parts,
             'packages' => $this->packages,
+            'gender' => $this->gender,
             'visits' => $this->visits,
             'priceWithDiscount' => $this->priceWithDiscount,
             'price' => $this->price,
