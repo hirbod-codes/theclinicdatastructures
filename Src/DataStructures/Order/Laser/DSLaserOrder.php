@@ -22,6 +22,7 @@ class DSLaserOrder extends DSOrder
 
     public function __construct(
         int $id,
+        int $userId,
         int $priceWithDiscount,
         int $price,
         int $neededTime,
@@ -34,6 +35,7 @@ class DSLaserOrder extends DSOrder
     ) {
         parent::__construct(
             $id,
+            $userId,
             $price,
             $neededTime,
             $createdAt,
@@ -53,18 +55,12 @@ class DSLaserOrder extends DSOrder
 
     public function toArray(): array
     {
-        return [
-            'id' => $this->id,
+        return array_merge(parent::toArray(), [
             'parts' => $this->parts === null ? null : $this->parts->toArray(),
             'packages' => $this->packages === null ? null : $this->packages->toArray(),
-            'price' => $this->price,
             'priceWithDiscount' => $this->priceWithDiscount,
-            'neededTime' => $this->neededTime,
-            'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'gender' => $this->gender,
-            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
-            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s"),
-        ];
+        ]);
     }
 
     protected function validateVisitsType(DSVisits|null $visits): void
