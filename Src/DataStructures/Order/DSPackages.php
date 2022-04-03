@@ -15,7 +15,7 @@ class DSPackages implements \Countable, \ArrayAccess, \Iterator
     /**
      * @var \TheClinicDataStructures\DataStructures\Order\DSPackage[]
      */
-    private array $packages;
+    private array $packages = [];
 
     private string $gender;
 
