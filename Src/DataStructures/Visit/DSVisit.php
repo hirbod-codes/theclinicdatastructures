@@ -3,17 +3,11 @@
 namespace TheClinicDataStructures\DataStructures\Visit;
 
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
-use TheClinicDataStructures\DataStructures\Order\DSOrder;
 use TheClinicDataStructures\DataStructures\Time\DSWeekDaysPeriods;
-use TheClinicDataStructures\DataStructures\User\DSUser;
 
-class DSVisit
+abstract class DSVisit
 {
     private int $id;
-
-    private DSUser $user;
-
-    private DSOrder $order;
 
     private int $visitTimestamp;
 
@@ -29,8 +23,6 @@ class DSVisit
 
     /**
      * @param integer $id
-     * @param DSUser $user
-     * @param DSOrder $order
      * @param integer $visitTimestamp
      * @param integer $consumingTime
      * @param \DateTime $createdAt
@@ -40,8 +32,6 @@ class DSVisit
      */
     public function __construct(
         int $id,
-        DSUser $user,
-        DSOrder $order,
         int $visitTimestamp,
         int $consumingTime,
         \DateTime $createdAt,
@@ -54,8 +44,6 @@ class DSVisit
         }
 
         $this->id = $id;
-        $this->user = $user;
-        $this->order = $order;
         $this->visitTimestamp = $visitTimestamp;
         $this->consumingTime = $consumingTime;
         $this->weekDaysPeriods = $weekDaysPeriods;
@@ -68,8 +56,6 @@ class DSVisit
     {
         return [
             'id' => $this->id,
-            'user' => $this->user->toArray(),
-            'order' => $this->order->toArray(),
             'visitTimestamp' => $this->visitTimestamp,
             'consumingTime' => $this->consumingTime,
             'weekDaysPeriods' => $this->weekDaysPeriods === null ? null : $this->weekDaysPeriods->toArray(),
@@ -77,16 +63,6 @@ class DSVisit
             'createdAt'=>$this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt'=>$this->updatedAt->format("Y-m-d H:i:s")
         ];
-    }
-
-    public function setUser(DSUser $user): void
-    {
-        $this->user = $user;
-    }
-
-    public function setOrder(DSOrder $order): void
-    {
-        $this->order = $order;
     }
 
     public function setId(int $val): void
@@ -112,16 +88,6 @@ class DSVisit
     public function setUpdatedAt(\DateTime $val): void
     {
         $this->updatedAt = $val;
-    }
-
-    public function getUser(): DSUser
-    {
-        return $this->user;
-    }
-
-    public function getOrder(): DSOrder
-    {
-        return $this->order;
     }
 
     public function getId(): int
