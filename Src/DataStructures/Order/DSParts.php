@@ -17,7 +17,7 @@ class DSParts implements \Countable, \ArrayAccess, \Iterator
     /**
      * @var \TheClinicDataStructures\DataStructures\Order\DSPart[]
      */
-    private array $parts;
+    private array $parts = [];
 
     private int $position;
 
