@@ -22,7 +22,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
     /**
      * @var \TheClinicDataStructures\DataStructures\Visit\DSVisit[]
      */
-    private array $visits;
+    protected array $visits;
 
     /**
      * position of the pointer of this data structure.(as we use it as a Iterable object)
@@ -36,7 +36,7 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
      *
      * @var string
      */
-    private string $sort;
+    protected string $sort;
 
     public function __construct(string $sort = "ASC", DSUser|null $user = null, DSOrder|null $order = null)
     {
