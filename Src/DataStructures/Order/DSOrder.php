@@ -9,6 +9,8 @@ abstract class DSOrder
 {
     protected int $id;
 
+    protected int $userId;
+
     protected int $price;
 
     protected int $neededTime;
@@ -21,6 +23,7 @@ abstract class DSOrder
 
     public function __construct(
         int $id,
+        int $userId,
         int $price,
         int $neededTime,
         \DateTime $createdAt,
@@ -28,6 +31,7 @@ abstract class DSOrder
         ?DSVisits $visits = null
     ) {
         $this->id = $id;
+        $this->userId = $userId;
 
         $this->validateVisitsType($visits);
 
@@ -42,6 +46,7 @@ abstract class DSOrder
     {
         return [
             'id' => $this->id,
+            'userId' => $this->userId,
             'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'price' => $this->price,
             'neededTime' => $this->neededTime,
@@ -80,6 +85,16 @@ abstract class DSOrder
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
     }
 
     public function getPrice(): int
