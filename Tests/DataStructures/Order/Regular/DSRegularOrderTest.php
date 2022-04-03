@@ -4,7 +4,6 @@ namespace Tests\DataStructures\Order;
 
 use Faker\Factory;
 use Faker\Generator;
-use Mockery;
 use Mockery\MockInterface;
 use Tests\DataStructures\Order\Traits\TraitDSOrdersTests;
 use Tests\TestCase;
@@ -40,11 +39,6 @@ class DSRegularOrderTest extends TestCase
 
         $this->faker = Factory::create();
 
-        /** @var \TheClinicDataStructures\DataStructures\User\DSUser|\Mockery\MockInterface $user */
-        $this->user = Mockery::mock(DSUser::class);
-        $this->user->shouldReceive('getId')->andReturn(56);
-        $this->user->shouldReceive('toArray')->andReturn(['user']);
-
         $this->price = $this->faker->numberBetween(100, 600000);
         $this->neededTime = $this->faker->numberBetween(100, 7200);
 
@@ -61,7 +55,6 @@ class DSRegularOrderTest extends TestCase
         $dsOrder = $this->instantiate();
 
         $this->assertEquals($dsOrder->getId(), $this->id);
-        $this->assertEquals($dsOrder->getUser()->getId(), $this->user->getId());
         $this->assertEquals($dsOrder->getVisits(), $this->visits);
         $this->assertEquals($dsOrder->getPrice(), $this->price);
         $this->assertEquals($dsOrder->getNeededTime(), $this->neededTime);
@@ -93,7 +86,6 @@ class DSRegularOrderTest extends TestCase
     {
         $this->constructArgs = [
             'id' => $this->id,
-            'user' => $this->user,
             'visits' => $this->visits,
             'price' => $this->price,
             'neededTime' => $this->neededTime,
