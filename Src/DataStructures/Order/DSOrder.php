@@ -2,15 +2,12 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
-use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
 abstract class DSOrder
 {
     protected int $id;
-
-    protected DSUser $user;
 
     protected int $price;
 
@@ -24,7 +21,6 @@ abstract class DSOrder
 
     public function __construct(
         int $id,
-        DSUser $user,
         int $price,
         int $neededTime,
         \DateTime $createdAt,
@@ -32,7 +28,6 @@ abstract class DSOrder
         ?DSVisits $visits = null
     ) {
         $this->id = $id;
-        $this->user = $user;
 
         $this->validateVisitsType($visits);
 
@@ -47,7 +42,6 @@ abstract class DSOrder
     {
         return [
             'id' => $this->id,
-            'user' => $this->user->toArray(),
             'visits' => $this->visits === null ? null : $this->visits->toArray(),
             'price' => $this->price,
             'neededTime' => $this->neededTime,
@@ -86,16 +80,6 @@ abstract class DSOrder
     public function setId(int $id): void
     {
         $this->id = $id;
-    }
-
-    public function getUser(): DSUser
-    {
-        return $this->user;
-    }
-
-    public function setUser(DSUser $user): void
-    {
-        $this->user = $user;
     }
 
     public function getPrice(): int
