@@ -64,7 +64,7 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
 
         $this->checkOrderType($value);
 
-        if (isset($this->user) && !is_null($this->user) && $this->user->getId() !== $value->getUser()->getId()) {
+        if (isset($this->user) && !is_null($this->user) && $this->user->getId() !== $value->getUserId()) {
             throw new InvalidUserException("The members of this data structure must belong to the same specified user. Mismatched member id: " . $value->getId(), 500);
         }
 
