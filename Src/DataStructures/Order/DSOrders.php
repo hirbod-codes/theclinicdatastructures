@@ -44,7 +44,7 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
 
     public function offsetExists(mixed $offset): bool
     {
-        return isset($this->visits[$offset]);
+        return isset($this->orders[$offset]);
     }
 
     public function offsetGet(mixed $offset): mixed
@@ -53,7 +53,7 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable
             throw new InvalidOffsetTypeException("This data structure only accepts integer as an offset type.", 500);
         }
 
-        return $this->visits[$offset];
+        return $this->orders[$offset];
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
