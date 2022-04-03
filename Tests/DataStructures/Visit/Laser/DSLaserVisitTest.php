@@ -12,6 +12,18 @@ class DSLaserVisitTest extends TestCase
 {
     private Generator $faker;
 
+    private int $id;
+
+    private int $visitTimestamp;
+
+    private int $consumingTime;
+
+    private \DateTime $createdAt;
+
+    private \DateTime $updatedAt;
+
+    private array $constructArgs;
+
     protected function setUp(): void
     {
         parent::setUp();
