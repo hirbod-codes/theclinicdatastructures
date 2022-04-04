@@ -4,9 +4,9 @@ namespace Tests\DataStructures\Time;
 
 use Faker\Factory;
 use Faker\Generator;
-use Mockery;
 use Tests\TestCase;
-use TheClinicDataStructures\DataStructures\Time\DSTimePeriods;
+use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriods;
 use TheClinicDataStructures\DataStructures\Time\DSWeekDaysPeriods;
 
 class DSWeekDaysPeriodsTest extends TestCase
@@ -19,15 +19,31 @@ class DSWeekDaysPeriodsTest extends TestCase
         $this->faker = Factory::create();
     }
 
+    private function makeTimePeriod(\DateTime $previous, string $firstModify, string $secondModify): array
+    {
+        $s = (new \DateTime)->setTimestamp($previous->getTimestamp())->modify($firstModify);
+        $e = (new \DateTime)->setTimestamp($s->getTimestamp())->modify($secondModify);
+        return [$s, $e];
+    }
+
+    private function makeDSDateTimePeriods(int $count): DSDateTimePeriods
+    {
+        $dsDateTimePeriods = new DSDateTimePeriods;
+        $previous = new \DateTime;
+        for ($i = 0; $i < $count; $i++) {
+            $dsDateTimePeriods[] = new DSDateTimePeriod(...($period = $this->makeTimePeriod($previous, '+5 minutes', '+5 hours')));
+            $previous = $period[1];
+        }
+
+        return $dsDateTimePeriods;
+    }
+
     public function testToArray(): void
     {
+        $count = 3;
         $dsWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
         for ($i = 0; $i < 7; $i++) {
-            /** @var \Mockery\MockInterface $dsWeekDaysPeriod */
-            $dsWeekDaysPeriod = Mockery::mock(DSTimePeriods::class);
-            $dsWeekDaysPeriod->shouldReceive('toArray')->andReturn(['dsWeekDaysPeriod']);
-
-            $dsWeekDaysPeriods[$i] = $dsWeekDaysPeriod;
+            $dsWeekDaysPeriods[$i] = $this->makeDSDateTimePeriods($count);
         }
 
         $dsWeekDaysPeriodsArray = $dsWeekDaysPeriods->toArray();
@@ -39,8 +55,11 @@ class DSWeekDaysPeriodsTest extends TestCase
             $this->assertNotFalse(array_search($key, array_keys($dsWeekDaysPeriodsArray)));
 
             $this->assertIsArray($value);
-            $this->assertCount(1, $value);
-            $this->assertEquals('dsWeekDaysPeriod', $value[0]);
+            $this->assertCount($count, $value);
+            foreach ($value as $valuevalue) {
+                $this->assertIsArray($valuevalue);
+                $this->assertCount(2, $valuevalue);
+            }
         }
     }
 
@@ -52,15 +71,16 @@ class DSWeekDaysPeriodsTest extends TestCase
 
     private function testArrayAccess(): void
     {
+        $count = 3;
         $dsWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
         for ($i = 0; $i < 7; $i++) {
-            $dsWeekDaysPeriods[$i] = Mockery::mock(DSTimePeriods::class);
+            $dsWeekDaysPeriods[$i] = $this->makeDSDateTimePeriods($count);
             $this->assertEquals(true, isset($dsWeekDaysPeriods[$i]));
         }
 
         $dsWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
         foreach (DSWeekDaysPeriods::$weekDays as $day) {
-            $dsWeekDaysPeriods[$day] = Mockery::mock(DSTimePeriods::class);
+            $dsWeekDaysPeriods[$day] = $this->makeDSDateTimePeriods($count);
             $this->assertEquals(true, isset($dsWeekDaysPeriods[$day]));
         }
 
@@ -69,9 +89,10 @@ class DSWeekDaysPeriodsTest extends TestCase
 
     private function testIterator(): void
     {
+        $count = 3;
         $dsWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
         for ($i = 0; $i < 7; $i++) {
-            $dsWeekDaysPeriods[$i] = Mockery::mock(DSTimePeriods::class);
+            $dsWeekDaysPeriods[$i] = $this->makeDSDateTimePeriods($count);
             $this->assertEquals(true, isset($dsWeekDaysPeriods[$i]));
         }
 
@@ -81,10 +102,11 @@ class DSWeekDaysPeriodsTest extends TestCase
                 throw new \RuntimeException("Invalid key!!!", 500);
             }
 
-            $this->assertInstanceOf(DSTimePeriods::class, $value);
+            $this->assertInstanceOf(DSDateTimePeriods::class, $value);
             $counter++;
         }
 
-        $this->assertEquals($counter, count($dsWeekDaysPeriods));
+        $this->assertEquals(7, $counter);
+        $this->assertCount($counter, $dsWeekDaysPeriods);
     }
 }
