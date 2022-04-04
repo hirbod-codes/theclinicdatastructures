@@ -5,6 +5,7 @@ namespace TheClinicDataStructures\DataStructures\Time;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
 
 class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
@@ -17,19 +18,19 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     public bool $notEmpty = false;
 
-    protected DSTimePeriods $Monday;
+    protected DSDateTimePeriods $Monday;
 
-    protected DSTimePeriods $Tuesday;
+    protected DSDateTimePeriods $Tuesday;
 
-    protected DSTimePeriods $Wednesday;
+    protected DSDateTimePeriods $Wednesday;
 
-    protected DSTimePeriods $Thursday;
+    protected DSDateTimePeriods $Thursday;
 
-    protected DSTimePeriods $Friday;
+    protected DSDateTimePeriods $Friday;
 
-    protected DSTimePeriods $Saturday;
+    protected DSDateTimePeriods $Saturday;
 
-    protected DSTimePeriods $Sunday;
+    protected DSDateTimePeriods $Sunday;
 
     private int $position;
 
@@ -91,21 +92,19 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
         return $sortedWeekDays;
     }
 
-    private function validateValue(mixed $value): void
+    private function validateValue(DSDateTimePeriods $value): void
     {
-        if (!($value instanceof DSTimePeriods)) {
-            throw new InvalidValueTypeException("The new inserting value must be of type " . DSTimePeriods::class . " data structure.", 500);
+        if ($value[0]->getStart()->format('l') !== $value[count($value) - 1]->getEnd()->format('l')) {
+            throw new InvalidValueException("The new inserting value must have a period of time in a single day.", 500);
         }
     }
 
-    private function validateOffset(mixed $offset): void
+    private function validateOffset(string|int $offset): void
     {
-        if (!is_string($offset) && !is_int($offset)) {
-            throw new InvalidOffsetTypeException("Only string and integer are the accepted types for \$offset.", 500);
-        } elseif (is_string($offset) && !in_array($offset, self::$weekDays)) {
+        if (is_string($offset) && !in_array($offset, self::$weekDays)) {
             throw new InvalidOffsetTypeException("String offset must be one of the followings:" . implode(", ", self::$weekDays) . ".", 500);
-        } elseif (is_int($offset) && $offset > 6) {
-            throw new InvalidOffsetTypeException("The offset must be equal or less than 6.", 500);
+        } elseif (is_int($offset) && ($offset > 6 || $offset < 0)) {
+            throw new InvalidOffsetTypeException("The offset must be <= 6 or >= 0.", 500);
         }
     }
 
@@ -115,11 +114,6 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
         foreach (DSWorkSchedule::$weekDays as $weekDay) {
             $newDSWorkSchdule[$weekDay] = $this->{$weekDay}->cloneIt();
-
-            // /** @var DSTimePeriod $dsTimePeriod */
-            // foreach ($this->{$weekDay} as $dsTimePeriod) {
-            //     $newDSWorkSchdule[$weekDay][] = new DSTimePeriod($dsTimePeriod->getStart(), $dsTimePeriod->getEnd());
-            // }
         }
 
         return $newDSWorkSchdule;
