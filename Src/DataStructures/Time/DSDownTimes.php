@@ -49,6 +49,18 @@ class DSDownTimes implements \ArrayAccess, \Iterator, \Countable
         }, $this->dsDownTimes);
     }
 
+    public static function toObject(array $resultOfToArrayMethod): self
+    {
+        $dsDowTimes = new static;
+
+        foreach ($resultOfToArrayMethod as $dowTime) {
+            $dsDowTime = DSDownTime::toObject($dowTime);
+            $dsDowTimes[] = $dsDowTime;
+        }
+
+        return $dsDowTimes;
+    }
+
     // ------------------------------------ \ArrayAccess
 
     public function offsetExists(mixed $offset): bool
