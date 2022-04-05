@@ -48,6 +48,18 @@ class DSDateTimePeriods implements \ArrayAccess, \Iterator, \Countable
         }, $this->dsDateTimePeriods);
     }
 
+    public static function toObject(array $resultOfToArrayMethod): self
+    {
+        $dsDateTimePeriods = new static;
+
+        foreach ($resultOfToArrayMethod as $dateTimePeriod) {
+            $dsDateTimePeriod = DSDateTimePeriod::toObject($dateTimePeriod);
+            $dsDateTimePeriods[] = $dsDateTimePeriod;
+        }
+
+        return $dsDateTimePeriods;
+    }
+
     private function validateValue(DSDateTimePeriod $value): void
     {
         if (
