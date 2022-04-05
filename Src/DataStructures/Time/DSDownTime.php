@@ -42,4 +42,13 @@ class DSDownTime extends DSDateTimePeriod
             'end' => $this->getEnd()->format("Y-m-d H:i:s"),
         ];
     }
+
+    public static function toObject(array $resultOfToArrayMethod): self
+    {
+        return new static(
+            new \DateTime($resultOfToArrayMethod['start']),
+            new \DateTime($resultOfToArrayMethod['end']),
+            $resultOfToArrayMethod['name']
+        );
+    }
 }
