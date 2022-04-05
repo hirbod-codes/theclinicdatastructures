@@ -37,6 +37,18 @@ class DSDateTimePeriodTest extends TestCase
         $this->assertEquals($end->format("Y-m-d H:i:s"), $dsDateTimePeriodArray['end']);
     }
 
+    public function testToObject(): void
+    {
+        $start = new \DateTime();
+        $end = (new \DateTime())->modify("+10 minute");
+
+        $dsDateTimePeriod = DSDateTimePeriod::toObject(($expectedDSDateTimePeriod = new DSDateTimePeriod($start, $end))->ToArray());
+
+        $this->assertInstanceOf(DSDateTimePeriod::class, $dsDateTimePeriod);
+        $this->assertEquals($expectedDSDateTimePeriod->getStartTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($expectedDSDateTimePeriod->getEndTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+    }
+
     public function testDataStructure(): void
     {
         $start = new \DateTime();
