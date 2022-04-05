@@ -24,6 +24,14 @@ class DSDateTimePeriod
         ];
     }
 
+    public static function toObject(array $resultOfToArrayMethod): self
+    {
+        return new static(
+            new \DateTime($resultOfToArrayMethod['start']),
+            new \DateTime($resultOfToArrayMethod['end'])
+        );
+    }
+
     public function setStart(\DateTime $start): void
     {
         if (isset($this->end) && $start->getTimestamp() >= $this->end->getTimestamp()) {
