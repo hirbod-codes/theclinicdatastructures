@@ -55,6 +55,24 @@ class DSDateTimePeriodsTest extends TestCase
         }
     }
 
+    public function testToObject(): void
+    {
+        $count = 3;
+        $dsDateTimePeriods = DSDateTimePeriods::toObject(($expectedDSDateTimePeriods = $this->makeDSDateTimePeriods($count))->ToArray());
+
+        $this->assertInstanceOf(DSDateTimePeriods::class, $dsDateTimePeriods);
+        $this->assertCount($count, $dsDateTimePeriods);
+
+        /**
+         *  @var DSDateTimePeriod[] $dsDateTimePeriods 
+         *  @var DSDateTimePeriod[] $expectedDSDateTimePeriods 
+         */
+        for ($i = 0; $i < count($dsDateTimePeriods); $i++) {
+            $this->assertEquals($expectedDSDateTimePeriods[$i]->getStartTimestamp(), $dsDateTimePeriods[$i]->getStartTimestamp());
+            $this->assertEquals($expectedDSDateTimePeriods[$i]->getEndTimestamp(), $dsDateTimePeriods[$i]->getEndTimestamp());
+        }
+    }
+
     public function testDataStructure(): void
     {
         $this->testArrayAccess();
