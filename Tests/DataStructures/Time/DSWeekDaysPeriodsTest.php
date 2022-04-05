@@ -63,6 +63,34 @@ class DSWeekDaysPeriodsTest extends TestCase
         }
     }
 
+    public function testToObject(): void
+    {
+        $count = 3;
+        $expectedDSWeekDaysPeriods = new DSWeekDaysPeriods("Monday");
+        for ($i = 0; $i < 7; $i++) {
+            $expectedDSWeekDaysPeriods[$i] = $this->makeDSDateTimePeriods($count);
+        }
+
+        $dsWeekDaysPeriodsArray = $expectedDSWeekDaysPeriods->toArray();
+
+        $dsWeekDaysPeriods = DSWeekDaysPeriods::toObject($dsWeekDaysPeriodsArray);
+
+        $this->assertInstanceOf(DSWeekDaysPeriods::class, $dsWeekDaysPeriods);
+        $this->assertCount(7, $dsWeekDaysPeriods);
+
+        /**
+         *  @var DSDateTimePeriods[] $dsWeekDaysPeriods 
+         *  @var DSDateTimePeriods[] $expectedDSWeekDaysPeriods 
+         */
+        for ($i = 0; $i < count($dsWeekDaysPeriods); $i++) {
+            $this->assertCount($count, $dsWeekDaysPeriods[$i]);
+            for ($j = 0; $j < count($dsWeekDaysPeriods[$i]); $j++) {
+                $this->assertEquals($expectedDSWeekDaysPeriods[$i][$j]->getStartTimestamp(), $dsWeekDaysPeriods[$i][$j]->getStartTimestamp());
+                $this->assertEquals($expectedDSWeekDaysPeriods[$i][$j]->getEndTimestamp(), $dsWeekDaysPeriods[$i][$j]->getEndTimestamp());
+            }
+        }
+    }
+
     public function testDataStructure(): void
     {
         $this->testArrayAccess();
