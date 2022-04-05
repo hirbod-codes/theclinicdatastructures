@@ -56,6 +56,23 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
         ];
     }
 
+    public static function toObject(array $resultOfToArrayMethod): self
+    {
+        $dsWorkSchedule = new static('Monday');
+
+        foreach ($resultOfToArrayMethod as $weekDay => $dateTimePeriods) {
+            if ($dateTimePeriods === null) {
+                continue;
+            }
+
+            $dsDateTimePeriods = DSDateTimePeriods::toObject($dateTimePeriods);
+
+            $dsWorkSchedule[$weekDay] = $dsDateTimePeriods;
+        }
+
+        return $dsWorkSchedule;
+    }
+
     public function setStartingDay(string $dayOfWeek): void
     {
         $this->startingDay = $dayOfWeek;
