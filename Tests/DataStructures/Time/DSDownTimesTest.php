@@ -25,7 +25,7 @@ class DSDownTimesTest extends TestCase
         $this->testIterator();
     }
 
-    private function testToArray(): void
+    public function testToArray(): void
     {
         $downTimes = $this->makeDownTimes(10);
 
@@ -42,8 +42,33 @@ class DSDownTimesTest extends TestCase
 
         foreach ($dsDownTimesArray as $dsDownTimeArray) {
             $this->assertIsArray($dsDownTimeArray);
-            $this->assertCount(1, $dsDownTimeArray);
-            $this->assertEquals('dsDownTime', $dsDownTimeArray[0]);
+            $this->assertCount(3, $dsDownTimeArray);
+        }
+    }
+
+    public function testToObject(): void
+    {
+        $count = 7;
+        $downTimes = $this->makeDownTimes($count);
+
+        $expectedDSDownTimes = new DSDownTimes();
+
+        foreach ($downTimes as $dsDownTime) {
+            $expectedDSDownTimes[] = $dsDownTime;
+        }
+
+        $dsDateTimePeriods = DSDownTimes::toObject(($expectedDSDownTimes)->ToArray());
+
+        $this->assertInstanceOf(DSDownTimes::class, $dsDateTimePeriods);
+        $this->assertCount($count, $dsDateTimePeriods);
+
+        /**
+         *  @var DSDateTimePeriod[] $dsDateTimePeriods 
+         *  @var DSDateTimePeriod[] $expectedDSDownTimes 
+         */
+        for ($i = 0; $i < count($dsDateTimePeriods); $i++) {
+            $this->assertEquals($expectedDSDownTimes[$i]->getStartTimestamp(), $dsDateTimePeriods[$i]->getStartTimestamp());
+            $this->assertEquals($expectedDSDownTimes[$i]->getEndTimestamp(), $dsDateTimePeriods[$i]->getEndTimestamp());
         }
     }
 
@@ -110,14 +135,10 @@ class DSDownTimesTest extends TestCase
         $downTimes = [];
 
         for ($i = 1; $i <= $downTimesCount; $i++) {
-            /** @var \TheClinicDataStructures\DataStructures\Time\DSDownTime|\Mockery\MockInterface $dsDownTime */
-            $dsDownTime = Mockery::mock(DSDownTime::class);
-            $dsDownTime->shouldReceive("getStart")->andReturn((new \DateTime(($i * 2) . ":00:00")));
-            $dsDownTime->shouldReceive("getStartTimestamp")->andReturn((new \DateTime(($i * 2) . ":00:00"))->getTimestamp());
-            $dsDownTime->shouldReceive("getEnd")->andReturn((new \DateTime(($i * 2) . ":00:00"))->modify("+30 minute"));
-            $dsDownTime->shouldReceive("getEndTimestamp")->andReturn((new \DateTime(($i * 2) . ":00:00"))->modify("+30 minute")->getTimestamp());
-
-            $dsDownTime->shouldReceive("toArray")->andReturn(['dsDownTime']);
+            $dsDownTime = new DSDownTime((new \DateTime(($i * 2) . ":00:00")),
+                (new \DateTime(($i * 2) . ":00:00"))->modify("+30 minute"),
+                $this->faker->lexify('???')
+            );
 
             $downTimes[] = $dsDownTime;
         }
