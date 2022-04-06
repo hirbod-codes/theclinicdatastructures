@@ -35,17 +35,7 @@ class DSSecretary extends DSUser
 
     public function setPrivilege(string $privilege, mixed $value): void
     {
-        $privileges = $this->getUserPrivileges();
-
-        if (!isset($privileges[$privilege])) {
-            throw new NoPrivilegeFoundException();
-        }
-
-        $privileges[$privilege] = $value;
-
-        if (file_put_contents(self::PRIVILEGES_PATH . "/secretaryPrivileges.json", json_encode($privileges)) === false) {
-            throw new \LogicException("Failed to set the privilege!", 500);
-        }
+        // This role has strict privileges.
     }
 
     public function privilegeExists(string $privilege): bool
