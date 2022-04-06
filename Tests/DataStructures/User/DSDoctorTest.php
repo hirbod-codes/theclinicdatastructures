@@ -171,21 +171,4 @@ class DSDoctorTest extends TestCase
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
-
-    public function testSetPrivilege(): void
-    {
-        try {
-            $privilege = "selfAccountRead";
-
-            $dsDoctor = $this->instanciate();
-
-            $dsDoctor->setPrivilege($privilege, false);
-
-            $result = $dsDoctor->getPrivilege($privilege);
-            $this->assertIsBool($result);
-            $this->assertFalse($result);
-        } finally {
-            $dsDoctor->setPrivilege($privilege, true);
-        }
-    }
 }

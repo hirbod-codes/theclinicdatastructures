@@ -171,21 +171,4 @@ class DSOperatorTest extends TestCase
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
-
-    public function testSetPrivilege(): void
-    {
-        try {
-            $privilege = "selfAccountRead";
-
-            $dsOperator = $this->instanciate();
-
-            $dsOperator->setPrivilege($privilege, false);
-
-            $result = $dsOperator->getPrivilege($privilege);
-            $this->assertIsBool($result);
-            $this->assertFalse($result);
-        } finally {
-            $dsOperator->setPrivilege($privilege, true);
-        }
-    }
 }

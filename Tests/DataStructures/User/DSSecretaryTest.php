@@ -171,21 +171,4 @@ class DSSecretaryTest extends TestCase
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
-
-    public function testSetPrivilege(): void
-    {
-        try {
-            $privilege = "selfAccountRead";
-
-            $dsSecretary = $this->instanciate();
-
-            $dsSecretary->setPrivilege($privilege, false);
-
-            $result = $dsSecretary->getPrivilege($privilege);
-            $this->assertIsBool($result);
-            $this->assertFalse($result);
-        } finally {
-            $dsSecretary->setPrivilege($privilege, true);
-        }
-    }
 }

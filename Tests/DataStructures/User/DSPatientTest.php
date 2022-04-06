@@ -171,21 +171,4 @@ class DSPatientTest extends TestCase
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
-
-    public function testSetPrivilege(): void
-    {
-        try {
-            $privilege = "selfAccountRead";
-
-            $dsPatient = $this->instanciate();
-
-            $dsPatient->setPrivilege($privilege, false);
-
-            $result = $dsPatient->getPrivilege($privilege);
-            $this->assertIsBool($result);
-            $this->assertFalse($result);
-        } finally {
-            $dsPatient->setPrivilege($privilege, true);
-        }
-    }
 }

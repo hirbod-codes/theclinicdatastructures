@@ -171,21 +171,4 @@ class DSAdminTest extends TestCase
         $this->assertIsBool($result);
         $this->assertTrue($result);
     }
-
-    public function testSetPrivilege(): void
-    {
-        try {
-            $privilege = "selfAccountRead";
-
-            $dsAdmin = $this->instanciate();
-
-            $dsAdmin->setPrivilege($privilege, false);
-
-            $result = $dsAdmin->getPrivilege($privilege);
-            $this->assertIsBool($result);
-            $this->assertFalse($result);
-        } finally {
-            $dsAdmin->setPrivilege($privilege, true);
-        }
-    }
 }
