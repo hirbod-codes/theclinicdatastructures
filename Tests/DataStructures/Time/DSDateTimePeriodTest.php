@@ -84,4 +84,64 @@ class DSDateTimePeriodTest extends TestCase
 
         $this->assertEquals($start->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
     }
+
+    public function testSetDate(): void
+    {
+        $start = new \DateTime('2022-4-6 10:00:00');
+        $end = (new \DateTime('2022-4-7 22:00:00'));
+
+        $dsDateTimePeriod = new DSDateTimePeriod($start, $end);
+
+        $this->assertEquals($start->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        $dsDateTimePeriod->setDate(new \DateTime('2022-4-8'));
+
+        $this->assertEquals($start->modify('+2 days')->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->modify('+1 days')->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        $start = new \DateTime('2022-4-6 22:00:00');
+        $end = (new \DateTime('2022-4-7 10:00:00'));
+
+        $dsDateTimePeriod = new DSDateTimePeriod($start, $end);
+
+        $this->assertEquals($start->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        try {
+            $dsDateTimePeriod->setDate(new \DateTime('2022-4-8'));
+            throw new \RuntimeException('Failure!!!');
+        } catch (TimeSequenceViolationException $th) {
+        }
+    }
+
+    public function testSetTime():void
+    {
+        $start = new \DateTime('2022-4-6 10:00:00');
+        $end = (new \DateTime('2022-4-7 22:00:00'));
+
+        $dsDateTimePeriod = new DSDateTimePeriod($start, $end);
+
+        $this->assertEquals($start->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        $dsDateTimePeriod->setTime(new \DateTime('15:00:00'));
+
+        $this->assertEquals($start->modify('+5 hours')->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->modify('-7 hours')->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        $start = new \DateTime('2022-4-7 10:00:00');
+        $end = (new \DateTime('2022-4-7 22:00:00'));
+
+        $dsDateTimePeriod = new DSDateTimePeriod($start, $end);
+
+        $this->assertEquals($start->getTimestamp(), $dsDateTimePeriod->getStartTimestamp());
+        $this->assertEquals($end->getTimestamp(), $dsDateTimePeriod->getEndTimestamp());
+
+        try {
+            $dsDateTimePeriod->setTime(new \DateTime('15:00:00'));
+            throw new \RuntimeException('Failure!!!');
+        } catch (TimeSequenceViolationException $th) {
+        }
+    }
 }
