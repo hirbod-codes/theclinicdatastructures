@@ -32,11 +32,35 @@ class DSDateTimePeriod
         );
     }
 
-    public function setStart(\DateTime $start): void
+    /**
+     * @param \DateTime $start
+     * @return void
+     * 
+     * @throws TimeSequenceViolationException
+     */
+    public function validateStartInsert(\DateTime $start): void
     {
         if (isset($this->end) && $start->getTimestamp() >= $this->end->getTimestamp()) {
             throw new TimeSequenceViolationException("The 'start' property must be before the 'end' property.(in terms of time)", 500);
         }
+    }
+
+    /**
+     * @param \DateTime $end
+     * @return void
+     * 
+     * @throws TimeSequenceViolationException
+     */
+    public function validateEndInsert(\DateTime $end): void
+    {
+        if (isset($this->start) && $end->getTimestamp() <= $this->start->getTimestamp()) {
+            throw new TimeSequenceViolationException("The 'start' property must be before the 'end' property.(in terms of time)", 500);
+        }
+    }
+
+    public function setStart(\DateTime $start): void
+    {
+        $this->validateStartInsert($start);
 
         $this->start = $start;
     }
@@ -48,9 +72,7 @@ class DSDateTimePeriod
 
     public function setEnd(\DateTime $end): void
     {
-        if (isset($this->start) && $end->getTimestamp() <= $this->start->getTimestamp()) {
-            throw new TimeSequenceViolationException("The 'start' property must be before the 'end' property.(in terms of time)", 500);
-        }
+        $this->validateEndInsert($end);
 
         $this->end = $end;
     }
@@ -73,5 +95,41 @@ class DSDateTimePeriod
     public function cloneIt(): DSDateTimePeriod
     {
         return new DSDateTimePeriod((new \DateTime())->setTimestamp($this->start->getTimestamp()), (new \DateTime())->setTimestamp($this->end->getTimestamp()));
+    }
+
+    public function setDate(\DateTime $date): void
+    {
+        $this->start = new \DateTime($date->format('Y-m-d') . ' ' . $this->start->format('H:i:s'));
+        $this->end = new \DateTime($date->format('Y-m-d') . ' ' . $this->end->format('H:i:s'));
+        $this->validateStartInsert($this->start);
+        $this->validateEndInsert($this->end);
+    }
+
+    public function setTime(\DateTime $time): void
+    {
+        $this->start = new \DateTime($this->start->format('Y-m-d') . ' ' . $time->format('H:i:s'));
+        $this->end = new \DateTime($this->end->format('Y-m-d') . ' ' . $time->format('H:i:s'));
+        $this->validateStartInsert($this->start);
+        $this->validateEndInsert($this->end);
+    }
+
+    public function setStartDate(\DateTime $date): void
+    {
+        $this->setStart(new \DateTime($date->format('Y-m-d') . ' ' . $this->start->format('H:i:s')));
+    }
+
+    public function setStartTime(\DateTime $time): void
+    {
+        $this->setStart(new \DateTime($this->start->format('Y-m-d') . ' ' . $time->format('H:i:s')));
+    }
+
+    public function setEndDate(\DateTime $date): void
+    {
+        $this->setEnd(new \DateTime($date->format('Y-m-d') . ' ' . $this->end->format('H:i:s')));
+    }
+
+    public function setEndTime(\DateTime $time): void
+    {
+        $this->setEnd(new \DateTime($this->end->format('Y-m-d') . ' ' . $time->format('H:i:s')));
     }
 }
