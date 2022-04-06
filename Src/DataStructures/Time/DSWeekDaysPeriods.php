@@ -36,6 +36,8 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     private string $startingDay;
 
+    private string|int $offset;
+
     public function __construct(string $startingDay)
     {
         $this->position = 0;
@@ -114,6 +116,15 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
         if ($value[0]->getStart()->format('l') !== $value[count($value) - 1]->getEnd()->format('l')) {
             throw new InvalidValueException("The new inserting value must have a period of time in a single day.", 500);
         }
+
+        $key = $this->getOffset();
+        if (is_int($key)) {
+            $key = $this->sortedWeekDays[$key];
+        }
+
+        if ($value[0]->getEnd()->format('l') !== $key) {
+            throw new InvalidValueException("The new inserting value day of week doesn't match with it's corresponding offset.", 500);
+        }
     }
 
     private function validateOffset(string|int $offset): void
@@ -157,9 +168,19 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
         return $this->{$this->sortedWeekDays[$this->position]};
     }
 
-    public function key(): mixed
+    public function dayKey(): string
     {
         return $this->sortedWeekDays[$this->position];
+    }
+
+    public function numericKey(): int
+    {
+        return $this->position;
+    }
+
+    public function key(): mixed
+    {
+        return $this->dayKey();
     }
 
     public function next(): void
@@ -206,8 +227,19 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     // ------------------------------------ \ArrayAccess
 
+    public function setOffset(string|int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+    public function getOffset(): string|int
+    {
+        return $this->offset;
+    }
+
     public function offsetExists(mixed $offset): bool
     {
+        $this->setOffset($offset);
         $this->validateOffset($offset);
 
         if (is_string($offset) && !is_numeric($offset)) {
@@ -219,6 +251,7 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     public function offsetGet(mixed $offset): mixed
     {
+        $this->setOffset($offset);
         $this->validateOffset($offset);
 
         if (is_int($offset)) {
@@ -230,9 +263,9 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->validateValue($value);
-
+        $this->setOffset($offset);
         $this->validateOffset($offset);
+        $this->validateValue($value);
 
         if (is_string($offset)) {
             $this->{$offset} = $value;
@@ -245,6 +278,7 @@ class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
 
     public function offsetUnset(mixed $offset): void
     {
+        $this->validateOffset($offset);
         if ($this->offsetExists($offset)) {
             if (is_string($offset)) {
                 unset($this->{$offset});
