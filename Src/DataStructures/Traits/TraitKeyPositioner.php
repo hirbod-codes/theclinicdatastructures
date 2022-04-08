@@ -9,7 +9,7 @@ trait TraitKeyPositioner
     /**
      * Finds next position if it exists, otherwise it will throw an exception. 
      *
-     * @param \Closure $checkOffsetExistance A closure that accepts an offset and returns true if it exists in the target.
+     * @param array|\Closure $checkOffsetExistance A closure that accepts an offset and returns true if it exists in the target.
      * @return integer
      */
     private function findPreviousPosition(array|\Closure $checkOffsetExistance, int $offset): int
@@ -29,7 +29,7 @@ trait TraitKeyPositioner
     /**
      * Finds next position if it exists, otherwise it will throw an exception. 
      *
-     * @param \Closure $checkOffsetExistance A closure that accepts an offset and returns true if it exists in the target.
+     * @param array|\Closure $checkOffsetExistance A closure that accepts an offset and returns true if it exists in the target.
      * @return integer
      */
     private function findNextPosition(array|\Closure $checkOffsetExistance, int $offset, int $targetLastKey): int
