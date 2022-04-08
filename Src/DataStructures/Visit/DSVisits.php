@@ -76,8 +76,94 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
             throw new InvalidValueException("\$sort value must be one of the following: " . implode(", ", $values) . ".", 500);
         }
 
+        switch ($sort) {
+            case 'ASC':
+                $this->visits = $this->sortAscendingly($this->visits);
+                break;
+
+            case 'DESC':
+                $this->visits = $this->sortDescendingly($this->visits);
+                break;
+
+            default:
+                throw new \LogicException('!', 500);
+                break;
+        }
+
         $this->sort = $sort;
     }
+
+    private function sortAscendingly(array $visits): array
+    {
+        /** @var DSVisit[] $sortedVisits */
+        $sortedVisits = [];
+
+        $jobDone = true;
+        $first = true;
+        /** @var DSVisit $visit */
+        foreach ($visits as $visit) {
+            if ($first) {
+                $first = false;
+                $sortedVisits[] = $visit;
+                continue;
+            }
+
+            $lastSortedVisit = $sortedVisits[count($sortedVisits) - 1];
+
+            if (!$this->compare($lastSortedVisit, $visit)) {
+                array_pop($sortedVisits);
+                $sortedVisits[] = $visit;
+                $sortedVisits[] = $lastSortedVisit;
+
+                $jobDone = false;
+            } else {
+                $sortedVisits[] = $visit;
+            }
+        }
+
+        if (!$jobDone) {
+            return $this->{__FUNCTION__}($sortedVisits);
+        }
+
+        return $sortedVisits;
+    }
+
+    private function sortDescendingly(array $visits): array
+    {
+        /** @var DSVisit[] $sortedVisits */
+        $sortedVisits = [];
+
+        $jobDone = true;
+        $first = true;
+        /** @var DSVisit $visit */
+        foreach ($visits as $visit) {
+            if ($first) {
+                $first = false;
+                $sortedVisits[] = $visit;
+                continue;
+            }
+
+            $lastSortedVisit = $sortedVisits[count($sortedVisits) - 1];
+
+            if (!$this->compare($visit, $lastSortedVisit)) {
+                array_pop($sortedVisits);
+                $sortedVisits[] = $visit;
+                $sortedVisits[] = $lastSortedVisit;
+
+                $jobDone = false;
+            } else {
+                $sortedVisits[] = $visit;
+            }
+        }
+
+        if (!$jobDone) {
+            return $this->{__FUNCTION__}($sortedVisits);
+        }
+
+        return $sortedVisits;
+    }
+
+
 
     /**
      * @param \TheClinicDataStructures\DataStructures\Order\DSOrder $order
@@ -364,8 +450,6 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
         if ($error) {
             throw new TimeSequenceViolationException("The new member doesn't respect the order of array members.", 500);
         }
-
-        unset($this->visits[$offset]);
     }
 
     private function compare(DSVisit $previousVisit, DSVisit $nextVisit): bool
