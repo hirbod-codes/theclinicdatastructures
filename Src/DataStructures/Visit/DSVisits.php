@@ -85,6 +85,9 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
                 $this->visits = $this->sortDescendingly($this->visits);
                 break;
 
+            case 'Natural':
+                break;
+
             default:
                 throw new \LogicException('!', 500);
                 break;
