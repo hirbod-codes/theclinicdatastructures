@@ -56,8 +56,7 @@ class DSLaserVisitsTest extends TestCase
 
         foreach ($dsVisitsArray['visits'] as $dsVisitArray) {
             $this->assertIsArray($dsVisitArray);
-            $this->assertCount(1, $dsVisitArray);
-            $this->assertEquals('visit', $dsVisitArray[0]);
+            $this->assertCount(7, $dsVisitArray);
         }
     }
 
@@ -323,52 +322,50 @@ class DSLaserVisitsTest extends TestCase
 
     private function makeCustomVisit(int $visitTimestamp, int $consumingTime): DSLaserVisit
     {
-        /** @var DSLaserVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSLaserVisit::class);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($visitTimestamp);
-        $visit->shouldReceive("getConsumingTime")->andReturn($consumingTime);
-
-        return $visit;
+        return new DSLaserVisit(
+            $this->faker->numberBetween(1, 1000),
+            $visitTimestamp,
+            $consumingTime,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeRandomVisit(\DateTime &$pointer, int $callsCount): DSLaserVisit
     {
-        /** @var DSLaserVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSLaserVisit::class);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
         if (($callsCount + 1) % 2 === 0) {
-            $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
+            $visitTimestamp = $pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp();
         } else {
-            $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
+            $visitTimestamp = $pointer->modify("-" . (2 * ($callsCount + 1)) . " hours")->getTimestamp();
         }
-
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-
-        return $visit;
+        return new DSLaserVisit(
+            $this->faker->numberBetween(1, 1000),
+            $visitTimestamp,
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeAscendingVisit(\DateTime &$pointer): DSLaserVisit
     {
-        /** @var DSLaserVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSLaserVisit::class);
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+2 hours")->getTimestamp());
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        return $visit;
+        return new DSLaserVisit(
+            $this->faker->numberBetween(1, 1000),
+            $pointer->modify("+2 hours")->getTimestamp(),
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeDescendingVisit(\DateTime &$pointer): DSLaserVisit
     {
-        /** @var DSLaserVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSLaserVisit::class);
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-150 minutes")->getTimestamp());
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        return $visit;
+        return new DSLaserVisit(
+            $this->faker->numberBetween(1, 1000),
+            $pointer->modify("-2 hours")->getTimestamp(),
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 }

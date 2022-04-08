@@ -6,8 +6,10 @@ use Faker\Factory;
 use Faker\Generator;
 use Mockery;
 use Tests\TestCase;
+use TheClinicDataStructures\DataStructures\Visit\DSVisit;
 use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisit;
 use TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisits;
+use TheClinicDataStructures\Exceptions\DataStructures\Visit\TimeSequenceViolationException;
 use TheClinicDataStructures\Exceptions\DataStructures\Visit\VisitExceptions;
 
 class DSRegularVisitsTest extends TestCase
@@ -47,8 +49,92 @@ class DSRegularVisitsTest extends TestCase
 
         foreach ($dsVisitsArray['visits'] as $dsVisitArray) {
             $this->assertIsArray($dsVisitArray);
-            $this->assertCount(1, $dsVisitArray);
-            $this->assertEquals('visit', $dsVisitArray[0]);
+            $this->assertCount(7, $dsVisitArray);
+        }
+    }
+
+    public function testSetSortAscendingly(): void
+    {
+        $visitCount = 20;
+        $sort = 'DESC';
+        $pointer = new \DateTime();
+
+        /** @var array $visits */
+        $visits = $this->makeVisits($pointer, $sort, $visitCount);
+
+        $dsVisits = new DSRegularVisits($sort);
+        foreach ($visits as $visit) {
+            $dsVisits[] = $visit;
+        }
+
+        $this->assertCount(20, $dsVisits);
+        $dsVisits->setSort('ASC');
+        $this->assertCount(20, $dsVisits);
+
+        try {
+            $pointer = (new \DateTime)->setTimestamp($dsVisits[count($dsVisits) - 1]->getVisitTimestamp());
+            $dsVisits[] = $this->makeDescendingVisit($pointer);
+            throw new \RuntimeException('Failure!!!', 500);
+        } catch (TimeSequenceViolationException $e) {
+        }
+
+        $newDSVisits = new DSRegularVisits('ASC');
+        $this->assertCount(20, $dsVisits);
+        /** @var DSVisit $dsVisit */
+        foreach ($dsVisits as $dsVisit) {
+            /** @var DSVisit $previousVisit */
+            if (!isset($previousVisit)) {
+                $previousVisit = $dsVisit;
+                $newDSVisits[] = $dsVisit;
+                continue;
+            }
+
+            $this->assertGreaterThanOrEqual($previousVisit->getVisitTimestamp() + $previousVisit->getConsumingTime(), $dsVisit->getVisitTimestamp());
+            $newDSVisits[] = $dsVisit;
+
+            $previousVisit = $dsVisit;
+        }
+    }
+
+    public function testSetSortDescendingly(): void
+    {
+        $visitCount = 20;
+        $sort = 'ASC';
+        $pointer = new \DateTime();
+
+        /** @var array $visits */
+        $visits = $this->makeVisits($pointer, $sort, $visitCount);
+
+        $dsVisits = new DSRegularVisits($sort);
+        foreach ($visits as $visit) {
+            $dsVisits[] = $visit;
+        }
+
+        $this->assertCount(20, $dsVisits);
+        $dsVisits->setSort('DESC');
+        $this->assertCount(20, $dsVisits);
+
+        try {
+            $pointer = (new \DateTime)->setTimestamp($dsVisits[count($dsVisits) - 1]->getVisitTimestamp());
+            $dsVisits[] = $this->makeAscendingVisit($pointer);
+            throw new \RuntimeException('Failure!!!', 500);
+        } catch (TimeSequenceViolationException $e) {
+        }
+
+        $this->assertCount(20, $dsVisits);
+        $newDSVisits = new DSRegularVisits('DESC');
+        /** @var DSVisit $dsVisit */
+        foreach ($dsVisits as $dsVisit) {
+            /** @var DSVisit $previousVisit */
+            if (!isset($previousVisit)) {
+                $previousVisit = $dsVisit;
+                continue;
+            }
+
+            $this->assertGreaterThanOrEqual($dsVisit->getVisitTimestamp() + $dsVisit->getConsumingTime(), $previousVisit->getVisitTimestamp());
+            $newDSVisits[] = $dsVisit;
+
+            $previousVisit = $dsVisit;
         }
     }
 
@@ -323,52 +409,50 @@ class DSRegularVisitsTest extends TestCase
 
     private function makeCustomVisit(int $visitTimestamp, int $consumingTime): DSRegularVisit
     {
-        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSRegularVisit::class);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($visitTimestamp);
-        $visit->shouldReceive("getConsumingTime")->andReturn($consumingTime);
-
-        return $visit;
+        return new DSRegularVisit(
+            $this->faker->numberBetween(1, 1000),
+            $visitTimestamp,
+            $consumingTime,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeRandomVisit(\DateTime &$pointer, int $callsCount): DSRegularVisit
     {
-        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSRegularVisit::class);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
         if (($callsCount + 1) % 2 === 0) {
-            $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
+            $visitTimestamp = $pointer->modify("+" . (2 * ($callsCount + 1)) . " hours")->getTimestamp();
         } else {
-            $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-" . (2 * ($callsCount + 1)) . " hours")->getTimestamp());
+            $visitTimestamp = $pointer->modify("-" . (2 * ($callsCount + 1)) . " hours")->getTimestamp();
         }
-
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-
-        return $visit;
+        return new DSRegularVisit(
+            $this->faker->numberBetween(1, 1000),
+            $visitTimestamp,
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeAscendingVisit(\DateTime &$pointer): DSRegularVisit
     {
-        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSRegularVisit::class);
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("+2 hours")->getTimestamp());
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        return $visit;
+        return new DSRegularVisit(
+            $this->faker->numberBetween(1, 1000),
+            $pointer->modify("+2 hours")->getTimestamp(),
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 
     private function makeDescendingVisit(\DateTime &$pointer): DSRegularVisit
     {
-        /** @var DSRegularVisit|\Mockery\MockInterface $visit */
-        $visit = Mockery::mock(DSRegularVisit::class);
-        $visit->shouldReceive("getVisitTimestamp")->andReturn($pointer->modify("-150 minutes")->getTimestamp());
-        $visit->shouldReceive("getConsumingTime")->andReturn(1800);
-        $visit->shouldReceive('toArray')->andReturn(['visit']);
-
-        return $visit;
+        return new DSRegularVisit(
+            $this->faker->numberBetween(1, 1000),
+            $pointer->modify("-2 hours")->getTimestamp(),
+            1800,
+            new \DateTime,
+            new \DateTime,
+        );
     }
 }
