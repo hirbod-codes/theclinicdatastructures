@@ -2,13 +2,18 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
+use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
-class DSDateTimePeriods implements \ArrayAccess, \Iterator, \Countable
+class DSDateTimePeriods implements
+    \ArrayAccess,
+    \Iterator,
+    \Countable,
+    IClonable
 {
     use TraitKeyPositioner;
 

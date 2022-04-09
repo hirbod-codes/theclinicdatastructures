@@ -2,9 +2,10 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
+use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
-class DSDateTimePeriod
+class DSDateTimePeriod implements IClonable
 {
     protected \DateTime $start;
 

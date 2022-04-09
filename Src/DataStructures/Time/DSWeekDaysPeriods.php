@@ -2,13 +2,17 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
+use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueException;
-use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
 
-class DSWeekDaysPeriods implements \Iterator, \Countable, \ArrayAccess
+class DSWeekDaysPeriods implements
+    \Iterator,
+    \Countable,
+    \ArrayAccess,
+    IClonable
 {
     use TraitKeyPositioner;
 

@@ -2,6 +2,7 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
+use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDownTime;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
@@ -9,7 +10,11 @@ use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeExce
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
-class DSDownTimes implements \ArrayAccess, \Iterator, \Countable
+class DSDownTimes implements
+    \ArrayAccess,
+    \Iterator,
+    \Countable,
+    IClonable
 {
     use TraitKeyPositioner;
 

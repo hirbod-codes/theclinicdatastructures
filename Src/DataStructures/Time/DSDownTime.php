@@ -2,9 +2,10 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
+use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 
-class DSDownTime extends DSDateTimePeriod
+class DSDownTime extends DSDateTimePeriod implements IClonable
 {
     private string $name;
 
