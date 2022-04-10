@@ -15,10 +15,6 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
 {
     use TraitKeyPositioner;
 
-    public DSUser|null $user;
-
-    public DSOrder|null $order;
-
     /**
      * @var \TheClinicDataStructures\DataStructures\Visit\DSVisit[]
      */
@@ -40,13 +36,6 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
 
     public function __construct(string $sort = "ASC", DSUser|null $user = null, DSOrder|null $order = null)
     {
-        if ($order !== null) {
-            $this->validateOrderType($order);
-        }
-
-        $this->user = $user;
-        $this->order = $order;
-
         $this->visits = [];
         $this->position = 0;
 
@@ -61,8 +50,6 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
     public function toArray(): array
     {
         return [
-            'user' => $this->user === null ? null : $this->user->toArray(),
-            'order' => $this->order === null ? null : $this->order->toArray(),
             'visits' => array_map(function (DSVisit $visit) {
                 return $visit->toArray();
             }, $this->visits)
