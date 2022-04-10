@@ -11,19 +11,6 @@ use TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeExce
 class DSRegularVisits extends DSVisits
 {
     /**
-     * @param \TheClinicDataStructures\DataStructures\Order\Regular\DSRegularOrder $order
-     * @return void
-     * 
-     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeException
-     */
-    protected function validateOrderType(DSOrder $order): void
-    {
-        if (!($order instanceof DSRegularOrder)) {
-            throw new InvalidValueTypeException("The order must be an object of class: " . DSRegularOrder::class, 500);
-        }
-    }
-
-    /**
      * @param \TheClinicDataStructures\DataStructures\Visit\Regular\DSRegularVisit $visit
      * @return void
      * 
