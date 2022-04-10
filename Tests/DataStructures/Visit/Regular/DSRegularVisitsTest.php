@@ -36,13 +36,7 @@ class DSRegularVisitsTest extends TestCase
         $dsVisitsArray = $dsVisits->toArray();
 
         $this->assertIsArray($dsVisitsArray);
-        $this->assertCount(3, $dsVisitsArray);
-
-        $this->assertNotFalse(array_search('user', array_keys($dsVisitsArray)));
-        $this->assertNull($dsVisitsArray['user']);
-
-        $this->assertNotFalse(array_search('order', array_keys($dsVisitsArray)));
-        $this->assertNull($dsVisitsArray['order']);
+        $this->assertCount(1, $dsVisitsArray);
 
         $this->assertNotFalse(array_search('visits', array_keys($dsVisitsArray)));
         $this->assertCount(10, $dsVisitsArray['visits']);
