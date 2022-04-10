@@ -153,21 +153,6 @@ class DSVisits implements \ArrayAccess, \Iterator, \Countable
         return $sortedVisits;
     }
 
-
-
-    /**
-     * @param \TheClinicDataStructures\DataStructures\Order\DSOrder $order
-     * @return void
-     * 
-     * @throws \TheClinicDataStructures\Exceptions\DataStructures\Visit\InvalidValueTypeException
-     */
-    protected function validateOrderType(DSOrder $order): void
-    {
-        if (!($order instanceof DSOrder)) {
-            throw new InvalidValueTypeException("The order must be an object of class: " . DSOrder::class, 500);
-        }
-    }
-
     // -------------------- \ArrayAccess
 
     public function offsetExists(mixed $offset): bool
