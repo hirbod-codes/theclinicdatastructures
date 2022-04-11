@@ -45,8 +45,7 @@ class DSWeekDaysPeriods implements
     public function __construct(string $startingDay)
     {
         $this->position = 0;
-        $this->startingDay = $startingDay;
-        $this->sortedWeekDays = $this->sortWeekDays($this->startingDay);
+        $this->setStartingDay($startingDay);
     }
 
     public function toArray(): array
@@ -81,6 +80,10 @@ class DSWeekDaysPeriods implements
 
     public function setStartingDay(string $dayOfWeek): void
     {
+        if (!in_array($dayOfWeek, self::$weekDays)) {
+            throw new \RuntimeException('Invalid name for a week\'s day name.', 500);
+        }
+
         $this->startingDay = $dayOfWeek;
         $this->sortedWeekDays = $this->sortWeekDays($this->startingDay);
     }
