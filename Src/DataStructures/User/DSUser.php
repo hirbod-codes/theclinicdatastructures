@@ -4,6 +4,9 @@ namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
+use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 abstract class DSUser
 {
@@ -136,11 +139,54 @@ abstract class DSUser
 
     abstract static public function getUserPrivileges(): array;
 
-    abstract public function privilegeExists(string $privilege): bool;
+    public function getPrivilege(string $privilege): mixed
+    {
+        if (!$this->privilegeExists($privilege)) {
+            throw new NoPrivilegeFoundException();
+        }
 
-    abstract public function getPrivilege(string $privilege): mixed;
+        $privileges = $this->getUserPrivileges();
 
-    abstract public function setPrivilege(string $privilege, mixed $value): void;
+        foreach ($privileges as $p => $pVal) {
+            if ($p === $privilege) {
+                return $pVal;
+            }
+        }
+
+        throw new NoPrivilegeFoundException();
+    }
+
+    public function privilegeExists(string $privilege): bool
+    {
+        $privileges = $this->getPrivileges();
+
+        foreach ($privileges as $p) {
+            if ($p === $privilege) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function setPrivilege(string $privilege, mixed $value, IPrivilege $ip): void
+    {
+        // This role has strict privileges.
+
+        if (!$this->privilegeExists($privilege)) {
+            throw new NoPrivilegeFoundException();
+        }
+
+        $privileges = $this->getUserPrivileges();
+
+        foreach ($privileges as $p => $value) {
+            if ($p === $privilege) {
+                throw new StrictPrivilegeException('this privilege is not volatile.', 500);
+            }
+        }
+
+        $ip->setPrivilege($this, $privilege, $value);
+    }
 
     /**
      * @return string[]
