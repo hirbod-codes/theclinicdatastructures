@@ -11,6 +11,15 @@ abstract class DSUser
 
     public static array $roles = ['admin', 'doctor', 'secretary', 'operator', 'patient'];
 
+    /**
+     * Includes properties that have scalar or null or array types and 
+     * are not attributes of this data structure.
+     * Any property with any other type except \DateTime will not be considered an attribute property.
+     *
+     * @var array
+     */
+    private array $specialProperties = [];
+
     private ICheckAuthentication $iCheckAuthentication;
 
     private int $id;
@@ -67,22 +76,55 @@ abstract class DSUser
         $this->setUpdatedAt($updatedAt);
     }
 
+    public static function getAttributes(): array
+    {
+        $attributes = [];
+        $properties = (new \ReflectionClass(self::class))->getProperties();
+
+        /** @var \ReflectionProperty $property */
+        foreach ($properties as $property) {
+            if (in_array($property->getName(), ['specialProperties', 'roles']) || $property->isStatic()) {
+                continue;
+            }
+
+            $propertyType = $property->getType();
+
+            if ($propertyType instanceof \ReflectionNamedType) {
+                if (in_array($propertyType->getName(), ['int', 'string', 'float', 'bool', 'array', 'null', \DateTime::class])) {
+                    $attributes[] = $property->getName();
+                }
+            } elseif ($propertyType instanceof \ReflectionUnionType) {
+                $isValid = true;
+                /** @var \ReflectionNamedType $type */
+                foreach ($propertyType->getTypes() as $type) {
+                    if (!in_array($type->getName(), ['int', 'string', 'float', 'bool', 'array', 'null', \DateTime::class])) {
+                        $isValid = false;
+                    }
+                }
+                if ($isValid) {
+                    $attributes[] = $property->getName();
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
     public function toArray(): array
     {
-        return [
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email === null ? null : $this->email,
-            'emailVerifiedAt' =>  $this->emailVerifiedAt === null ? null : $this->emailVerifiedAt->format("Y-m-d H:i:s"),
-            'phonenumber' => $this->phonenumber,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt->format("Y-m-d H:i:s"),
-            'orders' => $this->orders === null ? null : $this->orders->toArray(),
-            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
-            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
-        ];
+        $array = [];
+        foreach (self::getAttributes() as $attribute) {
+            if ($this->{$attribute} instanceof \DateTime) {
+                $value = $this->{$attribute}->format('Y-m-d H:i:s');
+            } else {
+                $value = $this->{$attribute};
+            }
+            $array[$attribute] = $value;
+        }
+
+        $array['orders'] = $this->orders === null ? null : $this->orders->toArray();
+
+        return $array;
     }
 
     public function isAuthenticated(): bool
