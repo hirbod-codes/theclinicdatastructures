@@ -11,7 +11,8 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSPatient;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
+use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 class DSPatientTest extends TestCase
 {
@@ -62,21 +63,13 @@ class DSPatientTest extends TestCase
 
     private function instanciate(): DSPatient
     {
-        $this->constructArgs = [
-            'iCheckAuthentication' => $this->iCheckAuthentication,
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'emailVerifiedAt' => $this->emailVerifiedAt,
-            'phonenumber' => $this->phonenumber,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'orders' => $this->orders,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt
-        ];
+        $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
+        $this->constructArgs['orders'] = $this->orders;
+
+        foreach (DSPatient::getAttributes() as $attribute) {
+            $this->constructArgs[$attribute] = $this->{$attribute};
+        }
+
         return new DSPatient(...$this->constructArgs);
     }
 
@@ -84,21 +77,13 @@ class DSPatientTest extends TestCase
     {
         $dsPatient = $this->instanciate();
 
-        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsPatient)->andReturn(true);
+        foreach (DSPatient::getAttributes() as $attribute) {
+            $this->assertEquals($this->{$attribute}, $dsPatient->{'get' . ucfirst($attribute)}());
+        }
 
-        $this->assertEquals($this->id, $dsPatient->getId());
-        $this->assertEquals($this->firstname, $dsPatient->getFirstname());
-        $this->assertEquals($this->lastname, $dsPatient->getLastname());
-        $this->assertEquals($this->username, $dsPatient->getUsername());
-        $this->assertEquals($this->gender, $dsPatient->getGender());
-        $this->assertEquals($this->email, $dsPatient->getEmail());
-        $this->assertEquals($this->emailVerifiedAt, $dsPatient->getEmailVerifiedAt());
-        $this->assertEquals($this->phonenumber, $dsPatient->getPhonenumber());
-        $this->assertEquals($this->phonenumberVerifiedAt, $dsPatient->getPhonenumberVerifiedAt());
         $this->assertEquals($this->orders, $dsPatient->orders);
-        $this->assertEquals($this->createdAt, $dsPatient->getCreatedAt());
-        $this->assertEquals($this->updatedAt, $dsPatient->getUpdatedAt());
 
+        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsPatient)->andReturn(true);
         $this->assertEquals(true, $dsPatient->isAuthenticated());
     }
 
@@ -127,7 +112,7 @@ class DSPatientTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = json_decode(file_get_contents(DSUser::PRIVILEGES_PATH . "/patientPrivileges.json"), true);
+        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/patientPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();
@@ -170,5 +155,37 @@ class DSPatientTest extends TestCase
         $result = $dsPatient->getPrivilege($privilege);
         $this->assertIsBool($result);
         $this->assertTrue($result);
+    }
+
+    public function testSetPrivilege(): void
+    {
+        $privilege = "selfAccountRead";
+
+        $dsPatient = $this->instanciate();
+
+        /** @var IPrivilege|MockInterface $iPrivilege */
+        $iPrivilege = Mockery::mock(IPrivilege::class);
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with($dsPatient, $privilege, false)
+            // 
+        ;
+
+        try {
+            $result = $dsPatient->setPrivilege($privilege, false, $iPrivilege);
+            throw new \RuntimeException('Failure!!!', 500);
+        } catch (StrictPrivilegeException $th) {
+        }
+
+        $privilege = "selfAccountUpdateFirstname";
+
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with($dsPatient, $privilege, false)
+            // 
+        ;
+
+        $result = $dsPatient->setPrivilege($privilege, false, $iPrivilege);
+        $this->assertNull($result);
     }
 }

@@ -11,7 +11,6 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSAdmin;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
 class DSAdminTest extends TestCase
 {
@@ -62,21 +61,13 @@ class DSAdminTest extends TestCase
 
     private function instanciate(): DSAdmin
     {
-        $this->constructArgs = [
-            'iCheckAuthentication' => $this->iCheckAuthentication,
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'emailVerifiedAt' => $this->emailVerifiedAt,
-            'phonenumber' => $this->phonenumber,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'orders' => $this->orders,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt
-        ];
+        $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
+        $this->constructArgs['orders'] = $this->orders;
+
+        foreach (DSAdmin::getAttributes() as $attribute) {
+            $this->constructArgs[$attribute] = $this->{$attribute};
+        }
+
         return new DSAdmin(...$this->constructArgs);
     }
 
@@ -84,21 +75,13 @@ class DSAdminTest extends TestCase
     {
         $dsAdmin = $this->instanciate();
 
-        $this->assertEquals($this->id, $dsAdmin->getId());
-        $this->assertEquals($this->firstname, $dsAdmin->getFirstname());
-        $this->assertEquals($this->lastname, $dsAdmin->getLastname());
-        $this->assertEquals($this->username, $dsAdmin->getUsername());
-        $this->assertEquals($this->gender, $dsAdmin->getGender());
-        $this->assertEquals($this->email, $dsAdmin->getEmail());
-        $this->assertEquals($this->emailVerifiedAt, $dsAdmin->getEmailVerifiedAt());
-        $this->assertEquals($this->phonenumber, $dsAdmin->getPhonenumber());
-        $this->assertEquals($this->phonenumberVerifiedAt, $dsAdmin->getPhonenumberVerifiedAt());
+        foreach (DSAdmin::getAttributes() as $attribute) {
+            $this->assertEquals($this->{$attribute}, $dsAdmin->{'get' . ucfirst($attribute)}());
+        }
+
         $this->assertEquals($this->orders, $dsAdmin->orders);
-        $this->assertEquals($this->createdAt, $dsAdmin->getCreatedAt());
-        $this->assertEquals($this->updatedAt, $dsAdmin->getUpdatedAt());
-
+        
         $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsAdmin)->andReturn(true);
-
         $this->assertEquals(true, $dsAdmin->isAuthenticated());
     }
 
@@ -127,7 +110,7 @@ class DSAdminTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = json_decode(file_get_contents(DSUser::PRIVILEGES_PATH . "/adminPrivileges.json"), true);
+        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/adminPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

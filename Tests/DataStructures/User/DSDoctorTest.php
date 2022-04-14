@@ -11,7 +11,6 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSDoctor;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 
 class DSDoctorTest extends TestCase
 {
@@ -62,21 +61,13 @@ class DSDoctorTest extends TestCase
 
     private function instanciate(): DSDoctor
     {
-        $this->constructArgs = [
-            'iCheckAuthentication' => $this->iCheckAuthentication,
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'phonenumber' => $this->phonenumber,
-            'emailVerifiedAt' => $this->emailVerifiedAt,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'orders' => $this->orders,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt
-        ];
+        $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
+        $this->constructArgs['orders'] = $this->orders;
+
+        foreach (DSDoctor::getAttributes() as $attribute) {
+            $this->constructArgs[$attribute] = $this->{$attribute};
+        }
+
         return new DSDoctor(...$this->constructArgs);
     }
 
@@ -84,21 +75,13 @@ class DSDoctorTest extends TestCase
     {
         $dsDoctor = $this->instanciate();
 
-        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsDoctor)->andReturn(true);
+        foreach (DSDoctor::getAttributes() as $attribute) {
+            $this->assertEquals($this->{$attribute}, $dsDoctor->{'get' . ucfirst($attribute)}());
+        }
 
-        $this->assertEquals($this->id, $dsDoctor->getId());
-        $this->assertEquals($this->firstname, $dsDoctor->getFirstname());
-        $this->assertEquals($this->lastname, $dsDoctor->getLastname());
-        $this->assertEquals($this->username, $dsDoctor->getUsername());
-        $this->assertEquals($this->gender, $dsDoctor->getGender());
-        $this->assertEquals($this->email, $dsDoctor->getEmail());
-        $this->assertEquals($this->emailVerifiedAt, $dsDoctor->getEmailVerifiedAt());
-        $this->assertEquals($this->phonenumber, $dsDoctor->getPhonenumber());
-        $this->assertEquals($this->phonenumberVerifiedAt, $dsDoctor->getPhonenumberVerifiedAt());
         $this->assertEquals($this->orders, $dsDoctor->orders);
-        $this->assertEquals($this->createdAt, $dsDoctor->getCreatedAt());
-        $this->assertEquals($this->updatedAt, $dsDoctor->getUpdatedAt());
 
+        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsDoctor)->andReturn(true);
         $this->assertEquals(true, $dsDoctor->isAuthenticated());
     }
 
@@ -127,7 +110,7 @@ class DSDoctorTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = json_decode(file_get_contents(DSUser::PRIVILEGES_PATH . "/doctorPrivileges.json"), true);
+        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/doctorPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

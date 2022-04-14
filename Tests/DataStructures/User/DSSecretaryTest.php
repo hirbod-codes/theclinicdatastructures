@@ -11,7 +11,8 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSSecretary;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
+use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 class DSSecretaryTest extends TestCase
 {
@@ -62,21 +63,13 @@ class DSSecretaryTest extends TestCase
 
     private function instanciate(): DSSecretary
     {
-        $this->constructArgs = [
-            'iCheckAuthentication' => $this->iCheckAuthentication,
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'emailVerifiedAt' => $this->emailVerifiedAt,
-            'phonenumber' => $this->phonenumber,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'orders' => $this->orders,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt
-        ];
+        $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
+        $this->constructArgs['orders'] = $this->orders;
+
+        foreach (DSSecretary::getAttributes() as $attribute) {
+            $this->constructArgs[$attribute] = $this->{$attribute};
+        }
+
         return new DSSecretary(...$this->constructArgs);
     }
 
@@ -84,21 +77,13 @@ class DSSecretaryTest extends TestCase
     {
         $dsSecretary = $this->instanciate();
 
-        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsSecretary)->andReturn(true);
+        foreach (DSSecretary::getAttributes() as $attribute) {
+            $this->assertEquals($this->{$attribute}, $dsSecretary->{'get' . ucfirst($attribute)}());
+        }
 
-        $this->assertEquals($this->id, $dsSecretary->getId());
-        $this->assertEquals($this->firstname, $dsSecretary->getFirstname());
-        $this->assertEquals($this->lastname, $dsSecretary->getLastname());
-        $this->assertEquals($this->username, $dsSecretary->getUsername());
-        $this->assertEquals($this->gender, $dsSecretary->getGender());
-        $this->assertEquals($this->email, $dsSecretary->getEmail());
-        $this->assertEquals($this->emailVerifiedAt, $dsSecretary->getEmailVerifiedAt());
-        $this->assertEquals($this->phonenumber, $dsSecretary->getPhonenumber());
-        $this->assertEquals($this->phonenumberVerifiedAt, $dsSecretary->getPhonenumberVerifiedAt());
         $this->assertEquals($this->orders, $dsSecretary->orders);
-        $this->assertEquals($this->createdAt, $dsSecretary->getCreatedAt());
-        $this->assertEquals($this->updatedAt, $dsSecretary->getUpdatedAt());
 
+        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsSecretary)->andReturn(true);
         $this->assertEquals(true, $dsSecretary->isAuthenticated());
     }
 
@@ -127,7 +112,7 @@ class DSSecretaryTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = json_decode(file_get_contents(DSUser::PRIVILEGES_PATH . "/secretaryPrivileges.json"), true);
+        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/secretaryPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();
@@ -170,5 +155,45 @@ class DSSecretaryTest extends TestCase
         $result = $dsSecretary->getPrivilege($privilege);
         $this->assertIsBool($result);
         $this->assertTrue($result);
+    }
+
+    public function testSetPrivilege(): void
+    {
+        $privilege = "selfAccountRead";
+
+        $dsSecretary = $this->instanciate();
+
+        /** @var IPrivilege|MockInterface $iPrivilege */
+        $iPrivilege = Mockery::mock(IPrivilege::class);
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with(
+                $dsSecretary,
+                $privilege,
+                false
+            )
+            // 
+        ;
+
+        try {
+            $result = $dsSecretary->setPrivilege($privilege, false, $iPrivilege);
+            throw new \RuntimeException('Failure!!!', 500);
+        } catch (StrictPrivilegeException $th) {
+        }
+
+        $privilege = "selfAccountUpdateFirstname";
+
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with(
+                $dsSecretary,
+                $privilege,
+                false
+            )
+            // 
+        ;
+
+        $result = $dsSecretary->setPrivilege($privilege, false, $iPrivilege);
+        $this->assertNull($result);
     }
 }

@@ -11,7 +11,8 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSOperator;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
-use TheClinicDataStructures\DataStructures\Visit\DSVisits;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
+use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 class DSOperatorTest extends TestCase
 {
@@ -62,21 +63,13 @@ class DSOperatorTest extends TestCase
 
     private function instanciate(): DSOperator
     {
-        $this->constructArgs = [
-            'iCheckAuthentication' => $this->iCheckAuthentication,
-            'id' => $this->id,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'username' => $this->username,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'emailVerifiedAt' => $this->emailVerifiedAt,
-            'phonenumber' => $this->phonenumber,
-            'phonenumberVerifiedAt' => $this->phonenumberVerifiedAt,
-            'orders' => $this->orders,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt
-        ];
+        $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
+        $this->constructArgs['orders'] = $this->orders;
+
+        foreach (DSOperator::getAttributes() as $attribute) {
+            $this->constructArgs[$attribute] = $this->{$attribute};
+        }
+
         return new DSOperator(...$this->constructArgs);
     }
 
@@ -84,21 +77,13 @@ class DSOperatorTest extends TestCase
     {
         $dsOperator = $this->instanciate();
 
-        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsOperator)->andReturn(true);
+        foreach (DSOperator::getAttributes() as $attribute) {
+            $this->assertEquals($this->{$attribute}, $dsOperator->{'get' . ucfirst($attribute)}());
+        }
 
-        $this->assertEquals($this->id, $dsOperator->getId());
-        $this->assertEquals($this->firstname, $dsOperator->getFirstname());
-        $this->assertEquals($this->lastname, $dsOperator->getLastname());
-        $this->assertEquals($this->username, $dsOperator->getUsername());
-        $this->assertEquals($this->gender, $dsOperator->getGender());
-        $this->assertEquals($this->email, $dsOperator->getEmail());
-        $this->assertEquals($this->emailVerifiedAt, $dsOperator->getEmailVerifiedAt());
-        $this->assertEquals($this->phonenumber, $dsOperator->getPhonenumber());
-        $this->assertEquals($this->phonenumberVerifiedAt, $dsOperator->getPhonenumberVerifiedAt());
         $this->assertEquals($this->orders, $dsOperator->orders);
-        $this->assertEquals($this->createdAt, $dsOperator->getCreatedAt());
-        $this->assertEquals($this->updatedAt, $dsOperator->getUpdatedAt());
 
+        $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsOperator)->andReturn(true);
         $this->assertEquals(true, $dsOperator->isAuthenticated());
     }
 
@@ -127,7 +112,7 @@ class DSOperatorTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = json_decode(file_get_contents(DSUser::PRIVILEGES_PATH . "/operatorPrivileges.json"), true);
+        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/operatorPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();
@@ -170,5 +155,37 @@ class DSOperatorTest extends TestCase
         $result = $dsOperator->getPrivilege($privilege);
         $this->assertIsBool($result);
         $this->assertTrue($result);
+    }
+
+    public function testSetPrivilege(): void
+    {
+        $privilege = "selfAccountRead";
+
+        $dsOperator = $this->instanciate();
+
+        /** @var IPrivilege|MockInterface $iPrivilege */
+        $iPrivilege = Mockery::mock(IPrivilege::class);
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with($dsOperator, $privilege, false)
+            // 
+        ;
+
+        try {
+            $result = $dsOperator->setPrivilege($privilege, false, $iPrivilege);
+            throw new \RuntimeException('Failure!!!', 500);
+        } catch (StrictPrivilegeException $th) {
+        }
+
+        $privilege = "selfAccountUpdateFirstname";
+
+        $iPrivilege
+            ->shouldReceive('setPrivilege')
+            ->with($dsOperator, $privilege, false)
+            // 
+        ;
+
+        $result = $dsOperator->setPrivilege($privilege, false, $iPrivilege);
+        $this->assertNull($result);
     }
 }
