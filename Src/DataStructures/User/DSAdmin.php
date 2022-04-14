@@ -2,7 +2,8 @@
 
 namespace TheClinicDataStructures\DataStructures\User;
 
-use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundException;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
+use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 class DSAdmin extends DSUser
 {
@@ -13,41 +14,11 @@ class DSAdmin extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/adminPrivileges.json"), true);
+        return require self::PRIVILEGES_PATH . "/adminPrivileges.php";
     }
 
-    public function getPrivilege(string $privilege): mixed
+    public function setPrivilege(string $privilege, mixed $value, IPrivilege $p): void
     {
-        if (!$this->privilegeExists($privilege)) {
-            throw new NoPrivilegeFoundException();
-        }
-
-        $privileges = $this->getUserPrivileges();
-
-        foreach ($privileges as $p => $pVal) {
-            if ($p === $privilege) {
-                return $pVal;
-            }
-        }
-
-        throw new NoPrivilegeFoundException();
-    }
-
-    public function setPrivilege(string $privilege, mixed $value): void
-    {
-        // This role has strict privileges.
-    }
-
-    public function privilegeExists(string $privilege): bool
-    {
-        $privileges = $this->getPrivileges();
-
-        foreach ($privileges as $p) {
-            if ($p === $privilege) {
-                return true;
-            }
-        }
-
-        return false;
+        throw new StrictPrivilegeException('This role privileges are strict.', 403);
     }
 }
