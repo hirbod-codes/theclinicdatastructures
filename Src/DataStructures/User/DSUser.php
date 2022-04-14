@@ -193,7 +193,7 @@ abstract class DSUser
      */
     public static function getPrivileges(): array
     {
-        return json_decode(file_get_contents(self::PRIVILEGES_PATH . "/privileges.json"), true);
+        return require self::PRIVILEGES_PATH . '/privileges.php';
     }
 
     // id
