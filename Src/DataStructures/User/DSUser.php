@@ -82,11 +82,20 @@ abstract class DSUser
     public static function getAttributes(): array
     {
         $attributes = [];
-        $properties = (new \ReflectionClass(static::class))->getProperties();
+        $reflectionClass = new \ReflectionClass(static::class);
+        $properties = $reflectionClass->getProperties();
+
+        $reflectionParentClass = $reflectionClass->getParentClass();
+
+        if ($reflectionParentClass !== false) {
+            $parentProperties = $reflectionParentClass->getProperties();
+            $properties = array_merge($properties, $parentProperties);
+        }
 
         /** @var \ReflectionProperty $property */
         foreach ($properties as $property) {
-            if (in_array($property->getName(), ['specialProperties', 'roles']) || $property->isStatic()) {
+            $propertyNames[] = $propertyName = $property->getName();
+            if (in_array($propertyName, ['specialProperties', 'roles']) || $property->isStatic()) {
                 continue;
             }
 
@@ -94,7 +103,7 @@ abstract class DSUser
 
             if ($propertyType instanceof \ReflectionNamedType) {
                 if (in_array($propertyType->getName(), ['int', 'string', 'float', 'bool', 'array', 'null', \DateTime::class])) {
-                    $attributes[] = $property->getName();
+                    $attributes[] = $propertyName;
                 }
             } elseif ($propertyType instanceof \ReflectionUnionType) {
                 $isValid = true;
@@ -105,7 +114,7 @@ abstract class DSUser
                     }
                 }
                 if ($isValid) {
-                    $attributes[] = $property->getName();
+                    $attributes[] = $propertyName;
                 }
             }
         }
