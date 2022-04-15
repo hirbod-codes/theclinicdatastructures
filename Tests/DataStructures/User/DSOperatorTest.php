@@ -112,7 +112,7 @@ class DSOperatorTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/operatorPrivileges.php";
+        $orignalPrivileges = include DSUser::PRIVILEGES_PATH . "/operatorPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

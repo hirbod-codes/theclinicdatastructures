@@ -110,7 +110,7 @@ class DSDoctorTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/doctorPrivileges.php";
+        $orignalPrivileges = include DSUser::PRIVILEGES_PATH . "/doctorPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

@@ -112,7 +112,7 @@ class DSPatientTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/patientPrivileges.php";
+        $orignalPrivileges = include DSUser::PRIVILEGES_PATH . "/patientPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

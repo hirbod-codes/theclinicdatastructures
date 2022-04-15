@@ -112,7 +112,7 @@ class DSSecretaryTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/secretaryPrivileges.php";
+        $orignalPrivileges = include DSUser::PRIVILEGES_PATH . "/secretaryPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();

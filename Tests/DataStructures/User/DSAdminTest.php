@@ -110,7 +110,7 @@ class DSAdminTest extends TestCase
 
     public function testGetUserPrivileges(): void
     {
-        $orignalPrivileges = require DSUser::PRIVILEGES_PATH . "/adminPrivileges.php";
+        $orignalPrivileges = include DSUser::PRIVILEGES_PATH . "/adminPrivileges.php";
         $privilegesCount = count($orignalPrivileges);
 
         $privileges = $this->instanciate()->getUserPrivileges();
