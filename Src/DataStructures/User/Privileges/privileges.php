@@ -1,5 +1,11 @@
 <?php
 
+use TheClinicDataStructures\DataStructures\User\DSAdmin;
+use TheClinicDataStructures\DataStructures\User\DSDoctor;
+use TheClinicDataStructures\DataStructures\User\DSOperator;
+use TheClinicDataStructures\DataStructures\User\DSPatient;
+use TheClinicDataStructures\DataStructures\User\DSSecretary;
+
 $privileges = [
     "accountsRead",
     "accountRead",
@@ -60,6 +66,10 @@ foreach (scandir(__DIR__ . '/../') as $value) {
     $value = str_replace('.php', '', $value);
 
     $class = $namespace . $value;
+
+    if (!class_exists($class)) {
+        throw new \RuntimeException('Failure!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', 500);
+    }
 
     foreach ($class::getAttributes() as $attribute) {
         if (array_search($attribute, $attributes) === false) {

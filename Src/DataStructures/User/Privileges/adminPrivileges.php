@@ -1,11 +1,9 @@
 <?php
 
-require __DIR__ . '/../../../../vendor/autoload.php';
-
-$privleges = require __DIR__ . '/privileges.php';
+$privileges = include __DIR__ . '/privileges.php';
 
 $adminPrivileges = [];
-foreach ($privleges as $privlege) {
+foreach ($privileges as $privlege) {
     $adminPrivileges[$privlege] = true;
 }
 

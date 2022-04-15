@@ -1,8 +1,8 @@
 <?php
 
-require __DIR__ . '/../../../../vendor/autoload.php';
-
 use TheClinicDataStructures\DataStructures\User\DSDoctor;
+
+// include __DIR__ . '/../DSDoctor.php';
 
 $doctorPrivileges = [];
 foreach (DSDoctor::getAttributes() as $attribute) {
