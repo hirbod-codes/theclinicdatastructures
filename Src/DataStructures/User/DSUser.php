@@ -82,7 +82,7 @@ abstract class DSUser
     public static function getAttributes(): array
     {
         $attributes = [];
-        $properties = (new \ReflectionClass(self::class))->getProperties();
+        $properties = (new \ReflectionClass(static::class))->getProperties();
 
         /** @var \ReflectionProperty $property */
         foreach ($properties as $property) {
