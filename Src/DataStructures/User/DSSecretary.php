@@ -11,6 +11,6 @@ class DSSecretary extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return require self::PRIVILEGES_PATH . "/secretaryPrivileges.php";
+        return include self::PRIVILEGES_PATH . "/secretaryPrivileges.php";
     }
 }

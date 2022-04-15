@@ -14,7 +14,7 @@ class DSAdmin extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return require self::PRIVILEGES_PATH . "/adminPrivileges.php";
+        return include self::PRIVILEGES_PATH . "/adminPrivileges.php";
     }
 
     public function setPrivilege(string $privilege, mixed $value, IPrivilege $p): void

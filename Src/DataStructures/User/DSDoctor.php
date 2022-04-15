@@ -14,7 +14,7 @@ class DSDoctor extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return require self::PRIVILEGES_PATH . "/doctorPrivileges.php";
+        return include self::PRIVILEGES_PATH . "/doctorPrivileges.php";
     }
 
     public function setPrivilege(string $privilege, mixed $value, IPrivilege $p): void

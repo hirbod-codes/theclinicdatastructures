@@ -11,6 +11,6 @@ class DSOperator extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return require self::PRIVILEGES_PATH . "/operatorPrivileges.php";
+        return include self::PRIVILEGES_PATH . "/operatorPrivileges.php";
     }
 }

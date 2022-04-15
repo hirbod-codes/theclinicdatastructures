@@ -11,6 +11,6 @@ class DSPatient extends DSUser
 
     public static function getUserPrivileges(): array
     {
-        return require self::PRIVILEGES_PATH . "/patientPrivileges.php";
+        return include self::PRIVILEGES_PATH . "/patientPrivileges.php";
     }
 }
