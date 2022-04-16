@@ -9,7 +9,7 @@ class DSSecretary extends DSUser
         return 'secretary';
     }
 
-    public static function getUserPrivileges(): array
+    public static function getUserPrivileges(string $roleName = ""): array
     {
         return include self::PRIVILEGES_PATH . "/secretaryPrivileges.php";
     }

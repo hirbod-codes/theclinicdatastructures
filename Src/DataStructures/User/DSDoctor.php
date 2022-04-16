@@ -12,7 +12,7 @@ class DSDoctor extends DSUser
         return 'doctor';
     }
 
-    public static function getUserPrivileges(): array
+    public static function getUserPrivileges(string $roleName = ""): array
     {
         return include self::PRIVILEGES_PATH . "/doctorPrivileges.php";
     }
