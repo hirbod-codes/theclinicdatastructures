@@ -146,7 +146,7 @@ abstract class DSUser
 
     abstract public function getRuleName(): string;
 
-    abstract static public function getUserPrivileges(): array;
+    abstract static public function getUserPrivileges(string $roleName = ""): array;
 
     public function getPrivilege(string $privilege): mixed
     {
@@ -154,7 +154,7 @@ abstract class DSUser
             throw new NoPrivilegeFoundException();
         }
 
-        $privileges = $this->getUserPrivileges();
+        $privileges = static::getUserPrivileges();
 
         foreach ($privileges as $p => $pVal) {
             if ($p === $privilege) {
