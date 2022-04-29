@@ -66,7 +66,7 @@ class DSSecretaryTest extends TestCase
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
-        foreach (DSSecretary::getAttributes() as $attribute) {
+        foreach (DSSecretary::getAttributes() as $attribute => $types) {
             $this->constructArgs[$attribute] = $this->{$attribute};
         }
 
@@ -77,8 +77,12 @@ class DSSecretaryTest extends TestCase
     {
         $dsSecretary = $this->instanciate();
 
-        foreach (DSSecretary::getAttributes() as $attribute) {
-            $this->assertEquals($this->{$attribute}, $dsSecretary->{'get' . ucfirst($attribute)}());
+        foreach (DSSecretary::getAttributes() as $attribute => $types) {
+            if (method_exists($dsSecretary, 'get' . ucfirst($attribute))) {
+                $this->assertEquals($this->{$attribute}, $dsSecretary->{'get' . ucfirst($attribute)}());
+            } else {
+                $this->assertEquals($this->{$attribute}, $dsSecretary->{$attribute});
+            }
         }
 
         $this->assertEquals($this->orders, $dsSecretary->orders);

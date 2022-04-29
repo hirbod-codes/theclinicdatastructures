@@ -59,6 +59,11 @@ class DSPatientTest extends TestCase
         $this->orders = null;
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
+        $this->age = $this->faker->numberBetween(16, 70);
+        $this->state = $this->faker->state();
+        $this->city = $this->faker->city();
+        $this->address = $this->faker->address();
+        $this->laserGrade = $this->faker->numerify() . '/' . $this->faker->numerify();
     }
 
     private function instanciate(): DSPatient
@@ -66,7 +71,7 @@ class DSPatientTest extends TestCase
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
-        foreach (DSPatient::getAttributes() as $attribute) {
+        foreach (DSPatient::getAttributes() as $attribute => $types) {
             $this->constructArgs[$attribute] = $this->{$attribute};
         }
 
@@ -77,8 +82,12 @@ class DSPatientTest extends TestCase
     {
         $dsPatient = $this->instanciate();
 
-        foreach (DSPatient::getAttributes() as $attribute) {
-            $this->assertEquals($this->{$attribute}, $dsPatient->{'get' . ucfirst($attribute)}());
+        foreach (DSPatient::getAttributes() as $attribute => $types) {
+            if (method_exists($dsPatient, 'get' . ucfirst($attribute))) {
+                $this->assertEquals($this->{$attribute}, $dsPatient->{'get' . ucfirst($attribute)}());
+            } else {
+                $this->assertEquals($this->{$attribute}, $dsPatient->{$attribute});
+            }
         }
 
         $this->assertEquals($this->orders, $dsPatient->orders);

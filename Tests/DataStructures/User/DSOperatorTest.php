@@ -9,6 +9,7 @@ use Mockery\MockInterface;
 use Tests\TestCase;
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSOperator;
+use TheClinicDataStructures\DataStructures\User\DSPatients;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
@@ -59,6 +60,7 @@ class DSOperatorTest extends TestCase
         $this->orders = null;
         $this->createdAt = new \DateTime;
         $this->updatedAt = new \DateTime;
+        $this->dsPatients = new DSPatients;
     }
 
     private function instanciate(): DSOperator
@@ -66,7 +68,7 @@ class DSOperatorTest extends TestCase
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
-        foreach (DSOperator::getAttributes() as $attribute) {
+        foreach (DSOperator::getAttributes() as $attribute => $types) {
             $this->constructArgs[$attribute] = $this->{$attribute};
         }
 
@@ -77,8 +79,12 @@ class DSOperatorTest extends TestCase
     {
         $dsOperator = $this->instanciate();
 
-        foreach (DSOperator::getAttributes() as $attribute) {
-            $this->assertEquals($this->{$attribute}, $dsOperator->{'get' . ucfirst($attribute)}());
+        foreach (DSOperator::getAttributes() as $attribute => $types) {
+            if (method_exists($dsOperator, 'get' . ucfirst($attribute))) {
+                $this->assertEquals($this->{$attribute}, $dsOperator->{'get' . ucfirst($attribute)}());
+            } else {
+                $this->assertEquals($this->{$attribute}, $dsOperator->{$attribute});
+            }
         }
 
         $this->assertEquals($this->orders, $dsOperator->orders);

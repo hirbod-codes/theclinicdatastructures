@@ -64,7 +64,7 @@ class DSDoctorTest extends TestCase
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
-        foreach (DSDoctor::getAttributes() as $attribute) {
+        foreach (DSDoctor::getAttributes() as $attribute => $types) {
             $this->constructArgs[$attribute] = $this->{$attribute};
         }
 
@@ -75,8 +75,12 @@ class DSDoctorTest extends TestCase
     {
         $dsDoctor = $this->instanciate();
 
-        foreach (DSDoctor::getAttributes() as $attribute) {
-            $this->assertEquals($this->{$attribute}, $dsDoctor->{'get' . ucfirst($attribute)}());
+        foreach (DSDoctor::getAttributes() as $attribute => $types) {
+            if (method_exists($dsDoctor, 'get' . ucfirst($attribute))) {
+                $this->assertEquals($this->{$attribute}, $dsDoctor->{'get' . ucfirst($attribute)}());
+            } else {
+                $this->assertEquals($this->{$attribute}, $dsDoctor->{$attribute});
+            }
         }
 
         $this->assertEquals($this->orders, $dsDoctor->orders);

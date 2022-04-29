@@ -64,7 +64,7 @@ class DSAdminTest extends TestCase
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
-        foreach (DSAdmin::getAttributes() as $attribute) {
+        foreach (DSAdmin::getAttributes() as $attribute => $types) {
             $this->constructArgs[$attribute] = $this->{$attribute};
         }
 
@@ -75,12 +75,16 @@ class DSAdminTest extends TestCase
     {
         $dsAdmin = $this->instanciate();
 
-        foreach (DSAdmin::getAttributes() as $attribute) {
-            $this->assertEquals($this->{$attribute}, $dsAdmin->{'get' . ucfirst($attribute)}());
+        foreach (DSAdmin::getAttributes() as $attribute => $types) {
+            if (method_exists($dsAdmin, 'get' . ucfirst($attribute))) {
+                $this->assertEquals($this->{$attribute}, $dsAdmin->{'get' . ucfirst($attribute)}());
+            } else {
+                $this->assertEquals($this->{$attribute}, $dsAdmin->{$attribute});
+            }
         }
 
         $this->assertEquals($this->orders, $dsAdmin->orders);
-        
+
         $this->iCheckAuthentication->shouldReceive("isAuthenticated")->with($dsAdmin)->andReturn(true);
         $this->assertEquals(true, $dsAdmin->isAuthenticated());
     }
