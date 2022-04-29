@@ -1,6 +1,6 @@
 <?php
 
-namespace TheClinicDataStructures\DataStructures\Time;
+namespace TheClinicDataStructures\DataStructures\Interfaces;
 
 interface IClonable
 {
