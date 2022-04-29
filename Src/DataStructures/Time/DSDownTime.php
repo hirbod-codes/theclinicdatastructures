@@ -2,7 +2,7 @@
 
 namespace TheClinicDataStructures\DataStructures\Time;
 
-use TheClinicDataStructures\DataStructures\Time\IClonable;
+use TheClinicDataStructures\DataStructures\Interfaces\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 
