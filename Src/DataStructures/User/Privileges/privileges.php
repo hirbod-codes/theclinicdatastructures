@@ -1,10 +1,6 @@
 <?php
 
-use TheClinicDataStructures\DataStructures\User\DSAdmin;
-use TheClinicDataStructures\DataStructures\User\DSDoctor;
-use TheClinicDataStructures\DataStructures\User\DSOperator;
-use TheClinicDataStructures\DataStructures\User\DSPatient;
-use TheClinicDataStructures\DataStructures\User\DSSecretary;
+use TheClinicDataStructures\DataStructures\User\DSUser;
 
 $privileges = [
     "accountsRead",
@@ -71,7 +67,17 @@ foreach (scandir(__DIR__ . '/../') as $value) {
         throw new \RuntimeException('Failure!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', 500);
     }
 
-    foreach ($class::getAttributes() as $attribute) {
+    if (
+        (new \ReflectionClass($class))->getParentClass() === false ||
+        (
+            (new \ReflectionClass($class))->getParentClass() !== false &&
+            (new \ReflectionClass($class))->getParentClass()->getName() !== DSUser::class
+        )
+    ) {
+        continue;
+    }
+
+    foreach ($class::getAttributes() as $attribute => $types) {
         if (array_search($attribute, $attributes) === false) {
             $attributes[] = $attribute;
         }
