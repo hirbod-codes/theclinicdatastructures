@@ -3,25 +3,22 @@
 namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
+use TheClinicDataStructures\DataStructures\Traits\IsArrayable;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
 use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
 use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
-abstract class DSUser
+abstract class DSUser implements Arrayable
 {
+    use IsArrayable;
+
     const PRIVILEGES_PATH = __DIR__ . "/Privileges";
 
     public static array $roles = ['admin', 'doctor', 'secretary', 'operator', 'patient'];
 
-    /**
-     * Includes properties that have scalar or null or array types and 
-     * are not attributes of this data structure.
-     * Any property with any other type except \DateTime will not be considered an attribute property.
-     *
-     * @var array
-     */
-    private array $specialProperties = [];
+    protected static array $excludedPropertiesNames = ['iCheckAuthentication'];
 
     private ICheckAuthentication $iCheckAuthentication;
 
@@ -79,64 +76,15 @@ abstract class DSUser
         $this->setUpdatedAt($updatedAt);
     }
 
-    public static function getAttributes(): array
+    public static function getExcludedPropertiesNames()
     {
-        $attributes = [];
-        $reflectionClass = new \ReflectionClass(static::class);
-        $properties = $reflectionClass->getProperties();
-
-        $reflectionParentClass = $reflectionClass->getParentClass();
-
-        if ($reflectionParentClass !== false) {
-            $parentProperties = $reflectionParentClass->getProperties();
-            $properties = array_merge($properties, $parentProperties);
+        if (!in_array('roles', self::$excludedPropertiesNames)) {
+            self::$excludedPropertiesNames[] = 'roles';
+        } elseif (!in_array('excludedPropertiesNames', self::$excludedPropertiesNames)) {
+            self::$excludedPropertiesNames[] = 'excludedPropertiesNames';
         }
 
-        /** @var \ReflectionProperty $property */
-        foreach ($properties as $property) {
-            $propertyNames[] = $propertyName = $property->getName();
-            if (in_array($propertyName, ['specialProperties', 'roles']) || $property->isStatic()) {
-                continue;
-            }
-
-            $propertyType = $property->getType();
-
-            if ($propertyType instanceof \ReflectionNamedType) {
-                if (in_array($propertyType->getName(), ['int', 'string', 'float', 'bool', 'array', 'null', \DateTime::class])) {
-                    $attributes[] = $propertyName;
-                }
-            } elseif ($propertyType instanceof \ReflectionUnionType) {
-                $isValid = true;
-                /** @var \ReflectionNamedType $type */
-                foreach ($propertyType->getTypes() as $type) {
-                    if (!in_array($type->getName(), ['int', 'string', 'float', 'bool', 'array', 'null', \DateTime::class])) {
-                        $isValid = false;
-                    }
-                }
-                if ($isValid) {
-                    $attributes[] = $propertyName;
-                }
-            }
-        }
-
-        return $attributes;
-    }
-
-    public function toArray(): array
-    {
-        $array = [];
-        foreach (self::getAttributes() as $attribute) {
-            if ($this->{$attribute} instanceof \DateTime) {
-                $value = $this->{$attribute}->format('Y-m-d H:i:s');
-            } else {
-                $value = $this->{$attribute};
-            }
-            $array[$attribute] = $value;
-        }
-
-        $array['orders'] = $this->orders === null ? null : $this->orders->toArray();
-
-        return $array;
+        return self::$excludedPropertiesNames;
     }
 
     public function isAuthenticated(): bool
@@ -146,6 +94,9 @@ abstract class DSUser
 
     abstract public function getRuleName(): string;
 
+    /**
+     * @return array<string, mixed>
+     */
     abstract static public function getUserPrivileges(string $roleName = ""): array;
 
     public function getPrivilege(string $privilege): mixed
