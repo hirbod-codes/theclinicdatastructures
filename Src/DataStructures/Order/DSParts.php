@@ -2,13 +2,14 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSParts implements \Countable, \ArrayAccess, \Iterator
+class DSParts implements \Countable, \ArrayAccess, \Iterator, Arrayable
 {
     use TraitKeyPositioner;
 

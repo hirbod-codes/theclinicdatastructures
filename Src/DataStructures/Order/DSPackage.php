@@ -2,10 +2,11 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 
-class DSPackage
+class DSPackage implements Arrayable
 {
     private int $id;
 

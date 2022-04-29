@@ -2,10 +2,11 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-abstract class DSOrder
+abstract class DSOrder implements Arrayable
 {
     protected int $id;
 

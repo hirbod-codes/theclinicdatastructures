@@ -2,7 +2,9 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
-class DSPart
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
+
+class DSPart implements Arrayable
 {
     private int $id;
 
@@ -39,13 +41,13 @@ class DSPart
     public function toArray(): array
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'gender'=>$this->gender,
-            'price'=>$this->price,
-            'neededTime'=>$this->neededTime,
-            'createdAt'=>$this->createdAt->format("Y-m-d H:i:s"),
-            'updatedAt'=>$this->updatedAt->format("Y-m-d H:i:s")
+            'id' => $this->id,
+            'name' => $this->name,
+            'gender' => $this->gender,
+            'price' => $this->price,
+            'neededTime' => $this->neededTime,
+            'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
+            'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
         ];
     }
 

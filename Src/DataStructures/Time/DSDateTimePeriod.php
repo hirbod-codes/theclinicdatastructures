@@ -3,9 +3,10 @@
 namespace TheClinicDataStructures\DataStructures\Time;
 
 use TheClinicDataStructures\DataStructures\Time\IClonable;
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
-class DSDateTimePeriod implements IClonable
+class DSDateTimePeriod implements IClonable, Arrayable
 {
     protected \DateTime $start;
 

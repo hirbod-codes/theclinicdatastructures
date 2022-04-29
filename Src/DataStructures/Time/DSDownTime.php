@@ -4,8 +4,9 @@ namespace TheClinicDataStructures\DataStructures\Time;
 
 use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 
-class DSDownTime extends DSDateTimePeriod implements IClonable
+class DSDownTime extends DSDateTimePeriod implements IClonable, Arrayable
 {
     private string $name;
 

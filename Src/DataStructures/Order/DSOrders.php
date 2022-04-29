@@ -2,6 +2,7 @@
 
 namespace TheClinicDataStructures\DataStructures\Order;
 
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
@@ -9,7 +10,7 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeExc
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidUserException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSOrders implements \ArrayAccess, \Iterator, \Countable
+class DSOrders implements \ArrayAccess, \Iterator, \Countable, Arrayable
 {
     use TraitKeyPositioner;
 

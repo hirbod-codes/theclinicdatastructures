@@ -4,6 +4,7 @@ namespace TheClinicDataStructures\DataStructures\Time;
 
 use TheClinicDataStructures\DataStructures\Time\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
+use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
@@ -13,7 +14,8 @@ class DSDateTimePeriods implements
     \ArrayAccess,
     \Iterator,
     \Countable,
-    IClonable
+    IClonable,
+    Arrayable
 {
     use TraitKeyPositioner;
 
