@@ -282,28 +282,6 @@ abstract class DSUser
         $this->phonenumberVerifiedAt = $phonenumberVerifiedAt;
     }
 
-    // Email
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
-
-    // EmailVerifiedAt
-    public function getEmailVerifiedAt(): \DateTime
-    {
-        return $this->emailVerifiedAt;
-    }
-
-    public function setEmailVerifiedAt(\DateTime $emailVerifiedAt): void
-    {
-        $this->emailVerifiedAt = $emailVerifiedAt;
-    }
-
     // createdAt
     public function getCreatedAt(): \DateTime
     {
