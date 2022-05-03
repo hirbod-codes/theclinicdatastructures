@@ -6,7 +6,7 @@ use TheClinicDataStructures\DataStructures\Interfaces\IClonable;
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
 
-class DSDateTimePeriod implements IClonable, Arrayable
+class DSDateTimePeriod implements IClonable, Arrayable, \Stringable
 {
     protected \DateTime $start;
 
@@ -32,6 +32,11 @@ class DSDateTimePeriod implements IClonable, Arrayable
             new \DateTime($resultOfToArrayMethod['start']),
             new \DateTime($resultOfToArrayMethod['end'])
         );
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     /**

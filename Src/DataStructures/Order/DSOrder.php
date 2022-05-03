@@ -6,7 +6,7 @@ use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Visit\DSVisits;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-abstract class DSOrder implements Arrayable
+abstract class DSOrder implements Arrayable, \Stringable
 {
     protected int $id;
 
@@ -54,6 +54,11 @@ abstract class DSOrder implements Arrayable
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     protected function validateVisitsType(DSVisits|null $visits): void

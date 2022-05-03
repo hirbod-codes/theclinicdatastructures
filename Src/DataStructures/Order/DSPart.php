@@ -4,7 +4,7 @@ namespace TheClinicDataStructures\DataStructures\Order;
 
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 
-class DSPart implements Arrayable
+class DSPart implements Arrayable, \Stringable
 {
     private int $id;
 
@@ -49,6 +49,11 @@ class DSPart implements Arrayable
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     public function getId(): int

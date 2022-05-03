@@ -10,7 +10,7 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeExc
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidUserException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSOrders implements \ArrayAccess, \Iterator, \Countable, Arrayable
+class DSOrders implements \ArrayAccess, \Iterator, \Countable, \Stringable, Arrayable
 {
     use TraitKeyPositioner;
 
@@ -34,6 +34,11 @@ class DSOrders implements \ArrayAccess, \Iterator, \Countable, Arrayable
                 return $order->toArray();
             }, $this->orders)
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     public function isMixedOrders(): bool

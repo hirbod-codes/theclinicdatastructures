@@ -9,7 +9,7 @@ use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderExcepti
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidOffsetTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidValueTypeException;
 
-class DSParts implements \Countable, \ArrayAccess, \Iterator, Arrayable
+class DSParts implements \Countable, \ArrayAccess, \Iterator, Arrayable, \Stringable
 {
     use TraitKeyPositioner;
 
@@ -30,6 +30,11 @@ class DSParts implements \Countable, \ArrayAccess, \Iterator, Arrayable
                 return $part->toArray();
             }, $this->parts)
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     // ------------------------------------ \Countable

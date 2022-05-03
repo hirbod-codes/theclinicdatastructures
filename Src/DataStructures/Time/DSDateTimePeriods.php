@@ -14,6 +14,7 @@ class DSDateTimePeriods implements
     \ArrayAccess,
     \Iterator,
     \Countable,
+    \Stringable,
     IClonable,
     Arrayable
 {
@@ -65,6 +66,11 @@ class DSDateTimePeriods implements
         }
 
         return $dsDateTimePeriods;
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     private function validateValue(DSDateTimePeriod $value): void

@@ -10,7 +10,7 @@ use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
 use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
-abstract class DSUser implements Arrayable
+abstract class DSUser implements Arrayable, \Stringable
 {
     use IsArrayable;
 
@@ -74,6 +74,13 @@ abstract class DSUser implements Arrayable
         $this->orders = $orders;
         $this->setCreatedAt($createdAt);
         $this->setUpdatedAt($updatedAt);
+    }
+
+    // ------------- \Stringable ----------------------------------------------------
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     public static function getExcludedPropertiesNames()

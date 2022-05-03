@@ -14,6 +14,7 @@ class DSWeekDaysPeriods implements
     \Countable,
     \ArrayAccess,
     IClonable,
+    \Stringable,
     Arrayable
 {
     use TraitKeyPositioner;
@@ -61,6 +62,11 @@ class DSWeekDaysPeriods implements
             'Saturday' => isset($this->Saturday) ? $this->Saturday->toArray() : null,
             'Sunday' => isset($this->Sunday) ? $this->Sunday->toArray() : null,
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     public static function toObject(array $resultOfToArrayMethod): self

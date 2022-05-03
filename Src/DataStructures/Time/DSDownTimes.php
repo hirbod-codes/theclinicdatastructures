@@ -16,6 +16,7 @@ class DSDownTimes implements
     \ArrayAccess,
     \Iterator,
     \Countable,
+    \Stringable,
     IClonable,
     Arrayable
 {
@@ -67,6 +68,11 @@ class DSDownTimes implements
         }
 
         return $dsDowTimes;
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     // ------------------------------------ \ArrayAccess

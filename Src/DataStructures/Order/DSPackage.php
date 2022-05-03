@@ -6,7 +6,7 @@ use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Order\DSParts;
 use TheClinicDataStructures\Exceptions\DataStructures\Order\InvalidGenderException;
 
-class DSPackage implements Arrayable
+class DSPackage implements Arrayable, \Stringable
 {
     private int $id;
 
@@ -51,6 +51,11 @@ class DSPackage implements Arrayable
             'createdAt' => $this->createdAt->format("Y-m-d H:i:s"),
             'updatedAt' => $this->updatedAt->format("Y-m-d H:i:s")
         ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     public function getParts(): DSParts

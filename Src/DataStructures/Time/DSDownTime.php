@@ -6,7 +6,7 @@ use TheClinicDataStructures\DataStructures\Interfaces\IClonable;
 use TheClinicDataStructures\DataStructures\Time\DSDateTimePeriod;
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 
-class DSDownTime extends DSDateTimePeriod implements IClonable, Arrayable
+class DSDownTime extends DSDateTimePeriod implements IClonable, Arrayable, \Stringable
 {
     private string $name;
 
@@ -52,5 +52,10 @@ class DSDownTime extends DSDateTimePeriod implements IClonable, Arrayable
             new \DateTime($resultOfToArrayMethod['end']),
             $resultOfToArrayMethod['name']
         );
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 }

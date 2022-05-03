@@ -6,7 +6,7 @@ use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
 
-class DSPatients implements \Countable, \ArrayAccess, \Iterator, Arrayable
+class DSPatients implements \Countable, \ArrayAccess, \Iterator, \Stringable, Arrayable
 {
     use TraitKeyPositioner;
 
@@ -22,6 +22,13 @@ class DSPatients implements \Countable, \ArrayAccess, \Iterator, Arrayable
     public function toArray(): array
     {
         return $this->dsPatients;
+    }
+
+    // ------------- \Stringable ----------------------------------------------------
+
+    public function __toString(): string
+    {
+        return json_encode($this->toArray());
     }
 
     // ------------- \Countable ----------------------------------------------------
