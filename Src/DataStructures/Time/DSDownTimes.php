@@ -7,6 +7,7 @@ use TheClinicDataStructures\DataStructures\Time\DSDownTime;
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
 use TheClinicDataStructures\DataStructures\Traits\TraitKeyPositioner;
 use TheClinicDataStructures\Exceptions\DataStructures\NoKeyFoundException;
+use TheClinicDataStructures\Exceptions\DataStructures\Time\DublicateDownTimeNameException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidOffsetTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\InvalidValueTypeException;
 use TheClinicDataStructures\Exceptions\DataStructures\Time\TimeSequenceViolationException;
@@ -84,6 +85,12 @@ class DSDownTimes implements
     {
         if (!($value instanceof DSDownTime)) {
             throw new InvalidValueTypeException("The new member must be an object of class: " . DSDownTime::class, 500);
+        }
+
+        foreach ($this->dsDownTimes as $dsDownTime) {
+            if ($dsDownTime->getName() === $value->getName()) {
+                throw new DublicateDownTimeNameException('', 500);
+            }
         }
 
         if (is_null($offset)) {

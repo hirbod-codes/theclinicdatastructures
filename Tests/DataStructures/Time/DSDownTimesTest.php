@@ -155,6 +155,8 @@ class DSDownTimesTest extends TestCase
         $dsDownTime->shouldReceive("getEnd")->andReturn((new \DateTime($end)));
         $dsDownTime->shouldReceive("getEndTimestamp")->andReturn((new \DateTime($end))->getTimestamp());
 
+        $dsDownTime->shouldReceive("getName")->andReturn($this->faker->unique()->lexify());
+
         $dsDownTime->shouldReceive("toArray")->andReturn(['dsDownTime']);
 
         return $dsDownTime;
