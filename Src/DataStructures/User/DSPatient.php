@@ -4,7 +4,7 @@ namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
 
-class DSPatient extends DSUser
+final class DSPatient extends DSUser
 {
     protected int $age;
 

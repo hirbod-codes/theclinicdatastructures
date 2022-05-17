@@ -2,7 +2,7 @@
 
 namespace TheClinicDataStructures\DataStructures\User;
 
-class DSSecretary extends DSUser
+final class DSSecretary extends DSUser
 {
     public function getRuleName(): string
     {

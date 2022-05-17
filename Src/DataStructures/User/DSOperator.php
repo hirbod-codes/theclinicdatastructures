@@ -4,7 +4,7 @@ namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
 
-class DSOperator extends DSUser
+final class DSOperator extends DSUser
 {
     public DSPatients|null $dsPatients;
 

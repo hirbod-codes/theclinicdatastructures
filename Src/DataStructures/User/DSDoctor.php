@@ -2,10 +2,7 @@
 
 namespace TheClinicDataStructures\DataStructures\User;
 
-use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
-use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
-
-class DSDoctor extends DSUser
+final class DSDoctor extends DSUser
 {
     public function getRuleName(): string
     {
