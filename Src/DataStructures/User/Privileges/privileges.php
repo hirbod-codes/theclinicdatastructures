@@ -78,6 +78,16 @@ foreach (scandir(__DIR__ . '/../') as $value) {
     }
 
     foreach ($class::getAttributes() as $attribute => $types) {
+        if ($attribute === 'ruleName') {
+            continue;
+        }
+
+        foreach ($types as $type) {
+            if (strpos($type, 'TheClinicDataStructures') !== false) {
+                continue 2;
+            }
+        }
+
         if (array_search($attribute, $attributes) === false) {
             $attributes[] = $attribute;
         }

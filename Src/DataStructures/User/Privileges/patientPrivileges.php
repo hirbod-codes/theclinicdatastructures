@@ -1,5 +1,13 @@
 <?php
 
+use TheClinicDataStructures\DataStructures\User\DSPatient;
+
+$patientPrivileges = [];
+foreach (DSPatient::getAttributes() as $attribute => $types) {
+    $patientPrivileges['accountUpdate' . ucfirst($attribute)] = false;
+    $patientPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
+}
+
 $privileges = [
     "accountsRead" => false,
     "accountRead" => false,
@@ -47,5 +55,7 @@ $privileges = [
     "regularVisitCreate" => false,
     "regularVisitDelete" => false,
 ];
+
+$privileges = array_merge($privileges, $patientPrivileges);
 
 return $privileges;

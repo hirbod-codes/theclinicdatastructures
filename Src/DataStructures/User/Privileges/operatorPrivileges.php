@@ -1,5 +1,13 @@
 <?php
 
+use TheClinicDataStructures\DataStructures\User\DSOperator;
+
+$operatorPrivileges = [];
+foreach (DSOperator::getAttributes() as $attribute => $types) {
+    $operatorPrivileges['accountUpdate' . ucfirst($attribute)] = false;
+    $operatorPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
+}
+
 $privileges = [
     "accountsRead" => false,
     "accountRead" => false,
@@ -47,5 +55,7 @@ $privileges = [
     "regularVisitCreate" => false,
     "regularVisitDelete" => false,
 ];
+
+$privileges = array_merge($privileges, $operatorPrivileges);
 
 return $privileges;

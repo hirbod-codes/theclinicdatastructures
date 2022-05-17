@@ -1,5 +1,13 @@
 <?php
 
+use TheClinicDataStructures\DataStructures\User\DSSecretary;
+
+$secretaryPrivileges = [];
+foreach (DSSecretary::getAttributes() as $attribute => $types) {
+    $secretaryPrivileges['accountUpdate' . ucfirst($attribute)] = false;
+    $secretaryPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
+}
+
 $privileges = [
     "accountsRead" => false,
     "accountRead" => false,
@@ -47,5 +55,7 @@ $privileges = [
     "regularVisitCreate" => false,
     "regularVisitDelete" => false,
 ];
+
+$privileges = array_merge($privileges, $secretaryPrivileges);
 
 return $privileges;
