@@ -10,15 +10,21 @@ use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
 use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundException;
 use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
+/**
+ * The reason that these methods: getRuleName, getUserPrivileges, getPrivilege, privilegeExists, setPrivilege, getPrivileges are npt static,
+ * is because every instance of this class might have their own ruleName or privileges.(custom rules)
+ */
 abstract class DSUser implements Arrayable, \Stringable
 {
     use IsArrayable;
 
     const PRIVILEGES_PATH = __DIR__ . "/Privileges";
 
-    public static array $roles = ['admin', 'doctor', 'secretary', 'operator', 'patient'];
+    public static array $roles = ['admin', 'doctor', 'secretary', 'operator', 'patient', 'custom_doctor', 'custom_secretary', 'custom_operator', 'custom_patient', 'custom'];
 
-    protected static array $excludedPropertiesNames = ['iCheckAuthentication'];
+    protected static array $excludedPropertiesNames = ['iCheckAuthentication', 'iPrivilege'];
+
+    private IPrivilege $iPrivilege;
 
     private ICheckAuthentication $iCheckAuthentication;
 
@@ -47,6 +53,7 @@ abstract class DSUser implements Arrayable, \Stringable
     private \DateTime $updatedAt;
 
     public function __construct(
+        IPrivilege $iPrivilege,
         ICheckAuthentication $iCheckAuthentication,
         int $id,
         string $firstname,
@@ -61,6 +68,7 @@ abstract class DSUser implements Arrayable, \Stringable
         \DateTime|null $emailVerifiedAt = null,
         DSOrders|null $orders = null,
     ) {
+        $this->iPrivilege = $iPrivilege;
         $this->iCheckAuthentication = $iCheckAuthentication;
         $this->setId($id);
         $this->setFirstname($firstname);
@@ -125,9 +133,9 @@ abstract class DSUser implements Arrayable, \Stringable
 
     public function privilegeExists(string $privilege): bool
     {
-        $privileges = $this->getPrivileges();
+        $privileges = $this->getUserPrivileges();
 
-        foreach ($privileges as $p) {
+        foreach ($privileges as $p => $v) {
             if ($p === $privilege) {
                 return true;
             }
@@ -136,23 +144,9 @@ abstract class DSUser implements Arrayable, \Stringable
         return false;
     }
 
-    public function setPrivilege(string $privilege, mixed $value, IPrivilege $ip): void
+    public function setPrivilege(string $privilege, mixed $value): void
     {
-        // This role has strict privileges.
-
-        if (!$this->privilegeExists($privilege)) {
-            throw new NoPrivilegeFoundException();
-        }
-
-        $privileges = $this->getUserPrivileges();
-
-        foreach ($privileges as $p => $value) {
-            if ($p === $privilege) {
-                throw new StrictPrivilegeException('this privilege is not volatile.', 500);
-            }
-        }
-
-        $ip->setPrivilege($this, $privilege, $value);
+        throw new StrictPrivilegeException('This role privileges are strict.', 403);
     }
 
     /**
