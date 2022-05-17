@@ -13,9 +13,4 @@ final class DSAdmin extends DSUser
     {
         return include self::PRIVILEGES_PATH . "/adminPrivileges.php";
     }
-
-    public function setPrivilege(string $privilege, mixed $value, IPrivilege $p): void
-    {
-        throw new StrictPrivilegeException('This role privileges are strict.', 403);
-    }
 }
