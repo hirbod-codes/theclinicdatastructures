@@ -104,7 +104,7 @@ abstract class DSUser implements Arrayable, \Stringable
     /**
      * @return array<string, mixed>
      */
-    abstract static public function getUserPrivileges(string $roleName = ""): array;
+    abstract public function getUserPrivileges(): array;
 
     public function getPrivilege(string $privilege): mixed
     {
@@ -158,7 +158,7 @@ abstract class DSUser implements Arrayable, \Stringable
     /**
      * @return string[]
      */
-    public static function getPrivileges(): array
+    public function getPrivileges(): array
     {
         return require self::PRIVILEGES_PATH . '/privileges.php';
     }
