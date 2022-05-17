@@ -9,7 +9,7 @@ final class DSAdmin extends DSUser
         return 'admin';
     }
 
-    public static function getUserPrivileges(string $roleName = ""): array
+    public function getUserPrivileges(): array
     {
         return include self::PRIVILEGES_PATH . "/adminPrivileges.php";
     }

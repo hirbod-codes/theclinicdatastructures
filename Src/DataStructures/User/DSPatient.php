@@ -3,6 +3,7 @@
 namespace TheClinicDataStructures\DataStructures\User;
 
 use TheClinicDataStructures\DataStructures\Order\DSOrders;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
 
 final class DSPatient extends DSUser
 {
@@ -18,6 +19,7 @@ final class DSPatient extends DSUser
 
     /**
      * @param ICheckAuthentication $iCheckAuthentication
+     * @param IPrivilege $iPrivilege
      * @param integer $id
      * @param string $firstname
      * @param string $lastname
@@ -38,6 +40,7 @@ final class DSPatient extends DSUser
      */
     public function __construct(
         ICheckAuthentication $iCheckAuthentication,
+        IPrivilege $iPrivilege,
         int $id,
         string $firstname,
         string $lastname,
@@ -57,6 +60,7 @@ final class DSPatient extends DSUser
         DSOrders|null $orders = null,
     ) {
         parent::__construct(
+            $iPrivilege,
             $iCheckAuthentication,
             $id,
             $firstname,
@@ -84,7 +88,7 @@ final class DSPatient extends DSUser
         return 'patient';
     }
 
-    public static function getUserPrivileges(string $roleName = ""): array
+    public function getUserPrivileges(): array
     {
         return include self::PRIVILEGES_PATH . "/patientPrivileges.php";
     }
