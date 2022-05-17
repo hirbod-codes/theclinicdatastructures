@@ -19,6 +19,8 @@ class DSOperatorTest extends TestCase
 {
     private Generator $faker;
 
+    private $iPrivilege;
+
     private $iCheckAuthentication;
 
     private $id;
@@ -45,6 +47,9 @@ class DSOperatorTest extends TestCase
 
         $this->faker = Factory::create();
 
+        /** @var IPrivilege|MockInterface $iCheckAuthentication */
+        $this->iPrivilege = Mockery::mock(IPrivilege::class);
+
         /** @var ICheckAuthentication|MockInterface $iCheckAuthentication */
         $this->iCheckAuthentication = Mockery::mock(ICheckAuthentication::class);
 
@@ -65,6 +70,7 @@ class DSOperatorTest extends TestCase
 
     private function instanciate(): DSOperator
     {
+        $this->constructArgs['iPrivilege'] = $this->iPrivilege;
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
@@ -97,6 +103,7 @@ class DSOperatorTest extends TestCase
     {
         $dsAdminArray = $this->instanciate()->toArray();
         unset($this->constructArgs['iCheckAuthentication']);
+        unset($this->constructArgs['iPrivilege']);
 
         foreach ($this->constructArgs as $key => $value) {
             $this->assertNotFalse(array_search($key, array_keys($dsAdminArray)));
@@ -161,37 +168,5 @@ class DSOperatorTest extends TestCase
         $result = $dsOperator->getPrivilege($privilege);
         $this->assertIsBool($result);
         $this->assertTrue($result);
-    }
-
-    public function testSetPrivilege(): void
-    {
-        $privilege = "selfAccountRead";
-
-        $dsOperator = $this->instanciate();
-
-        /** @var IPrivilege|MockInterface $iPrivilege */
-        $iPrivilege = Mockery::mock(IPrivilege::class);
-        $iPrivilege
-            ->shouldReceive('setPrivilege')
-            ->with($dsOperator, $privilege, false)
-            // 
-        ;
-
-        try {
-            $result = $dsOperator->setPrivilege($privilege, false, $iPrivilege);
-            throw new \RuntimeException('Failure!!!', 500);
-        } catch (StrictPrivilegeException $th) {
-        }
-
-        $privilege = "selfAccountUpdateFirstname";
-
-        $iPrivilege
-            ->shouldReceive('setPrivilege')
-            ->with($dsOperator, $privilege, false)
-            // 
-        ;
-
-        $result = $dsOperator->setPrivilege($privilege, false, $iPrivilege);
-        $this->assertNull($result);
     }
 }

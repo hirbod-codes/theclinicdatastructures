@@ -11,10 +11,13 @@ use TheClinicDataStructures\DataStructures\Order\DSOrders;
 use TheClinicDataStructures\DataStructures\User\DSDoctor;
 use TheClinicDataStructures\DataStructures\User\DSUser;
 use TheClinicDataStructures\DataStructures\User\ICheckAuthentication;
+use TheClinicDataStructures\DataStructures\User\Interfaces\IPrivilege;
 
 class DSDoctorTest extends TestCase
 {
     private Generator $faker;
+
+    private $iPrivilege;
 
     private $iCheckAuthentication;
 
@@ -42,6 +45,9 @@ class DSDoctorTest extends TestCase
 
         $this->faker = Factory::create();
 
+        /** @var IPrivilege|MockInterface $iCheckAuthentication */
+        $this->iPrivilege = Mockery::mock(IPrivilege::class);
+
         /** @var ICheckAuthentication|MockInterface $iCheckAuthentication */
         $this->iCheckAuthentication = Mockery::mock(ICheckAuthentication::class);
 
@@ -61,6 +67,7 @@ class DSDoctorTest extends TestCase
 
     private function instanciate(): DSDoctor
     {
+        $this->constructArgs['iPrivilege'] = $this->iPrivilege;
         $this->constructArgs['iCheckAuthentication'] = $this->iCheckAuthentication;
         $this->constructArgs['orders'] = $this->orders;
 
@@ -93,6 +100,7 @@ class DSDoctorTest extends TestCase
     {
         $dsAdminArray = $this->instanciate()->toArray();
         unset($this->constructArgs['iCheckAuthentication']);
+        unset($this->constructArgs['iPrivilege']);
 
         foreach ($this->constructArgs as $key => $value) {
             $this->assertNotFalse(array_search($key, array_keys($dsAdminArray)));
