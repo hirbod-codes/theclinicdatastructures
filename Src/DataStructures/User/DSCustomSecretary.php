@@ -70,7 +70,7 @@ final class DSCustomSecretary extends DSUser
 
     public function getUserPrivileges(): array
     {
-        return $this->iPrivilege->getUserPrivileges();
+        return $this->iPrivilege->getUserPrivileges($this);
     }
 
     public function setPrivilege(string $privilege, mixed $value): void
