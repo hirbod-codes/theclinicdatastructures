@@ -4,6 +4,12 @@ use TheClinicDataStructures\DataStructures\User\DSSecretary;
 
 $secretaryPrivileges = [];
 foreach (DSSecretary::getAttributes() as $attribute => $types) {
+    foreach ($types as $type) {
+        if (strpos($type, 'TheClinicDataStructures') !== false) {
+            continue 2;
+        }
+    }
+
     $secretaryPrivileges['accountUpdate' . ucfirst($attribute)] = false;
     $secretaryPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
 }

@@ -4,6 +4,12 @@ use TheClinicDataStructures\DataStructures\User\DSPatient;
 
 $patientPrivileges = [];
 foreach (DSPatient::getAttributes() as $attribute => $types) {
+    foreach ($types as $type) {
+        if (strpos($type, 'TheClinicDataStructures') !== false) {
+            continue 2;
+        }
+    }
+
     $patientPrivileges['accountUpdate' . ucfirst($attribute)] = false;
     $patientPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
 }

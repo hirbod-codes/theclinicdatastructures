@@ -4,6 +4,12 @@ use TheClinicDataStructures\DataStructures\User\DSOperator;
 
 $operatorPrivileges = [];
 foreach (DSOperator::getAttributes() as $attribute => $types) {
+    foreach ($types as $type) {
+        if (strpos($type, 'TheClinicDataStructures') !== false) {
+            continue 2;
+        }
+    }
+
     $operatorPrivileges['accountUpdate' . ucfirst($attribute)] = false;
     $operatorPrivileges['selfAccountUpdate' . ucfirst($attribute)] = false;
 }
@@ -46,11 +52,11 @@ $privileges = [
     "laserVisitRetrieve" => false,
     "laserVisitCreate" => false,
     "laserVisitDelete" => false,
-    
+
     "selfRegularVisitRetrieve" => true,
     "selfRegularVisitCreate" => true,
     "selfRegularVisitDelete" => true,
-    
+
     "regularVisitRetrieve" => false,
     "regularVisitCreate" => false,
     "regularVisitDelete" => false,
