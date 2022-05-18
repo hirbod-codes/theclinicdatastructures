@@ -114,6 +114,14 @@ abstract class DSUser implements Arrayable, \Stringable
      */
     abstract public function getUserPrivileges(): array;
 
+    /**
+     * @return array<string, mixed>
+     */
+    static public function getUserPrivilegesStatically(): array
+    {
+        throw new \LogicException('This rule doesn\'t have strict privileges.', 500);
+    }
+
     public function getPrivilege(string $privilege): mixed
     {
         if (!$this->privilegeExists($privilege)) {

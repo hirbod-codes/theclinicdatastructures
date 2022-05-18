@@ -93,6 +93,14 @@ final class DSPatient extends DSUser
         return include self::PRIVILEGES_PATH . "/patientPrivileges.php";
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    static public function getUserPrivilegesStatically(): array
+    {
+        return include self::PRIVILEGES_PATH . "/patientPrivileges.php";
+    }
+
     // age
     public function getAge(): string
     {

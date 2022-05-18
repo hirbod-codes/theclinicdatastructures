@@ -71,4 +71,12 @@ final class DSOperator extends DSUser
     {
         return include self::PRIVILEGES_PATH . "/operatorPrivileges.php";
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    static public function getUserPrivilegesStatically(): array
+    {
+        return include self::PRIVILEGES_PATH . "/operatorPrivileges.php";
+    }
 }

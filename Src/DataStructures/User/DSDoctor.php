@@ -13,4 +13,12 @@ final class DSDoctor extends DSUser
     {
         return include self::PRIVILEGES_PATH . "/doctorPrivileges.php";
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    static public function getUserPrivilegesStatically(): array
+    {
+        return include self::PRIVILEGES_PATH . "/doctorPrivileges.php";
+    }
 }
