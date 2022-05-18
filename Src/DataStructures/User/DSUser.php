@@ -152,7 +152,7 @@ abstract class DSUser implements Arrayable, \Stringable
     /**
      * @return string[]
      */
-    public function getPrivileges(): array
+    public static function getPrivileges(): array
     {
         return require self::PRIVILEGES_PATH . '/privileges.php';
     }
