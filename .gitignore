@@ -1,5 +1,5 @@
-.vscode
-vendor
-composer.lock
-.phpunit.result.cache
-phpunit.xml
+.vscode/
+/vendor/
+/composer.lock
+/.phpunit.result.cache
+/phpunit.xml
