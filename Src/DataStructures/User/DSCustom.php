@@ -14,7 +14,7 @@ final class DSCustom extends DSUser
      *
      * @var string|null
      */
-    public string|null $data;
+    public array|null $data;
 
     /**
      * @param string $ruleName
@@ -50,7 +50,7 @@ final class DSCustom extends DSUser
         string|null $email = null,
         \DateTime|null $emailVerifiedAt = null,
         DSOrders|null $orders = null,
-        string|null $data = null,
+        array|null $data = null,
     ) {
         parent::__construct(
             $iPrivilege,
