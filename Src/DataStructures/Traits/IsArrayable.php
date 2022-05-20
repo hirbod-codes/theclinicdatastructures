@@ -72,21 +72,23 @@ trait IsArrayable
     {
         $array = [];
         foreach (self::getAttributes() as $attribute => $types) {
-            if (in_array(gettype($this->{$attribute}), ['integer', 'string', 'float', 'bool', 'array', 'NULL'])) {
-                if (method_exists($this, 'get' . ucfirst($attribute)) || method_exists(DSUser::class, 'get' . ucfirst($attribute))) {
-                    $value = $this->{'get' . ucfirst($attribute)}();
-                } else {
-                    $value = $this->{$attribute};
-                }
-            } elseif ($this->{$attribute} instanceof \DateTime) {
-                $value = $this->{$attribute}->format('Y-m-d H:i:s');
-            } elseif ($this->{$attribute} instanceof Arrayable) {
-                $value = $this->{$attribute}->toArray();
+            if (method_exists($this, 'get' . ucfirst($attribute)) || method_exists(DSUser::class, 'get' . ucfirst($attribute))) {
+                $attribute = $this->{'get' . ucfirst($attribute)}();
+            } else {
+                $attribute = $this->{$attribute};
+            }
+
+            if (in_array(gettype($attribute), ['integer', 'string', 'float', 'bool', 'array', 'NULL'])) {
+                $value = $attribute;
+            } elseif ($attribute instanceof \DateTime) {
+                $value = $attribute->format('Y-m-d H:i:s');
+            } elseif ($attribute instanceof Arrayable) {
+                $value = $attribute->toArray();
             } else {
                 throw new \LogicException(
                     'Failed to find property: ' . $attribute .
                         ' with type of: ' .
-                        (gettype($this->{$attribute}) === 'object' ? get_class($this->{$attribute}) : gettype($this->{$attribute})) .
+                        (gettype($attribute) === 'object' ? get_class($attribute) : gettype($attribute)) .
                         ' for object of class: ' . get_class($this),
                     500
                 );
