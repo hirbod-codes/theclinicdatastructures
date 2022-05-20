@@ -22,6 +22,8 @@ trait IsArrayable
     }
 
     /**
+     * Gets attributes(in other words, informational properties of this class).
+     * 
      * @return array<string, string[]> ['attribute' => ['type', ...], ...]
      */
     public static function getAttributes(): array
@@ -70,7 +72,11 @@ trait IsArrayable
         $array = [];
         foreach (self::getAttributes() as $attribute => $types) {
             if (in_array(gettype($this->{$attribute}), ['integer', 'string', 'float', 'bool', 'array', 'NULL'])) {
-                $value = $this->{$attribute};
+                if (method_exists($this, 'get' . ucfirst($attribute))) {
+                    $value = $this->{'get' . ucfirst($attribute)}();
+                } else {
+                    $value = $this->{$attribute};
+                }
             } elseif ($this->{$attribute} instanceof \DateTime) {
                 $value = $this->{$attribute}->format('Y-m-d H:i:s');
             } elseif ($this->{$attribute} instanceof Arrayable) {
