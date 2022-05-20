@@ -11,7 +11,7 @@ use TheClinicDataStructures\Exceptions\DataStructures\User\NoPrivilegeFoundExcep
 use TheClinicDataStructures\Exceptions\DataStructures\User\StrictPrivilegeException;
 
 /**
- * The reason that these methods: getRuleName, getUserPrivileges, getPrivilege, privilegeExists, setPrivilege, getPrivileges are npt static,
+ * The reason that these methods: getRuleName, getUserPrivileges, getPrivilege, privilegeExists, getPrivileges are npt static,
  * is because every instance of this class might have their own ruleName or privileges.(custom rules)
  */
 abstract class DSUser implements Arrayable, \Stringable
@@ -150,11 +150,6 @@ abstract class DSUser implements Arrayable, \Stringable
         }
 
         return false;
-    }
-
-    public function setPrivilege(string $privilege, mixed $value): void
-    {
-        throw new StrictPrivilegeException('This role privileges are strict.', 403);
     }
 
     /**
