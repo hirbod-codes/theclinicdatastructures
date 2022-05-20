@@ -3,6 +3,7 @@
 namespace TheClinicDataStructures\DataStructures\Traits;
 
 use TheClinicDataStructures\DataStructures\Interfaces\Arrayable;
+use TheClinicDataStructures\DataStructures\User\DSUser;
 
 /**
  * For excluding properties from attributes define a static method with name: 'getExcludedPropertiesNames' 
@@ -72,7 +73,7 @@ trait IsArrayable
         $array = [];
         foreach (self::getAttributes() as $attribute => $types) {
             if (in_array(gettype($this->{$attribute}), ['integer', 'string', 'float', 'bool', 'array', 'NULL'])) {
-                if (method_exists($this, 'get' . ucfirst($attribute))) {
+                if (method_exists($this, 'get' . ucfirst($attribute)) || method_exists(DSUser::class, 'get' . ucfirst($attribute))) {
                     $value = $this->{'get' . ucfirst($attribute)}();
                 } else {
                     $value = $this->{$attribute};
