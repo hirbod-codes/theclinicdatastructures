@@ -6,8 +6,6 @@ use TheClinicDataStructures\DataStructures\User\DSUser;
 
 interface IPrivilege
 {
-    public function setPrivilege(DSUser $dsUser, string $privilege, mixed $value): void;
-
     /**
      * @return array<string, string> ['privilege' => value, ...]
      */
