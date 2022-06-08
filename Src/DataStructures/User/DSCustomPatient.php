@@ -107,17 +107,6 @@ final class DSCustomPatient extends DSUser
         $this->age = $age;
     }
 
-    // laserGrade
-    public function getLaserGrade(): string
-    {
-        return $this->laserGrade;
-    }
-
-    public function setLaserGrade(string $laserGrade): void
-    {
-        $this->laserGrade = $laserGrade;
-    }
-
     // state
     public function getState(): string
     {
