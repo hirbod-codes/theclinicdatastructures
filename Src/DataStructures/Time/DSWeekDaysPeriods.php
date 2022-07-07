@@ -71,7 +71,7 @@ class DSWeekDaysPeriods implements
 
     public static function toObject(array $resultOfToArrayMethod): self
     {
-        $dsWorkSchedule = new static('Monday');
+        $dsWorkSchedule = new static($resultOfToArrayMethod[array_key_first($resultOfToArrayMethod)]);
 
         foreach ($resultOfToArrayMethod as $weekDay => $dateTimePeriods) {
             if ($dateTimePeriods === null) {
